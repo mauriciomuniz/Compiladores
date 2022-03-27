@@ -11,8 +11,8 @@ import java.util.ArrayList;
  */
 public class Automato {
 
-    private ArrayList<Token> listarTokens; //lista de tokens corretoa
-    private ArrayList<String> listarErros; //lista de erros
+    private final ArrayList<Token> listarTokens; //lista de tokens corretoa
+    private final ArrayList<String> listarErros; //lista de erros
     private ArrayList<String> codigo; // entrada
     private static final char EOF = '\0'; 
     private int linha, aux; //linha e coluna 
@@ -177,14 +177,23 @@ public class Automato {
  */
     private void operador(String lexema, char a) {
         //envia para automato de operadorAritmetico
-        if (a == '+' || a == '-' || a == '*') {
-            operadorAritmetico(lexema, a);
-        }//envia para o automato de operadorRelacional 
-        else if (a == '<' || a == '>' || a == '='|| a == '!'){
-            operadorRelacional(lexema, a);
-        }//envia ao automato de operadorLogico 
-        else {
-            operadorLogico(lexema, a);
+        switch (a) {
+        //envia para o automato de operadorRelacional
+            case '+':
+            case '-':
+            case '*':
+                operadorAritmetico(lexema, a);
+                break;
+        //envia ao automato de operadorLogico
+            case '<':
+            case '>':
+            case '=':
+            case '!':
+                operadorRelacional(lexema, a);
+                break;
+            default:
+                operadorLogico(lexema, a);
+                break;
         }
     }
 /**

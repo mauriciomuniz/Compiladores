@@ -1,0 +1,4 @@
+/dist/
+*.properties
+*.class
+*.xml
