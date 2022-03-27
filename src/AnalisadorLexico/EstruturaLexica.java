@@ -8,24 +8,24 @@ package AnalisadorLexico;
 import java.util.ArrayList;
 
 /**
- * 
+ *
  * @author Mauricio e Alexandre
  */
 public class EstruturaLexica {
-    
+
     private final ArrayList<String> palavrasReservadas = new ArrayList<>();
     private final ArrayList<Character> operador = new ArrayList<>();
-    
- /* private final ArrayList<Character> operadorAritmetico = new ArrayList<>();
+
+    /* private final ArrayList<Character> operadorAritmetico = new ArrayList<>();
     private final ArrayList<Character> operadorRelacional = new ArrayList<>();
     private final ArrayList<Character> operadorLogico = new ArrayList<>();
- */   
+     */
     private final ArrayList<Character> delimitadores = new ArrayList<>();
     private final ArrayList<Character> simbolos = new ArrayList<>();
     private final ArrayList<Character> letras = new ArrayList<>();
 
     public EstruturaLexica() {
-        
+
         //lista das palavras reservadas
         palavrasReservadas.add("program");
         palavrasReservadas.add("var");
@@ -58,8 +58,8 @@ public class EstruturaLexica {
         operador.add('!');
         operador.add('&');
         operador.add('|');
-        
-       /* operadorAritmetico.add('+');
+
+        /* operadorAritmetico.add('+');
         operadorAritmetico.add('-');
         operadorAritmetico.add('*');
         
@@ -71,7 +71,6 @@ public class EstruturaLexica {
         operadorLogico.add('!');
         operadorLogico.add('&');
         operadorLogico.add('|');*/
-        
         //lista de delimitadores
         delimitadores.add('.');
         delimitadores.add(';');
@@ -82,34 +81,35 @@ public class EstruturaLexica {
         delimitadores.add(']');
         delimitadores.add('{');
         delimitadores.add('}');
-        delimitadores.add(':'); 
-        
+        delimitadores.add(':');
+
         //lista de letras maiúsculas e minúsculas
-        for (char i = 'A'; i <= 'Z'; i++){
+        for (char i = 'A'; i <= 'Z'; i++) {
             this.letras.add((char) i);
         }
-        for (char i = 'a'; i <= 'z'; i++){
+        for (char i = 'a'; i <= 'z'; i++) {
             this.letras.add((char) i);
-        }        
-        
-        
+        }
+
         //Lista de símbolos
-        for(int i = 32; i <= 126; i++){
-            if(i != 34){
+        for (int i = 32; i <= 126; i++) {
+            if (i != 34) {
                 this.simbolos.add((char) i);
             }
         }
-        
+
     }
+
     //verifica se a palavra recebida é uma palavra reservada
-    public boolean verificarPalavrasReservada(String string){
+    public boolean verificarPalavrasReservada(String string) {
         return this.palavrasReservadas.contains(string);
     }
+
     //verifica se o caracter recebido é um operador
-    public boolean verificarOperador(char caractere){
+    public boolean verificarOperador(char caractere) {
         return (this.operador.contains(caractere));
     }
-   
+
     /*
     //verifica se o caracter recebido é um operador
     public boolean verificarOperadorAritmetico(char caractere){
@@ -126,23 +126,24 @@ public class EstruturaLexica {
         return (this.operadorLogico.contains(caractere));
     }
     
-    */
-    
-    
+     */
     //verifica se o caractere recebido é um delimitador
-    public boolean verificarDelimitador(char caractere){
+    public boolean verificarDelimitador(char caractere) {
         return this.delimitadores.contains(caractere);
     }
+
     //verifica se o caractere recebido é uma letra
-    public boolean verificarLetra(char caractere){
+    public boolean verificarLetra(char caractere) {
         return this.letras.contains(caractere);
     }
+
     //verifica se o caracter recebido é um simbolo válido
-    public boolean verificarSimbolo(char caractere){
+    public boolean verificarSimbolo(char caractere) {
         return this.simbolos.contains(caractere);
-    }    
+    }
+
     //verifica se o caractere recebido é um espaço
-    public boolean verificarEspaco(char caractere){
+    public boolean verificarEspaco(char caractere) {
         return (Character.isSpaceChar(caractere) || caractere == 9);
-    }    
+    }
 }
