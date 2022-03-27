@@ -1,0 +1,12 @@
+/ /int nro;
+float a, b_ c;
+
+/*a = nro - 1.
+
+b = 2.2 - 1.1.1.1.1 ++ 4;
+*/
+
+/* c = a + + b;
+
+//teste de comentario
+

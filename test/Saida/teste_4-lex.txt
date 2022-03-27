@@ -1,0 +1,10 @@
+01 IDE dsds
+02 IDE sdss
+03 NRO 888888
+08 ART -
+08 NRO -1
+09 NRO 2
+09 ART -
+09 NRO 2
+
+06 NMF 2. 

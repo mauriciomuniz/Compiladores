@@ -1,0 +1,13 @@
+01 ART /
+01 ART /
+01 PRE int
+01 IDE nro
+01 DEL ;
+02 PRE float
+02 IDE a
+02 DEL ,
+02 IDE b_
+02 IDE c
+02 DEL ;
+
+09 CoMF /* c = a + + b;  //teste de comentario   

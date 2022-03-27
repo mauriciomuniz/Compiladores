@@ -1,0 +1,14 @@
+boolean true, false;
+
+true = true;
+false = false;
+
+if (true >= false | true <=  false && !nao)
+
+	char a. = int b;
+
+}
+while (a == b)
+	true != [a > -b < c]
+	b = -4
+	c > 2-2 || //teste de op e palavras reservadas

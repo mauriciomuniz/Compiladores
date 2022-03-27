@@ -1,0 +1,10 @@
+int nro = -2;
+float a, b c;
+
+a = nro - 1.
+
+b = 2.2 - 1.1.1.1.1 ++ 4;
+
+c = a + + b;
+
+//teste de numero
