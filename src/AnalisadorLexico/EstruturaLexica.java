@@ -9,12 +9,15 @@ import java.util.ArrayList;
 
 /**
  * 
- * @author Karolyne e Patricia
+ * @author Mauricio e Alexandre
  */
 public class EstruturaLexica {
     
     private final ArrayList<String> palavrasReservadas = new ArrayList<>();
     private final ArrayList<Character> operador = new ArrayList<>();
+    private final ArrayList<Character> operadorAritmetico = new ArrayList<>();
+    private final ArrayList<Character> operadorRelacional = new ArrayList<>();
+    private final ArrayList<Character> operadorLogico = new ArrayList<>();
     private final ArrayList<Character> delimitadores = new ArrayList<>();
     private final ArrayList<Character> simbolos = new ArrayList<>();
     private final ArrayList<Character> letras = new ArrayList<>();
@@ -54,11 +57,18 @@ public class EstruturaLexica {
         operador.add('&');
         operador.add('|');
         
-        operadorAritmeticos.add('+');
+        operadorAritmetico.add('+');
+        operadorAritmetico.add('-');
+        operadorAritmetico.add('*');
         
-        operador.add('-');
-        operador.add('*');
         
+        operadorRelacional.add('<');
+        operadorRelacional.add('=');
+        operadorRelacional.add('>');
+        
+        operadorLogico.add('!');
+        operadorLogico.add('&');
+        operadorLogico.add('|');
         
         //lista de delimitadores
         delimitadores.add('.');

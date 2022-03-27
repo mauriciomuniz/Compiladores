@@ -16,7 +16,7 @@ import java.util.Scanner;
 
 /**
  *
- * @author Karolyne e Patricia
+ * @author Mauricio e Alexandre
  */
 public class LeituraArquivo {
     

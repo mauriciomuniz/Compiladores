@@ -10,7 +10,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 /**
  *
- * @author Karolyne e Patricia
+ * @author Mauricio e Alexandre
  */
 public class Compilador {
 

@@ -10,7 +10,7 @@ import java.text.NumberFormat;
 
 /**
  *
- * @author Karolyne e Patricia
+ * @author Mauricio e Alexandre
  */
 public class Token {
      
