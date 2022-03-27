@@ -15,9 +15,11 @@ public class EstruturaLexica {
     
     private final ArrayList<String> palavrasReservadas = new ArrayList<>();
     private final ArrayList<Character> operador = new ArrayList<>();
-    private final ArrayList<Character> operadorAritmetico = new ArrayList<>();
+    
+ /* private final ArrayList<Character> operadorAritmetico = new ArrayList<>();
     private final ArrayList<Character> operadorRelacional = new ArrayList<>();
     private final ArrayList<Character> operadorLogico = new ArrayList<>();
+ */   
     private final ArrayList<Character> delimitadores = new ArrayList<>();
     private final ArrayList<Character> simbolos = new ArrayList<>();
     private final ArrayList<Character> letras = new ArrayList<>();
@@ -57,7 +59,7 @@ public class EstruturaLexica {
         operador.add('&');
         operador.add('|');
         
-        operadorAritmetico.add('+');
+       /* operadorAritmetico.add('+');
         operadorAritmetico.add('-');
         operadorAritmetico.add('*');
         
@@ -68,7 +70,7 @@ public class EstruturaLexica {
         
         operadorLogico.add('!');
         operadorLogico.add('&');
-        operadorLogico.add('|');
+        operadorLogico.add('|');*/
         
         //lista de delimitadores
         delimitadores.add('.');
@@ -107,7 +109,8 @@ public class EstruturaLexica {
     public boolean verificarOperador(char caractere){
         return (this.operador.contains(caractere));
     }
-    
+   
+    /*
     //verifica se o caracter recebido é um operador
     public boolean verificarOperadorAritmetico(char caractere){
         return (this.operadorAritmetico.contains(caractere));
@@ -123,7 +126,7 @@ public class EstruturaLexica {
         return (this.operadorLogico.contains(caractere));
     }
     
-    
+    */
     
     
     //verifica se o caractere recebido é um delimitador

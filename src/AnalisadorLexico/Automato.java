@@ -84,7 +84,12 @@ public class Automato {
             }//verifica se é um operador e envia para operadores e trata
             else if (token.verificarOperador(a)) {
                 operador(lexema, a);
-            }//verifica se é um delimitador e envia para delimitadores 
+            }
+            
+            
+            
+            
+             //verifica se é um delimitador e envia para delimitadores 
             else if (token.verificarDelimitador(a)) {
                 delimitador(lexema, a);
             }//verifica se é uma '/' e envia para comentário de linha e trata
@@ -305,9 +310,9 @@ public class Automato {
             lexema = lexema + a;
             this.aux++;
             a = this.proximo();
-        } while (a != '*' && a != EOF);
+        } while (a != '#' && a != EOF);
         
-        if (a == '*') {
+        if (a == '#') {
             lexema = lexema + a;
             this.aux++;
             a = this.proximo();
