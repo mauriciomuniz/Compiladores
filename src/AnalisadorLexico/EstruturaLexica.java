@@ -80,6 +80,7 @@ public class EstruturaLexica {
         delimitadores.add(']');
         delimitadores.add('{');
         delimitadores.add('}');
+        delimitadores.add(':'); 
         
         //lista de letras maiúsculas e minúsculas
         for (char i = 'A'; i <= 'Z'; i++){
@@ -106,6 +107,25 @@ public class EstruturaLexica {
     public boolean verificarOperador(char caractere){
         return (this.operador.contains(caractere));
     }
+    
+    //verifica se o caracter recebido é um operador
+    public boolean verificarOperadorAritmetico(char caractere){
+        return (this.operadorAritmetico.contains(caractere));
+    }
+    
+    //verifica se o caracter recebido é um operador
+    public boolean verificarOperadorRelacional(char caractere){
+        return (this.operadorRelacional.contains(caractere));
+    }
+    
+    //verifica se o caracter recebido é um operador
+    public boolean verificarOperadorLogico(char caractere){
+        return (this.operadorLogico.contains(caractere));
+    }
+    
+    
+    
+    
     //verifica se o caractere recebido é um delimitador
     public boolean verificarDelimitador(char caractere){
         return this.delimitadores.contains(caractere);
