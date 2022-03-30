@@ -1,4 +1,4 @@
-04 PRE int
+04 IDE int
 04 IDE a
 04 DEL ;
 05 IDE a
@@ -7,7 +7,7 @@
 05 ART +
 05 NRO 2
 05 DEL ;
-07 PRE int
+07 IDE int
 07 IDE a
 07 DEL ,
 07 IDE b
@@ -30,16 +30,16 @@
 10 ART +
 10 NRO 2
 10 DEL ;
-12 PRE float
+12 IDE float
 12 REL =
 12 DEL ;
 13 IDE i
 13 REL =
 13 PRE var
 13 DEL ;
-15 PRE for
+15 IDE for
 15 DEL (
-15 PRE int
+15 IDE int
 15 IDE i
 15 REL =
 15 NRO 0

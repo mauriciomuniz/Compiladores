@@ -23,19 +23,21 @@ public class Compilador {
 
         for (String codigo : codigos) {
 
+            System.out.println(codigo);
+
             analiseLexica = new Automato();
             ArrayList<String> codigoFonte = arquivo.lerArquivo(codigo);
 
             analiseLexica.analisadorLexico(codigoFonte);
-            arquivo.escreverArquivo(analiseLexica.getListarTokens(), analiseLexica.getListarErros());
+            arquivo.escreverArquivo(analiseLexica.getListarTokens(), analiseLexica.getListarErros(), codigo);
 
             System.out.println("Analise lexica concluida");
             if (analiseLexica.getListarErros().isEmpty()) {
                 System.out.println("Nao existem erros lexicos\n");
             } else {
                 System.out.println("Existem erros lexicos\n");
-            }
 
+            }
         }
     }
 

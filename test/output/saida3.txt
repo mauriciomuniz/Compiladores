@@ -1,7 +1,7 @@
 01 IDE exemplo
 01 IDE teste
 01 DEL ;
-03 PRE float
+03 IDE float
 03 IDE f
 03 REL =
 03 NRO -3.5

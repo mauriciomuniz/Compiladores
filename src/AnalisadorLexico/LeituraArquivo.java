@@ -13,6 +13,8 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  *
@@ -21,8 +23,13 @@ import java.util.Scanner;
 public class LeituraArquivo {
 
     private String localFile;
-    private String[] nomeArquivo;
+    //private String[] nomeArquivo;
+    Pattern patternEndFile = Pattern.compile("\\d+");
 
+    /**
+     *
+     * @return
+     */
     public ArrayList<String> leitura() {
 
         ArrayList<String> code = new ArrayList<>();
@@ -38,12 +45,18 @@ public class LeituraArquivo {
         return code;
     }
 
+    /**
+     *
+     * @param localFile
+     * @return
+     * @throws FileNotFoundException
+     */
     public ArrayList<String> lerArquivo(String localFile) throws FileNotFoundException {
 
         ArrayList<String> code;
         try ( Scanner scanner = new Scanner(new FileReader("test/input/" + localFile))) {
             this.localFile = localFile;
-            nomeArquivo = this.localFile.split(".txt");
+            //nomeArquivo = this.localFile.split(".txt");
             code = new ArrayList<>();
 
             while (scanner.hasNextLine()) {
@@ -55,9 +68,20 @@ public class LeituraArquivo {
 
     }
 
-    public void escreverArquivo(ArrayList<Token> tokens, ArrayList<String> erros) throws IOException {
+    /**
+     *
+     * @param tokens
+     * @param erros
+     * @throws IOException
+     */
+    public void escreverArquivo(ArrayList<Token> tokens, ArrayList<String> erros, String codigo) throws IOException {
 
-        try ( FileWriter file = new FileWriter("test/output/" + this.nomeArquivo[0] + "-lex.txt", false)) {
+        //Verificar número do arquivo
+        Matcher numberEndFile = patternEndFile.matcher(codigo);
+        numberEndFile.find();
+        //System.out.println(numberEndFile.group());
+
+        try ( FileWriter file = new FileWriter("test/output/" + "\\saida" + numberEndFile.group() + ".txt", false)) {
             PrintWriter gravar = new PrintWriter(file);
 
             tokens.forEach((token) -> {
@@ -76,6 +100,10 @@ public class LeituraArquivo {
 
     }
 
+    /**
+     *
+     * @return
+     */
     public String getLocalFile() {
         return localFile;
     }
