@@ -8,6 +8,7 @@ package AnalisadorLexico;
 import java.util.ArrayList;
 
 /**
+ * Classe Estrutura Lexica
  *
  * @author Mauricio e Alexandre
  */
@@ -24,6 +25,9 @@ public class EstruturaLexica {
     private final ArrayList<Character> simbolos = new ArrayList<>();
     private final ArrayList<Character> letras = new ArrayList<>();
 
+    /**
+     * Construtor da classe
+     */
     public EstruturaLexica() {
 
         //lista das palavras reservadas
@@ -59,10 +63,10 @@ public class EstruturaLexica {
         operador.add('&');
         operador.add('|');
 
-        /* operadorAritmetico.add('+');
+        /* 
+        operadorAritmetico.add('+');
         operadorAritmetico.add('-');
-        operadorAritmetico.add('*');
-        
+        operadorAritmetico.add('*');        
         
         operadorRelacional.add('<');
         operadorRelacional.add('=');
@@ -70,17 +74,19 @@ public class EstruturaLexica {
         
         operadorLogico.add('!');
         operadorLogico.add('&');
-        operadorLogico.add('|');*/
+        operadorLogico.add('|');
+        */
+        
         //lista de delimitadores
-        delimitadores.add('.');
         delimitadores.add(';');
         delimitadores.add(',');
         delimitadores.add('(');
         delimitadores.add(')');
-        delimitadores.add('[');
-        delimitadores.add(']');
         delimitadores.add('{');
         delimitadores.add('}');
+        delimitadores.add('[');
+        delimitadores.add(']');
+        delimitadores.add('.');
         delimitadores.add(':');
 
         //lista de letras maiúsculas e minúsculas
@@ -100,12 +106,22 @@ public class EstruturaLexica {
 
     }
 
-    //verifica se a palavra recebida é uma palavra reservada
+    /**
+     * Verifica se a palavra recebida é uma palavra reservada
+     *
+     * @param string
+     * @return
+     */
     public boolean verificarPalavrasReservada(String string) {
         return this.palavrasReservadas.contains(string);
     }
 
-    //verifica se o caracter recebido é um operador
+    /**
+     * verifica se o caracter recebido é um operador
+     *
+     * @param caractere
+     * @return
+     */
     public boolean verificarOperador(char caractere) {
         return (this.operador.contains(caractere));
     }
@@ -124,25 +140,44 @@ public class EstruturaLexica {
     //verifica se o caracter recebido é um operador
     public boolean verificarOperadorLogico(char caractere){
         return (this.operadorLogico.contains(caractere));
-    }
-    
+    }    
      */
-    //verifica se o caractere recebido é um delimitador
+    /**
+     * Verifica se o caractere recebido é um delimitador
+     *
+     * @param caractere
+     * @return
+     */
     public boolean verificarDelimitador(char caractere) {
         return this.delimitadores.contains(caractere);
     }
 
-    //verifica se o caractere recebido é uma letra
+    /**
+     * Verifica se o caractere recebido é uma letra
+     *
+     * @param caractere
+     * @return
+     */
     public boolean verificarLetra(char caractere) {
         return this.letras.contains(caractere);
     }
 
-    //verifica se o caracter recebido é um simbolo válido
+    /**
+     * Verifica se o caracter recebido é um simbolo válido
+     *
+     * @param caractere
+     * @return
+     */
     public boolean verificarSimbolo(char caractere) {
         return this.simbolos.contains(caractere);
     }
 
-    //verifica se o caractere recebido é um espaço
+    /**
+     * Verifica se o caractere recebido é um espaço
+     *
+     * @param caractere
+     * @return
+     */
     public boolean verificarEspaco(char caractere) {
         return (Character.isSpaceChar(caractere) || caractere == 9);
     }

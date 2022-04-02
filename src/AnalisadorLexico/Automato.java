@@ -19,6 +19,9 @@ public class Automato {
     private boolean linhaVazia;
     private final EstruturaLexica token;
 
+    /**
+     *
+     */
     public Automato() {
         this.listarTokens = new ArrayList<>();
         this.listarErros = new ArrayList<>();
@@ -71,7 +74,7 @@ public class Automato {
     private void verificaAutomato(char a) {
         String lexema = "";
         if (!this.linhaVazia) {
-            //verifica se o caracter é espaço e desconsidera
+            //verifica se o caracter é espaço, se for é desconsiderado
             if (token.verificarEspaco(a)) {
                 aux++;
             }//verifica se é uma letra e direciona pra palavra reservada e identificador 
@@ -576,11 +579,19 @@ public class Automato {
     }
 //retorna a lista de erros
 
+    /**
+     *
+     * @return
+     */
     public ArrayList<String> getListarErros() {
         return listarErros;
     }
 //retorna a lista de tokens válidos
 
+    /**
+     *
+     * @return
+     */
     public ArrayList<Token> getListarTokens() {
         return listarTokens;
     }
