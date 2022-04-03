@@ -17,6 +17,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
+ * Classe que faz a leitura e escrita dos arquivos
  *
  * @author Mauricio e Alexandre
  */
@@ -27,17 +28,18 @@ public class LeituraArquivo {
     Pattern patternEndFile = Pattern.compile("\\d+");
 
     /**
+     * Função de leitura dos arquivos dentro da pasta input
      *
-     * @return
+     * @return os arquivos dentro da pasta
      */
     public ArrayList<String> leitura() {
 
         ArrayList<String> code = new ArrayList<>();
-        File access = new File("test/input/");
-        if (access == null) {
+        File search = new File("test/input/");
+        if (search == null) {
             System.out.println("Arquivo de input não encontrado");
         } else {
-            for (File aux : access.listFiles()) {
+            for (File aux : search.listFiles()) {
                 code.add(aux.getName());
             }
         }
@@ -46,9 +48,10 @@ public class LeituraArquivo {
     }
 
     /**
+     * Função de pegar as informações de dentro dos arquivos
      *
      * @param localFile
-     * @return
+     * @return Arrey contendo as informações de cada linha
      * @throws FileNotFoundException
      */
     public ArrayList<String> lerArquivo(String localFile) throws FileNotFoundException {
@@ -69,6 +72,7 @@ public class LeituraArquivo {
     }
 
     /**
+     * Função que escreve as informações léxicas no arquivo
      *
      * @param tokens
      * @param erros
@@ -101,8 +105,9 @@ public class LeituraArquivo {
     }
 
     /**
+     * Pega as informações do nome do arquivo
      *
-     * @return
+     * @return nome do arquivo
      */
     public String getLocalFile() {
         return localFile;

@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 /**
+ * Classe que faz a chamada da leitura, escrita e análise léxica
  *
  * @author Mauricio e Alexandre
  */
