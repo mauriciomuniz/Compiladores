@@ -77,26 +77,21 @@ public class Automato {
             //verifica se o caracter é espaço, se for é desconsiderado
             if (token.verificarEspaco(a)) {
                 aux++;
-            }//verifica se é uma letra e direciona pra palavra reservada e identificador 
-            else if (token.verificarLetra(a)) {
+            } else if (token.verificarLetra(a)) {//verifica se é uma letra e direciona pra palavra reservada e identificador 
                 palavraReservadaId(lexema, a);
-            }//verifica se é um digito e direciona pra numero 
-            else if (Character.isDigit(a)) {
+            } else if (Character.isDigit(a)) {//verifica se é um digito e direciona pra numero
                 numero(lexema, a);
-            }//verifica se é um operador e envia para operadores e trata
-            else if (token.verificarOperador(a)) {
+            } else if (token.verificarOperador(a)) {//verifica se é um operador e envia para operadores e trata
                 operador(lexema, a);
-            } //verifica se é um delimitador e envia para delimitadores 
-            else if (token.verificarDelimitador(a)) {
+            } else if (token.verificarDelimitador(a)) { //verifica se é um delimitador e envia para delimitadores 
                 delimitador(lexema, a);
-            }//verifica se é uma '/' e envia para comentário de linha e trata
-            else if (a == '/') {
+            } else if (a == '%') {//verifica se é uma '%' e envia para comentário de linha e trata
                 comentarioLinha(lexema, a);
-            }//verifica se é uma '"' e envia para cadeia de caracteres 
-            else if (a == '"') {
+            } else if (a == '/') {//verifica se é uma '/' e envia para checar se é comentário de bloco o Op. Aritm.
+                barraSimples(lexema, a);
+            } else if (a == '"') {//verifica se é uma '"' e envia para cadeia de caracteres 
                 cadeiaDeCaractere(lexema, a);
-            }//qualquer simbolo diferente aos da tabela é considerado um erro de palavra invalida 
-            else {
+            } else {//qualquer simbolo diferente aos da tabela é considerado um erro de palavra invalida
                 this.palavraInvalida(lexema, a);
             }
 
@@ -274,16 +269,40 @@ public class Automato {
     }
 
     /**
-     * O método comentarioLinha verifica quando é um comentário ou um operador
-     * aritmético quando recebe um / e em seguida outro / é considerado
-     * comentário de linha correto quando recebe um / e em seguido um * é
-     * enviado para o método que trata comentário de bloco quando recebe / e
-     * nenhuma das opções acima são válidas é considerado um operador aritmética
+     * O método comentarioLinha verifica quando é um comentário
+     *
+     * @param lexema
+     * @param a caractere recebido '%'
+     */
+    private void comentarioLinha(String lexema, char a) {
+        int linhaInicial = this.linha;
+        int auxiliarComentario = this.aux;
+        Token tokenAuxiliar;
+
+        if (a == '%') {
+            lexema = lexema + a;
+            this.aux++;
+            a = this.proximo();
+            //percorre a linha toda até o final desconsiderando essa linha
+            while (linha == linhaInicial && a != EOF) {
+                lexema = lexema + a;
+                this.aux++;
+                a = this.proximo();
+            }
+            /*tokenAuxiliar = new Token(linhaInicial + 1, auxiliarComentario + 1, "CoM", lexema);
+                this.listarTokens.add(tokenAuxiliar);*/ //adiciona o comentário para a lista de tokens
+        }
+    }
+
+    /**
+     * O método barraSimples verifica quando é um operador aritmético ou quando
+     * recebe um / e em seguido um # é enviado para o método que trata
+     * comentário de bloco
      *
      * @param lexema
      * @param a caractere recebido '/'
      */
-    private void comentarioLinha(String lexema, char a) {
+    private void barraSimples(String lexema, char a) {
         int linhaInicial = this.linha;
         int auxiliarComentario = this.aux;
         Token tokenAuxiliar;
@@ -293,25 +312,11 @@ public class Automato {
         a = this.proximo();
 
         switch (a) {
-            //Se receber o segundo / é conciderado comentário de linha 
-            case '/':
-                lexema = lexema + a;
-                this.aux++;
-                a = this.proximo();
-                //percorre a linha toda até o final descunsiderando essa linha
-                while (linha == linhaInicial && a != EOF) {
-                    lexema = lexema + a;
-                    this.aux++;
-                    a = this.proximo();
-                }
-                /*tokenAuxiliar = new Token(linhaInicial + 1, auxiliarComentario + 1, "CoM", lexema);
-                this.listarTokens.add(tokenAuxiliar);*/ //adiciona o comentário para a lista de tokens
-                break;
-            //se receber o '*' é encaminhado para o método comentário de bloco
-            case '*':
+            //se receber o '#' é encaminhado para o método comentário de bloco
+            case '#':
                 this.comentarioBloco(lexema, a, linhaInicial);
                 return;
-            //Caso não seja nenhum dos dois é considerado um operador aritmético
+            //Caso não seja é considerado um operador aritmético
             default:
                 tokenAuxiliar = new Token(linhaInicial + 1, auxiliarComentario + 1, "ART", lexema);
                 this.listarTokens.add(tokenAuxiliar);
@@ -320,19 +325,19 @@ public class Automato {
     }
 
     /**
-     * O método comentarioBloco verifica se o comentário foi fechado com '* /'
+     * O método comentarioBloco verifica se o comentário foi fechado com '# /'
      * caso não tenha sido informa erro de comentário mal formado Se estiver
      * correto desconsidera o bloco
      *
      * @param lexema recebe o lexema '/'
-     * @param a o caractere '*'
+     * @param a o caractere '#'
      * @param linhaInicialComent a linha inicial que é a mesma linha inicial do
      * comentário de linha, onde iniciou o automato
      */
     private void comentarioBloco(String lexema, char a, int linhaInicialComent) {
         int linhaInicial = linhaInicialComent;
 
-        //desconsidera tudo até encontrat o '*' ou o fim do arquivo
+        //desconsidera tudo até encontrat o '#' ou o fim do arquivo
         do {
             lexema = lexema + a;
             this.aux++;
