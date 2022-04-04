@@ -1,6 +1,10 @@
 01 IDE exemplo
 01 IDE teste
 01 DEL ;
+01 ART /
+01 ART /
+01 IDE codigo
+01 IDE exemplo
 03 IDE float
 03 IDE f
 03 REL =
@@ -22,8 +26,16 @@
 07 DEL )
 08 PRE write
 08 DEL (
+10 ART /
+10 ART *
+10 IDE exa869
+10 IDE mi
+10 IDE processadores
+10 IDE de
+11 IDE linguagem
+11 IDE de
+11 IDE programacao
 
 05 CMF "teste  
 08 CMF "mensagem );  
 09 SIB @ 
-10 CoMF /* exa869 mi processadores de  linguagem de programacao  

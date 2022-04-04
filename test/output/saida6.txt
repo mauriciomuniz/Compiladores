@@ -56,5 +56,13 @@
 14 ART -
 14 NRO 2
 14 LOG ||
+14 ART /
+14 ART /
+14 IDE teste
+14 IDE de
+14 IDE op
+14 IDE e
+14 IDE palavras
+14 IDE reservadas
 
 06 LOGMF | 

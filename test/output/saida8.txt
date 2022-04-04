@@ -1,0 +1,4 @@
+01 IDE delimitador
+01 DEL :
+
+ Nao existem erros lexicos
