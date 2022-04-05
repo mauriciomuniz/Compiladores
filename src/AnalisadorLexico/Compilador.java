@@ -36,7 +36,7 @@ public class Compilador {
             if (analiseLexica.getListarErros().isEmpty()) {
                 System.out.println("Nao existem erros lexicos\n");
             } else {
-                System.out.println("Existem erros lexicos\n");
+                System.out.println("Existem " + analiseLexica.getListarErros().size() + " erros lexicos\n");
 
             }
         }
