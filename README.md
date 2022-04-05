@@ -2,6 +2,7 @@
  MI do Projeto de Compiladores
 
 Para exexutar necessário:
+
 1 - git clone https://github.com/mauriciomuniz/Compiladores.git
 
 2 - cd Compiladores/dist
@@ -13,5 +14,5 @@ Para Realizar os teste:
 => Adicione ou modifique os arquivos da pasta input com o nome 
 entradaX.txt, onde X = {d+}
 
-Resultados
+Resultados:
 => Os resultados esperados vão estar na pasta output dentro do diretório raiz.
