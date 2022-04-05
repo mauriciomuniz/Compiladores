@@ -3,7 +3,9 @@
 
 Para exexutar necessário:
 1 - git clone https://github.com/mauriciomuniz/Compiladores.git
+
 2 - cd Compiladores/dist
+
 3 - java -jar "Compiladores_Lexico_Mauricio_Alexandre.jar" 
 
 Para Realizar os teste:
