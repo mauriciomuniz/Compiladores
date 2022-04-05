@@ -29,19 +29,6 @@
 06 DEL ;
 07 ART *
 07 ART /
-09 ART /
-09 ART *
-09 IDE c
-09 REL =
-09 IDE a
-09 ART +
-09 ART +
-09 IDE b
-09 DEL ;
-11 ART /
-11 ART /
-11 IDE teste
-11 IDE de
-11 IDE comentario
 
 04 NMF 1. 
+11 CoMF /# c = a + + b;  //teste de comentario %teste de comentario  
