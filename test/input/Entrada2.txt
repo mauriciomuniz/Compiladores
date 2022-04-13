@@ -1,14 +1,19 @@
 / /int nro;
 float a, b_ c;
+real a, b, c_;
 
 /*a = nro - 1.
 
 b = 2.2 - 1.1.1.1.1 ++ 4;
 */
 
-/#comentário correto#/
+/#a = nro - 1.
 
-/# c = a + + b;
+b = 2.2 - 1.1.1.1.1 ++ 4;
+#/
+
+/#comentário correto#/
 
 //teste de comentario
 %teste de comentario
+/# c = a + + b;

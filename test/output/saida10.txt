@@ -1,0 +1,55 @@
+03 PRE integer
+03 PRE main
+03 DEL (
+03 DEL )
+04 DEL {
+05 PRE integer
+05 IDE a
+05 DEL ,
+05 IDE b
+05 DEL ,
+05 IDE c
+05 DEL ;
+06 PRE write
+06 DEL (
+06 CDC "Digite o primeiro inteiro: "
+06 DEL )
+06 DEL ;
+07 PRE read
+07 DEL (
+07 IDE a
+07 DEL )
+07 DEL ;
+09 PRE write
+09 DEL (
+09 CDC "Digite o segundo inteiro: "
+09 DEL )
+09 DEL ;
+10 PRE read
+10 DEL (
+10 IDE b
+10 DEL )
+10 DEL ;
+12 IDE c
+12 REL =
+12 IDE a
+12 ART +
+12 IDE b
+12 DEL ;
+14 PRE write
+14 DEL (
+14 CDC "a + b = %d \n "
+14 DEL ,
+14 IDE c
+14 DEL )
+14 DEL ;
+15 IDE a
+15 ART +
+15 IDE b
+15 REL =
+16 PRE return
+16 NRO 0
+16 DEL ;
+17 DEL }
+
+15 SIB ' 

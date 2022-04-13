@@ -1,0 +1,17 @@
+%Teste programa em C
+  
+integer main()
+{
+   integer a, b, c;
+   write("Digite o primeiro inteiro: ");
+   read(a);
+
+   write("Digite o segundo inteiro: ");
+   read(b);
+
+   c = a + b; 
+
+   write("a + b = %d \n ", c);
+        'a + b = %d \n'
+   return 0;
+ }
