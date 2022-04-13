@@ -18,13 +18,13 @@ public class Compilador {
 
     public static void main(String[] args) throws FileNotFoundException, IOException {
 
-        LeituraArquivo arquivo = new LeituraArquivo();
-        Automato analiseLexica;
-        ArrayList<String> codigos = arquivo.leitura();
+        LeituraArquivo arquivo = new LeituraArquivo();// Criação do leitor
+        Automato analiseLexica;// Criação do Automato
+        ArrayList<String> codigos = arquivo.leitura();// Leitura do arquivo
 
         for (String codigo : codigos) {
 
-            System.out.println(codigo);
+            System.out.println(codigo);// Mostra qual Entrada está lidando
 
             analiseLexica = new Automato();
             ArrayList<String> codigoFonte = arquivo.lerArquivo(codigo);
@@ -32,11 +32,12 @@ public class Compilador {
             analiseLexica.analisadorLexico(codigoFonte);
             arquivo.escreverArquivo(analiseLexica.getListarTokens(), analiseLexica.getListarErros(), codigo);
 
-            System.out.println("Analise lexica concluida");
+            // Resultados da análise
+            System.out.println("Analise lexica foi concluida");
             if (analiseLexica.getListarErros().isEmpty()) {
-                System.out.println("Nao existem erros lexicos\n");
+                System.out.println("Nao existem erros lexicos no arquivo\n");
             } else {
-                System.out.println("Existem " + analiseLexica.getListarErros().size() + " erros lexicos\n");
+                System.out.println("Existem " + analiseLexica.getListarErros().size() + " erros lexicos no arquivo\n");
 
             }
         }

@@ -16,8 +16,8 @@ public class EstruturaLexica {
 
     private final ArrayList<String> palavrasReservadas = new ArrayList<>();
     private final ArrayList<Character> operador = new ArrayList<>();
-
-    /* private final ArrayList<Character> operadorAritmetico = new ArrayList<>();
+    /* 
+    private final ArrayList<Character> operadorAritmetico = new ArrayList<>();
     private final ArrayList<Character> operadorRelacional = new ArrayList<>();
     private final ArrayList<Character> operadorLogico = new ArrayList<>();
      */
@@ -30,7 +30,7 @@ public class EstruturaLexica {
      */
     public EstruturaLexica() {
 
-        //lista das palavras reservadas
+        //Lista das palavras reservadas
         palavrasReservadas.add("program");
         palavrasReservadas.add("var");
         palavrasReservadas.add("const");
@@ -52,7 +52,7 @@ public class EstruturaLexica {
         palavrasReservadas.add("true");
         palavrasReservadas.add("false");
 
-        //lista de operadores aritimeticos, relacionais e lógicos
+        //Lista de operadores aritimeticos, relacionais e lógicos
         operador.add('+');
         operador.add('-');
         operador.add('*');
@@ -64,20 +64,20 @@ public class EstruturaLexica {
         operador.add('|');
 
         /* 
+        //Lista de operadores aritimeticos
         operadorAritmetico.add('+');
         operadorAritmetico.add('-');
         operadorAritmetico.add('*');        
-        
+        //Lista de operadores Relacionais 
         operadorRelacional.add('<');
         operadorRelacional.add('=');
         operadorRelacional.add('>');
-        
+        //Lista de operadores Lógicos
         operadorLogico.add('!');
         operadorLogico.add('&');
         operadorLogico.add('|');
-        */
-        
-        //lista de delimitadores
+         */
+        //Lista de delimitadores
         delimitadores.add(';');
         delimitadores.add(',');
         delimitadores.add('(');
@@ -89,7 +89,7 @@ public class EstruturaLexica {
         delimitadores.add('.');
         delimitadores.add(':');
 
-        //lista de letras maiúsculas e minúsculas
+        //Lista de letras maiúsculas e minúsculas
         for (char i = 'A'; i <= 'Z'; i++) {
             this.letras.add((char) i);
         }
@@ -97,7 +97,7 @@ public class EstruturaLexica {
             this.letras.add((char) i);
         }
 
-        //Lista de símbolos
+        //Lista de símbolos com a exceção das " de numero 34
         for (int i = 32; i <= 126; i++) {
             if (i != 34) {
                 this.simbolos.add((char) i);
@@ -117,7 +117,7 @@ public class EstruturaLexica {
     }
 
     /**
-     * verifica se o caracter recebido é um operador
+     * Verifica se o caracter recebido é um operador
      *
      * @param caractere
      * @return
@@ -127,17 +127,32 @@ public class EstruturaLexica {
     }
 
     /*
-    //verifica se o caracter recebido é um operador
+   /**
+     * Verifica se o caracter recebido é um operador Aritmetico
+     *
+     * @param caractere
+     * @return
+    
     public boolean verificarOperadorAritmetico(char caractere){
         return (this.operadorAritmetico.contains(caractere));
     }
     
-    //verifica se o caracter recebido é um operador
+   /**
+     * Verifica se o caracter recebido é um operador Relacional
+     *
+     * @param caractere
+     * @return
+    
     public boolean verificarOperadorRelacional(char caractere){
         return (this.operadorRelacional.contains(caractere));
     }
     
-    //verifica se o caracter recebido é um operador
+   /**
+     * Verifica se o caracter recebido é um operador Logico
+     *
+     * @param caractere
+     * @return
+    
     public boolean verificarOperadorLogico(char caractere){
         return (this.operadorLogico.contains(caractere));
     }    

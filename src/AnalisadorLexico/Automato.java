@@ -570,7 +570,7 @@ public class Automato {
     }
 
     /**
-     * adiciona o erro numa lista identificando o tipo de erro o lexema e a
+     * Adiciona o erro numa lista identificando o tipo de erro o lexema e a
      * linha onde está o erro
      *
      * @param tipo tipo do erro
@@ -582,20 +582,21 @@ public class Automato {
         String s = formatter.format(linha + 1);
         listarErros.add(s + " " + tipo + " " + erro + " ");
     }
-//retorna a lista de erros
 
     /**
+     * Pega a lista de erro
      *
-     * @return
+     * @return lista de erros
      */
     public ArrayList<String> getListarErros() {
         return listarErros;
     }
-//retorna a lista de tokens válidos
+//
 
     /**
+     * Pega a lista de Tokens
      *
-     * @return
+     * @return lista de tokens válidos
      */
     public ArrayList<Token> getListarTokens() {
         return listarTokens;
