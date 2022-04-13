@@ -1,3 +1,4 @@
+%Teste compartilhado do Google Classroom
 program Programa1;
 
 register Pessoa

@@ -2,10 +2,16 @@ exemplo teste; // codigo exemplo
 
 float f = -3.5;
 
+integer f = 9.5;
+
 string msg = "teste
 
 if ( f >= -10) && (f < ) 
 	write("mensagem );
+
+if ( f <= 7) || (f > -3 ) 
+	write("msg );
+
 @	
-/* exa869 mi processadores de 
+/# exa869 mi processadores de 
 linguagem de programacao

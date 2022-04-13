@@ -1,3 +1,5 @@
-delimitador :
-/#teste de bloco#/
+delimitadores ; , () {} [] . :
+/#
+ Teste de comentário de bloco
+#/
 %teste de comentario

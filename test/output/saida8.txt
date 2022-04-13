@@ -1,4 +1,13 @@
-01 IDE delimitador
+01 IDE delimitadores
+01 DEL ;
+01 DEL ,
+01 DEL (
+01 DEL )
+01 DEL {
+01 DEL }
+01 DEL [
+01 DEL ]
+01 DEL .
 01 DEL :
 
  Nao existem erros lexicos

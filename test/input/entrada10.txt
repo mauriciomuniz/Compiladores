@@ -1,17 +1,17 @@
-%Teste programa em C
+%Exemplo de um programa em linguagem C
   
 integer main()
 {
-   integer a, b, c;
+   integer a, b, c; 			% declaração das variáveis 
    write("Digite o primeiro inteiro: ");
-   read(a);
+   read(a); 				% a recebe o valor
 
    write("Digite o segundo inteiro: ");
-   read(b);
+   read(b);				% b recebe o valor
 
-   c = a + b; 
+   c = a + b; 				% soma a com b
 
    write("a + b = %d \n ", c);
-        'a + b = %d \n'
+         'a + b = %d \n'      		% Error de Cadeia de Caractere
    return 0;
  }

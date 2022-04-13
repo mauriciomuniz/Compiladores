@@ -1,13 +1,13 @@
-// Exemplo de programa em C
-// Isto é uma linha de comentário
+% Exemplo de programa em C
+% Isto é uma linha de comentário
 
-int a;            // declara a variável "a"
-a = 3 + 2;        // soma 3 com 2
+int a;            % declara a variável "a"
+a = 3 + 2;        % soma 3 com 2
 
 int a,b;
-a = 3; // a recebe o valor 3
-b = a * 2; // b recebe o dobro do valor de a 
-c = a + b + 2; // c recebe 11
+a = 3; % a recebe o valor 3
+b = a * 2; % b recebe o dobro do valor de a 
+c = a + b + 2; % c recebe 11
 
 float = 2.;
 i = var;
@@ -16,8 +16,8 @@ for(int i = 0;i<2;i++)
 	write("2.2.2");
 
 /erro de comtario 1/
-//coretto
-/* teste
+//coretto %Erro de comentário
+/# teste
 	de
 	linha
 	erro/
