@@ -46,6 +46,7 @@
 13 PRE write
 13 DEL (
 
+ Existem estes erros lexicos a seguir: 
 07 CMF "teste  
 10 CMF "mensagem );  
 13 CMF "msg );  

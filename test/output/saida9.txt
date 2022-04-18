@@ -231,4 +231,4 @@
 79 DEL ;
 80 DEL }
 
- Nao existem erros lexicos
+ Nao apresentou erros lexicos neste arquivo

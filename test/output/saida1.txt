@@ -8,6 +8,7 @@
 09 IDE aaaaaaaaaa
 09 CDC "aaaaaaa"
 
+ Existem estes erros lexicos a seguir: 
 02 CMF "aaaaaaaa  
 03 CMF "  
 07 CMF "aaaaaaaaaa\"  

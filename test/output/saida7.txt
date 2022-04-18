@@ -66,5 +66,6 @@
 19 ART /
 19 IDE coretto
 
+ Existem estes erros lexicos a seguir: 
 12 NMF 2. 
 20 CoMF /# teste 	de 	linha 	erro/  string alfa = agree.$%¨@;    

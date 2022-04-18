@@ -19,18 +19,18 @@ public class Compilador {
     public static void main(String[] args) throws FileNotFoundException, IOException {
 
         LeituraArquivo arquivo = new LeituraArquivo();// Criação do leitor
-        Automato analiseLexica;// Criação do Automato
+        Automato analiseLexica;// Definição do tipo Automato
         ArrayList<String> codigos = arquivo.leitura();// Leitura do arquivo
 
         for (String codigo : codigos) {
 
             System.out.println(codigo);// Mostra qual Entrada está lidando
 
-            analiseLexica = new Automato();
+            analiseLexica = new Automato();// Criação de um novo Automato
             ArrayList<String> codigoFonte = arquivo.lerArquivo(codigo);
 
-            analiseLexica.analisadorLexico(codigoFonte);
-            arquivo.escreverArquivo(analiseLexica.getListarTokens(), analiseLexica.getListarErros(), codigo);
+            analiseLexica.analisadorLexico(codigoFonte);// Chamada do Analisador Léxico
+            arquivo.escreverArquivo(analiseLexica.getListarTokens(), analiseLexica.getListarErros(), codigo);// Escrita dos tokens no arquivo
 
             // Resultados da análise
             System.out.println("Analise lexica foi concluida");

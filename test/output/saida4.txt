@@ -14,5 +14,6 @@
 16 DEL [
 16 DEL ]
 
+ Existem estes erros lexicos a seguir: 
 07 NMF 2. 
 12 NMF 3. 

@@ -76,4 +76,5 @@
 18 NRO 2
 18 LOG ||
 
+ Existem estes erros lexicos a seguir: 
 10 LOGMF | 

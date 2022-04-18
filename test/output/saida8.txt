@@ -10,4 +10,4 @@
 01 DEL .
 01 DEL :
 
- Nao existem erros lexicos
+ Nao apresentou erros lexicos neste arquivo

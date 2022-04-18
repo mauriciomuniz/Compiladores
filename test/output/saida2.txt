@@ -42,5 +42,6 @@
 17 IDE de
 17 IDE comentario
 
+ Existem estes erros lexicos a seguir: 
 05 NMF 1. 
 21 CoMF /# c = a + + b;  

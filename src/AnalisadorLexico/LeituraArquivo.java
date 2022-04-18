@@ -93,9 +93,9 @@ public class LeituraArquivo {
             });
 
             if (erros.isEmpty()) {
-                gravar.println("\n Nao existem erros lexicos");
+                gravar.println("\n Nao apresentou erros lexicos neste arquivo");
             } else {
-                gravar.println("");
+                gravar.println("\n Existem estes erros lexicos a seguir: ");
                 erros.forEach((erro) -> {
                     gravar.println(erro);
                 });
