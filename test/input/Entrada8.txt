@@ -2,4 +2,4 @@ delimitadores ; , () {} [] . :
 /#
  Teste de comentário de bloco
 #/
-%teste de comentario
+%teste de comentario de linha

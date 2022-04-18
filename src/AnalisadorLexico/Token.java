@@ -9,6 +9,7 @@ import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
 /**
+ * Classe Token
  *
  * @author Mauricio e Alexandre
  */
@@ -32,7 +33,7 @@ public class Token {
     }
 
     public String getLinha() {
-        //convereter o numero da linha ao formato de dois digitos
+        // Convereter o numero da linha ao formato de dois digitos
         NumberFormat formatter = new DecimalFormat("00");
         String s = formatter.format(linha);
 

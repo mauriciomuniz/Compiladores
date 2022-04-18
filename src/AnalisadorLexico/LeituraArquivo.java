@@ -80,7 +80,7 @@ public class LeituraArquivo {
      */
     public void escreverArquivo(ArrayList<Token> tokens, ArrayList<String> erros, String codigo) throws IOException {
 
-        //Verificar número do arquivo
+        // Verificar o número do arquivo
         Matcher numberEndFile = patternEndFile.matcher(codigo);
         numberEndFile.find();
         //System.out.println(numberEndFile.group());

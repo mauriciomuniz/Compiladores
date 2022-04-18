@@ -20,7 +20,7 @@ public class Automato {
     private final EstruturaLexica token;
 
     /**
-     *
+     * Construtor da classe Automato
      */
     public Automato() {
         this.listarTokens = new ArrayList<>();
@@ -34,40 +34,43 @@ public class Automato {
 
     void analisadorLexico(ArrayList<String> codigoFonte) {
         this.codigo = codigoFonte;
-        char a = proximo();
+        char a = proximoChar();
         while (a != EOF) {
             verificaAutomato(a);
-            a = proximo();
+            a = proximoChar();
         }
     }
 
-    private char proximo() {
-        if (!codigo.isEmpty()) { //condição que verifica se o arquivo está vazio
+    private char proximoChar() {
+        if (!codigo.isEmpty()) { // Verifica se o arquivo está vazio
 
-            char c[] = codigo.get(linha).toCharArray(); //adiciona a linha atual do codigo em um vetor de caracteres
+            char c[] = codigo.get(linha).toCharArray(); //Adição da linha atual do codigo em um vetor de caracteres
 
-            // condição que verifica se a linha acabou, ou seja, se a posição do último elento é aigual a posição atual de colunas
+            /*
+            *  Verifica se a linha acabou,
+            * se a posição do último elento é aigual a posição atual de colunas
+             */
             if (c.length == aux) {
                 linhaVazia = false;
                 return ' ';
-            } // condição que percorre a linha na posição atual da coluna
+            } // Percorre a linha na posição atual da coluna
             else if (c.length > aux) {
                 linhaVazia = false;
-                return c[aux]; // retorna o elemento da posição atual da coluna
-            } else if (codigo.size() > (linha + 1)) { // condição verifica se ainda existem linhas para percorrer
-                linha++; // incrementa as linhas 
-                c = codigo.get(linha).toCharArray(); // cria uma nova linha de sequencia de caracteres
+                return c[aux]; // Retorna o elemento da posição atual da coluna
+            } else if (codigo.size() > (linha + 1)) { // Verifica se ainda existem linhas para percorrer
+                linha++;
+                c = codigo.get(linha).toCharArray(); // Cria uma nova linha de sequencia de caracteres
                 aux = 0; // reinicia a posição das colunas
-                if (c.length == 0) { // condição que verifica se a linha é vazia
+                if (c.length == 0) { // Checa se a linha está vazia
                     this.linhaVazia = true;
                     return ' ';
                 }
-                return c[aux]; // retorna o elemento da posição atual da coluna
+                return c[aux]; // Retorna o elemento da posição atual da coluna
             } else {
-                return EOF; //fim de arquivo
+                return EOF; // Alcançou o fim de arquivo
             }
         } else {
-            return EOF; //fim de arquivo
+            return EOF; // Alcançou o fim de arquivo
         }
     }
 
@@ -118,12 +121,12 @@ public class Automato {
 
         lexema = lexema + a;
         this.aux++;
-        a = this.proximo();
+        a = this.proximoChar();
         //verifica se os proximos caracteres podem formar uma palavra reservada ou um identificador
         while (a == '_' || Character.isLetterOrDigit(a)) {
             lexema = lexema + a;
             aux++;
-            a = this.proximo();
+            a = this.proximoChar();
         }//enquanto for letra || '_' || digito continua no laço e adiciona o caractere no lexema
         //compara a palavre recebida com a lista de palavras reservadas
         if (token.verificarPalavrasReservada(lexema)) {
@@ -149,7 +152,7 @@ public class Automato {
         //adiciona o simbolo invalido a lista de erros 
         lexema = lexema + a;
         this.aux++;
-        this.addErro("SIB", lexema, linhaInicial);
+        this.addListaErro("SIB", lexema, linhaInicial);
 
     }
 
@@ -225,21 +228,21 @@ public class Automato {
 
         if (a == '+') {
             //adição
-            a = this.proximo();
+            a = this.proximoChar();
             //incremento
             if (a == '+') {
                 lexema = lexema + a;
                 this.aux++;
             }
         } else if (a == '-') {
-            a = this.proximo();
+            a = this.proximoChar();
             //pega o último token da lista
             tokenAnterior = listarTokens.get(listarTokens.size() - 1);
             //desconsidera os espaços
             if (Character.isSpaceChar(a)) {
                 do {
                     this.aux++;
-                    a = this.proximo();
+                    a = this.proximoChar();
                 } while (token.verificarEspaco(a));
                 if (Character.isDigit(a) && linhaInicial == linha) {
                     // compara se o último token é um numero ou identificador
@@ -282,12 +285,12 @@ public class Automato {
         if (a == '%') {
             lexema = lexema + a;
             this.aux++;
-            a = this.proximo();
+            a = this.proximoChar();
             //percorre a linha toda até o final desconsiderando essa linha
             while (linha == linhaInicial && a != EOF) {
                 lexema = lexema + a;
                 this.aux++;
-                a = this.proximo();
+                a = this.proximoChar();
             }
             /*tokenAuxiliar = new Token(linhaInicial + 1, auxiliarComentario + 1, "CoM", lexema);
                 this.listarTokens.add(tokenAuxiliar);*/ //adiciona o comentário para a lista de tokens
@@ -309,7 +312,7 @@ public class Automato {
 
         lexema = lexema + a;
         this.aux++;
-        a = this.proximo();
+        a = this.proximoChar();
 
         switch (a) {
             //se receber o '#' é encaminhado para o método comentário de bloco
@@ -341,13 +344,13 @@ public class Automato {
         do {
             lexema = lexema + a;
             this.aux++;
-            a = this.proximo();
+            a = this.proximoChar();
         } while (a != '#' && a != EOF);
 
         if (a == '#') {
             lexema = lexema + a;
             this.aux++;
-            a = this.proximo();
+            a = this.proximoChar();
 
             switch (a) {
                 //verifica se o caractere seguinte é um '/' e finaliza o comentário de bloco desconsiderando o bloco
@@ -365,7 +368,7 @@ public class Automato {
 
         } //se chegar ao fim do arquivo e não achar o fechamento ele notifica o erro de comentário.
         else {
-            this.addErro("CoMF", lexema, linhaInicial);
+            this.addListaErro("CoMF", lexema, linhaInicial);
         }
 
     }
@@ -373,11 +376,13 @@ public class Automato {
     /**
      * O método operadorRelacional verifica as operadores relacionais em uma
      * operação Caso receba '>', '<' ou '=' espera um operador de '=' ou já
-     * adiciona o token na lista Dessa forma não existe erro de operador
+     * adiciona o token na lista. Dessa forma não existe erro de operador
      * relacional mal formado Se receber o operador '!' ele verifica se tem um
      * '=' em seguida e caracteriza ele omo operador relacional senão é
-     * classificado como operador logico @param lexema @param a caractere
-     * recebido '>' || '<' || '=' || '!'
+     * classificado como operador logico.
+     *
+     * @param lexema
+     * @param a caractere recebido '>' || '<' || '=' || '!'
      */
     private void operadorRelacional(String lexema, char a) {
 
@@ -390,8 +395,8 @@ public class Automato {
         //operadores que direciona ao automato
         if (a == '<' || a == '>' || a == '=') {
 
-            //chama o proximo caractere
-            a = this.proximo();
+            //chama o proximoChar caractere
+            a = this.proximoChar();
             //verifica o '=' e adiciona ao lexema
             if (a == '=') {
                 lexema = lexema + a;
@@ -403,8 +408,8 @@ public class Automato {
 
         }//verifica o operador ! 
         else if (a == '!') {
-            //chama o proximo
-            a = this.proximo();
+            //chama o proximoChar
+            a = this.proximoChar();
             //se for '=' é um operador relacional
             if (a == '=') {
                 lexema = lexema + a;
@@ -438,7 +443,7 @@ public class Automato {
         this.aux++;
         //verifica qual operador recebido se é '&'
         if (a == '&') {
-            a = this.proximo();
+            a = this.proximoChar();
             //verifica se o operador é outro '&'
             if (a == '&') {
                 lexema = lexema + a;
@@ -448,11 +453,11 @@ public class Automato {
                 listarTokens.add(tokenAuxiliar);
             }// caso não seja adiciona a lista como operador logico mal formado
             else {
-                this.addErro("LOGMF", lexema, linhaInicial);
+                this.addListaErro("LOGMF", lexema, linhaInicial);
             }
         } //ou se é o operador '|'
         else if (a == '|') {
-            a = this.proximo();
+            a = this.proximoChar();
             //verifica se o operador é outro '|'
             if (a == '|') {
                 lexema = lexema + a;
@@ -462,7 +467,7 @@ public class Automato {
                 listarTokens.add(tokenAuxiliar);
             }// caso não seja adiciona a lista como operador logico mal formado 
             else {
-                this.addErro("LOGMF", lexema, linhaInicial);
+                this.addListaErro("LOGMF", lexema, linhaInicial);
             }
         }
     }
@@ -471,7 +476,7 @@ public class Automato {
      * Ao receber um digito ele é encaminhado para o automato de numero que pode
      * ser no formato de numero negativo (tratado no autômato de
      * operadorAritmetico) pode ou não conter ponto, caso tenha ponto deve vir
-     * logo após o ponto um ou mais digitos
+     * logo após o ponto um ou mais de um digito
      *
      * @param lexema
      * @param a digito
@@ -486,7 +491,7 @@ public class Automato {
         do {
             lexema = lexema + a;
             this.aux++;
-            a = this.proximo();
+            a = this.proximoChar();
             //continua no laço enquanto receber digitos
         } while (Character.isDigit(a));
         //caso receba algo que não é digito verifica se é um ponto
@@ -494,32 +499,32 @@ public class Automato {
             //se for um ponto ele adiciona ao lexema
             lexema = lexema + a;
             this.aux++;
-            a = this.proximo();
-            //verifica se o proximo é um digito
+            a = this.proximoChar();
+            //verifica se o proximoChar é um digito
             if (!Character.isDigit(a)) {
-                //se não for um digito é considerado incorreto pois sempre após um ponte deve ter pelo menos um digito
+                //se não for um digito é considerado incorreto pois sempre após um ponto deve ter pelo menos um digito
                 erro = true;
             }//enquanto ouver digitos após o ponto adiciona ao lexema 
             while (Character.isDigit(a)) {
                 lexema = lexema + a;
                 this.aux++;
-                a = this.proximo();
+                a = this.proximoChar();
             }
         }
         //se não houver erros adiciona o numero a lista de tokens
         if (!erro) {
             tokenAuxiliar = new Token(linhaInicial + 1, auxiliarNumero + 1, "NRO", lexema);
             listarTokens.add(tokenAuxiliar);
-        }//se houver erro de numero malç formado é adicionado a lista de erros
+        }//se houver erro de numero mal formado é adicionado a lista de erros
         else {
-            addErro("NMF", lexema, linhaInicial);
+            addListaErro("NMF", lexema, linhaInicial);
         }
     }
 
     /**
-     * A cadeia de caractere é formada a partir do primeiro '"' e busca o ultimo
-     * '"' caso não seja fechado ele notifica o erro aceita simbolos válidos da
-     * lista, digitos, letras, e '\"'
+     * A cadeia de caractere é formada a partir do primeiro " e busca o ultimo "
+     * caso não seja fechado é notificado o erro, aceita simbolos válidos da
+     * lista de símbolos, digitos, letras, e \"
      *
      * @param lexema
      * @param a '"'
@@ -532,15 +537,15 @@ public class Automato {
 
         lexema = lexema + a;
         this.aux++;
-        a = this.proximo();
-        //recebe o primeiro '"' e consome o que tem dentro da linha até encontrar o ultimo '"'
+        a = this.proximoChar();
+        //recebe o primeiro " e consome o que tem dentro da linha até encontrar o ultimo "
         while (a != '"' && linhaInicial == linha) {
-            //caso receba um '\' pode receber um um '"' e continuar na cadeia de caractere sem finalizar
+            //caso receba um '\' pode receber um " e continuar na cadeia de caractere sem finalizar
             if (a == ((char) 92)) {
                 this.aux++;
                 lexema = lexema + a;
-                a = this.proximo();
-                //verifica se é o '"' e retorna ao automato esperando o ultimo '"'
+                a = this.proximoChar();
+                //verifica se é o " e retorna ao automato esperando o ultimo "
                 if (a == '"') {
                     this.cadeiaDeCaractere(lexema, a);
                     return;
@@ -549,10 +554,10 @@ public class Automato {
             else if (Character.isLetterOrDigit(a) || token.verificarSimbolo(a)) {
                 lexema = lexema + a;
                 this.aux++;
-                a = this.proximo();
+                a = this.proximoChar();
             } //se não for essas opções adiciona o erro na lista
             else {
-                this.addErro("CMF", lexema, linhaInicial);
+                this.addListaErro("CMF", lexema, linhaInicial);
                 return;
             }
 
@@ -564,27 +569,27 @@ public class Automato {
             this.listarTokens.add(tokenAuxiliar);
         }// adiciona o erro a lista 
         else {
-            this.addErro("CMF", lexema, linhaInicial);
+            this.addListaErro("CMF", lexema, linhaInicial);
         }
 
     }
 
     /**
-     * Adiciona o erro numa lista identificando o tipo de erro o lexema e a
-     * linha onde está o erro
+     * Adiciona o erro numa lista e faz a identificação do tipo de erro o lexema
+     * e a linha onde aconteceu o erro
      *
      * @param tipo tipo do erro
      * @param erro lexema
      * @param linha linha do erro
      */
-    private void addErro(String tipo, String erro, int linha) {
+    private void addListaErro(String tipo, String erro, int linha) {
         NumberFormat formatter = new DecimalFormat("00");
         String s = formatter.format(linha + 1);
         listarErros.add(s + " " + tipo + " " + erro + " ");
     }
 
     /**
-     * Pega a lista de erro
+     * Função que pega a lista de erro
      *
      * @return lista de erros
      */
@@ -594,7 +599,7 @@ public class Automato {
 //
 
     /**
-     * Pega a lista de Tokens
+     * Função que pega a lista de Tokens
      *
      * @return lista de tokens válidos
      */
