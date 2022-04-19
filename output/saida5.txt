@@ -1,0 +1,37 @@
+01 IDE int
+01 IDE nro
+01 REL =
+01 NRO -2
+01 DEL ;
+02 IDE float
+02 IDE a
+02 DEL ,
+02 IDE b
+02 IDE c
+02 DEL ;
+04 IDE a
+04 REL =
+04 IDE nro
+04 ART -
+06 IDE b
+06 REL =
+06 NRO 2.2
+06 ART -
+06 NRO 1.1
+06 DEL .
+06 NRO 1.1
+06 DEL .
+06 NRO 1
+06 ART ++
+06 NRO 4
+06 DEL ;
+08 IDE c
+08 REL =
+08 IDE a
+08 ART +
+08 ART +
+08 IDE b
+08 DEL ;
+
+ Existem estes erros lexicos a seguir: 
+04 NMF 1. 

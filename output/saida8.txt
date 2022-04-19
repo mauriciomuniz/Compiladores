@@ -1,0 +1,13 @@
+01 IDE delimitadores
+01 DEL ;
+01 DEL ,
+01 DEL (
+01 DEL )
+01 DEL {
+01 DEL }
+01 DEL [
+01 DEL ]
+01 DEL .
+01 DEL :
+
+ Nao apresentou erros lexicos neste arquivo
