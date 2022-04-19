@@ -35,7 +35,7 @@ public class LeituraArquivo {
     public ArrayList<String> leitura() {
 
         ArrayList<String> code = new ArrayList<>();
-        File search = new File("test/input/");
+        File search = new File("input/");
         if (search == null) {
             System.out.println("Arquivo de input não encontrado");
         } else {
@@ -57,7 +57,7 @@ public class LeituraArquivo {
     public ArrayList<String> lerArquivo(String localFile) throws FileNotFoundException {
 
         ArrayList<String> code;
-        try ( Scanner scanner = new Scanner(new FileReader("test/input/" + localFile))) {
+        try ( Scanner scanner = new Scanner(new FileReader("input/" + localFile))) {
             this.localFile = localFile;
             //nomeArquivo = this.localFile.split(".txt");
             code = new ArrayList<>();
@@ -85,7 +85,7 @@ public class LeituraArquivo {
         numberEndFile.find();
         //System.out.println(numberEndFile.group());
 
-        try ( FileWriter file = new FileWriter("test/output/" + "\\saida" + numberEndFile.group() + ".txt", false)) {
+        try ( FileWriter file = new FileWriter("output/" + "\\saida" + numberEndFile.group() + ".txt", false)) {
             PrintWriter gravar = new PrintWriter(file);
 
             tokens.forEach((token) -> {
