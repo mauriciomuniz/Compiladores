@@ -6,13 +6,17 @@
 Para exexutar usando o github:
 
 1 - git clone https://github.com/mauriciomuniz/Compiladores.git
+
 2 - cd Compiladores/dist
+
 3 - java -jar "Compiladores_Lexico_Mauricio_Alexandre.jar" 
 
 Para exexutar usando o arquivo zipado sem ser no github:
 
 1 - Descompacte o arquivo
+
 2 - cd Compiladores/src/AnalisadorLexico
+
 3 - execute o arquivo java Compilador
 
 
