@@ -1,8 +1,9 @@
 02 CDC "aaaaaaaaaaa"
 04 IDE aaaaaaa
-05 CDC "aaaa\"
+05 CDC "aaaa"
 05 IDE aaaaaaa
-06 CDC "aaaa\"
+06 CDC "aaa"
+06 CDC "bbbb"
 07 CDC ""
 08 CDC "aaaaaaaaaa\"
 09 CDC "aaaaaaa@aaaaaa"
@@ -16,7 +17,6 @@
 03 CDCMF "aaaaaaaa  
 04 CDCMF "  
 05 CDCMF "  
-06 CDCMF "  
 15 CMF ' 
 15 CMF ' 
 15 CMF '  
