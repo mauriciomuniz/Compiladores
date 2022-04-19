@@ -12,6 +12,9 @@ if ( f >= -10) && (f < )
 if ( f <= 7) || (f > -3 ) 
 	write("msg );
 
-@	
+@
+∈ ∋
+ℕ
+
 /# exa869 mi processadores de 
 linguagem de programacao

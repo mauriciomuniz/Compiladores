@@ -3,21 +3,22 @@
  
  Foi utilizado o ambiente de desenvolvimento integrado Apache NetBeans, atravéz do SO Windows 10.
 
-Para exexutar usando o github:
+Para executar com o arquivo já compilado:
 
-1 - git clone https://github.com/mauriciomuniz/Compiladores.git
+1 - cd Compiladores/dist
 
-2 - cd Compiladores/dist
+2 - java -jar "Compiladores_Lexico_Mauricio_Alexandre.jar" 
 
-3 - java -jar "Compiladores_Lexico_Mauricio_Alexandre.jar" 
 
-Para exexutar usando o arquivo zipado sem ser no github:
+Para exexutar usando o arquivo zipado sem ser compilado:
 
 1 - Descompacte o arquivo
 
 2 - cd Compiladores/src/AnalisadorLexico
 
-3 - execute o arquivo java Compilador
+3 - Compile o programa javac Compilador.java
+
+4 - Execute o programa java Compilador
 
 
 Para Realizar os teste:

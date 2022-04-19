@@ -132,10 +132,10 @@ public class Automato {
         }//enquanto for letra || '_' || digito continua no laço e adiciona o caractere no lexema
         //compara a palavre recebida com a lista de palavras reservadas
         if (token.verificarPalavrasReservada(lexema)) {
-            tokenaux = new Token(linhaInicial + 1, auxPalavraReservadaId + 1, "PRE", lexema);
+            tokenaux = new Token(linhaInicial + 1, auxPalavraReservadaId + 1, "PalavraReservada", lexema);
         }//se não considera a palavra um identificador 
         else {
-            tokenaux = new Token(linhaInicial + 1, auxPalavraReservadaId + 1, "IDE", lexema);
+            tokenaux = new Token(linhaInicial + 1, auxPalavraReservadaId + 1, "Identificador", lexema);
         }//adiciona o token a lista de tokens corretos
         listarTokens.add(tokenaux);
 
@@ -151,11 +151,17 @@ public class Automato {
     private void palavraInvalida(String lexema, char a) {
 
         int linhaInicial = this.linha;
-        //adiciona o simbolo invalido a lista de erros 
+        int auxiliarSimbolo = this.aux;
+        Token tokenAuxiliar;
         lexema = lexema + a;
         this.aux++;
-        this.addListaErro("SINC", lexema, linhaInicial);
-
+        //adiciona o simbolo invalido a lista de erros 
+        if (!token.verificarSimboloSem39(a) || !token.verificarSimboloSem34(a)) {
+            this.addListaErro("SimboloIncorreto", lexema, linhaInicial);
+        } else {//adiciona o simbolo válido a lista de tokens
+            tokenAuxiliar = new Token(linhaInicial + 1, auxiliarSimbolo + 1, "Simbolo", lexema);
+            listarTokens.add(tokenAuxiliar);
+        }
     }
 
     /**
@@ -173,7 +179,7 @@ public class Automato {
         //adiciona o delimitador a lista de tokens corretos
         lexema = lexema + a;
         this.aux++;
-        tokenAuxiliar = new Token(linhaInicial + 1, auxiliarDelimitador + 1, "DEL", lexema);
+        tokenAuxiliar = new Token(linhaInicial + 1, auxiliarDelimitador + 1, "Delimitador", lexema);
         listarTokens.add(tokenAuxiliar);
     }
 
@@ -248,7 +254,7 @@ public class Automato {
                 } while (token.verificarEspaco(a));
                 if (Character.isDigit(a) && linhaInicial == linha) {
                     // compara se o último token é um numero ou identificador
-                    if (!(tokenAnterior.getTipo().equals("NRO") || tokenAnterior.getTipo().equals("IDE"))) {
+                    if (!(tokenAnterior.getTipo().equals("Numero") || tokenAnterior.getTipo().equals("Identificador"))) {
                         //se não for um numero ou um identificador é enviado para o método de número
                         this.numero(lexema, a);
                         return;
@@ -260,7 +266,7 @@ public class Automato {
                 this.aux++;
             } else if (Character.isDigit(a)) {
                 // compara se o último token é um numero ou identificador
-                if (!(tokenAnterior.getTipo().equals("NRO") || tokenAnterior.getTipo().equals("IDE"))) {
+                if (!(tokenAnterior.getTipo().equals("Numero") || tokenAnterior.getTipo().equals("Identificador"))) {
                     //se não for um numero ou um identificador é enviado para o método de número
                     this.numero(lexema, a);
                     return;
@@ -269,7 +275,7 @@ public class Automato {
 
         }
         //adiciona a lista de token o operador aritmetico
-        tokenAuxiliar = new Token(linhaInicial + 1, auxiliarOpAritmetico + 1, "ART", lexema);
+        tokenAuxiliar = new Token(linhaInicial + 1, auxiliarOpAritmetico + 1, "OpAritmetico", lexema);
         listarTokens.add(tokenAuxiliar);
     }
 
@@ -323,7 +329,7 @@ public class Automato {
                 return;
             //Caso não seja é considerado um operador aritmético
             default:
-                tokenAuxiliar = new Token(linhaInicial + 1, auxiliarComentario + 1, "ART", lexema);
+                tokenAuxiliar = new Token(linhaInicial + 1, auxiliarComentario + 1, "OpAritmetico", lexema);
                 this.listarTokens.add(tokenAuxiliar);
                 break;
         }
@@ -370,7 +376,7 @@ public class Automato {
 
         } //se chegar ao fim do arquivo e não achar o fechamento ele notifica o erro de comentário.
         else {
-            this.addListaErro("CoMF", lexema, linhaInicial);
+            this.addListaErro("ComentarioMF", lexema, linhaInicial);
         }
 
     }
@@ -405,7 +411,7 @@ public class Automato {
                 this.aux++;
             }
             //adiciona o token a lista seja ele '>', ">=", '<', "<=", '=', "==".
-            tokenAuxiliar = new Token(linhaInicial + 1, auxiliarOperador + 1, "REL", lexema);
+            tokenAuxiliar = new Token(linhaInicial + 1, auxiliarOperador + 1, "OpRelacional", lexema);
             listarTokens.add(tokenAuxiliar);
 
         }//verifica o operador ! 
@@ -417,11 +423,11 @@ public class Automato {
                 lexema = lexema + a;
                 this.aux++;
                 //adiciona o operador relacional a lista "!="
-                tokenAuxiliar = new Token(linhaInicial + 1, auxiliarOperador + 1, "REL", lexema);
+                tokenAuxiliar = new Token(linhaInicial + 1, auxiliarOperador + 1, "OpRelacional", lexema);
                 listarTokens.add(tokenAuxiliar);
             }//senão adiciona o operador lógico a lista  
             else {
-                tokenAuxiliar = new Token(linhaInicial + 1, auxiliarOperador + 1, "LOG", lexema);
+                tokenAuxiliar = new Token(linhaInicial + 1, auxiliarOperador + 1, "OpLogico", lexema);
                 listarTokens.add(tokenAuxiliar);
             }
         }
@@ -451,11 +457,11 @@ public class Automato {
                 lexema = lexema + a;
                 this.aux++;
                 //adiciona o operador a lista de tokens
-                tokenAuxiliar = new Token(linhaInicial + 1, auxiliarOperador + 1, "LOG", lexema);
+                tokenAuxiliar = new Token(linhaInicial + 1, auxiliarOperador + 1, "OpLogico", lexema);
                 listarTokens.add(tokenAuxiliar);
             }// caso não seja adiciona a lista como operador logico mal formado
             else {
-                this.addListaErro("LOGMF", lexema, linhaInicial);
+                this.addListaErro("OpLogicoMF", lexema, linhaInicial);
             }
         } //ou se é o operador '|'
         else if (a == '|') {
@@ -465,11 +471,11 @@ public class Automato {
                 lexema = lexema + a;
                 this.aux++;
                 //adiciona o operador a lista de tokens
-                tokenAuxiliar = new Token(linhaInicial + 1, auxiliarOperador + 1, "LOG", lexema);
+                tokenAuxiliar = new Token(linhaInicial + 1, auxiliarOperador + 1, "OpLogico", lexema);
                 listarTokens.add(tokenAuxiliar);
             }// caso não seja adiciona a lista como operador logico mal formado 
             else {
-                this.addListaErro("LOGMF", lexema, linhaInicial);
+                this.addListaErro("OpLogicoMF", lexema, linhaInicial);
             }
         }
     }
@@ -515,11 +521,11 @@ public class Automato {
         }
         //se não houver erros adiciona o numero a lista de tokens
         if (!erro) {
-            tokenAuxiliar = new Token(linhaInicial + 1, auxiliarNumero + 1, "NRO", lexema);
+            tokenAuxiliar = new Token(linhaInicial + 1, auxiliarNumero + 1, "Numero", lexema);
             listarTokens.add(tokenAuxiliar);
         }//se houver erro de numero mal formado é adicionado a lista de erros
         else {
-            addListaErro("NMF", lexema, linhaInicial);
+            addListaErro("NumeroMF", lexema, linhaInicial);
         }
     }
 
@@ -548,7 +554,7 @@ public class Automato {
                 a = this.proximoChar();
             } //se não for essas opções adiciona o erro na lista
             else {
-                this.addListaErro("CDCMF", lexema, linhaInicial);
+                this.addListaErro("CadeiaDeCharMF", lexema, linhaInicial);
                 return;
             }
 
@@ -556,11 +562,11 @@ public class Automato {
         if (a == '"' && linhaInicial == linha) {
             lexema = lexema + a;
             this.aux++;
-            tokenAuxiliar = new Token(linhaInicial + 1, auxiliarCadeiaCaractere + 1, "CDC", lexema);
+            tokenAuxiliar = new Token(linhaInicial + 1, auxiliarCadeiaCaractere + 1, "CadeiaDeChar", lexema);
             this.listarTokens.add(tokenAuxiliar);
         }// adiciona o erro a lista 
         else {
-            this.addListaErro("CDCMF", lexema, linhaInicial);
+            this.addListaErro("CadeiaDeCharMF", lexema, linhaInicial);
         }
 
     }
@@ -590,18 +596,18 @@ public class Automato {
             a = this.proximoChar();
         } //se não for essas opções adiciona o erro na lista
         else {
-            this.addListaErro("CMF", lexema, linhaInicial);
+            this.addListaErro("CaractereMF", lexema, linhaInicial);
             return;
         }
 
         if (a == '\'' && linhaInicial == linha) {
             lexema = lexema + a;
             this.aux++;
-            tokenAuxiliar = new Token(linhaInicial + 1, auxiliarCadeiaCaractere + 1, "CHAR", lexema);
+            tokenAuxiliar = new Token(linhaInicial + 1, auxiliarCadeiaCaractere + 1, "Caractere", lexema);
             this.listarTokens.add(tokenAuxiliar);
         }// adiciona o erro a lista 
         else {
-            this.addListaErro("CMF", lexema, linhaInicial);
+            this.addListaErro("CaractereMF", lexema, linhaInicial);
         }
 
     }

@@ -1,13 +1,13 @@
-01 IDE delimitadores
-01 DEL ;
-01 DEL ,
-01 DEL (
-01 DEL )
-01 DEL {
-01 DEL }
-01 DEL [
-01 DEL ]
-01 DEL .
-01 DEL :
+01 Identificador delimitadores
+01 Delimitador ;
+01 Delimitador ,
+01 Delimitador (
+01 Delimitador )
+01 Delimitador {
+01 Delimitador }
+01 Delimitador [
+01 Delimitador ]
+01 Delimitador .
+01 Delimitador :
 
  Nao apresentou erros lexicos neste arquivo

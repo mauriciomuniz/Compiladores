@@ -1,47 +1,50 @@
-03 IDE float
-03 IDE f
-03 REL =
-03 NRO -3.5
-03 DEL ;
-05 PRE integer
-05 IDE f
-05 REL =
-05 NRO 9.5
-05 DEL ;
-07 PRE string
-07 IDE msg
-07 REL =
-09 PRE if
-09 DEL (
-09 IDE f
-09 REL >=
-09 NRO -10
-09 DEL )
-09 LOG &&
-09 DEL (
-09 IDE f
-09 REL <
-09 DEL )
-10 PRE write
-10 DEL (
-12 PRE if
-12 DEL (
-12 IDE f
-12 REL <=
-12 NRO 7
-12 DEL )
-12 LOG ||
-12 DEL (
-12 IDE f
-12 REL >
-12 NRO -3
-12 DEL )
-13 PRE write
-13 DEL (
+03 Identificador float
+03 Identificador f
+03 OpRelacional =
+03 Numero -3.5
+03 Delimitador ;
+05 PalavraReservada integer
+05 Identificador f
+05 OpRelacional =
+05 Numero 9.5
+05 Delimitador ;
+07 PalavraReservada string
+07 Identificador msg
+07 OpRelacional =
+09 PalavraReservada if
+09 Delimitador (
+09 Identificador f
+09 OpRelacional >=
+09 Numero -10
+09 Delimitador )
+09 OpLogico &&
+09 Delimitador (
+09 Identificador f
+09 OpRelacional <
+09 Delimitador )
+10 PalavraReservada write
+10 Delimitador (
+12 PalavraReservada if
+12 Delimitador (
+12 Identificador f
+12 OpRelacional <=
+12 Numero 7
+12 Delimitador )
+12 OpLogico ||
+12 Delimitador (
+12 Identificador f
+12 OpRelacional >
+12 Numero -3
+12 Delimitador )
+13 PalavraReservada write
+13 Delimitador (
+15 Simbolo @
 
  Existem estes erros lexicos a seguir: 
-07 CDCMF "teste  
-10 CDCMF "mensagem );  
-13 CDCMF "msg );  
-15 SINC @ 
-16 CoMF /# exa869 mi processadores de  linguagem de programacao  
+07 CadeiaDeCharMF "teste  
+10 CadeiaDeCharMF "mensagem );  
+13 CadeiaDeCharMF "msg );  
+16 SimboloIncorreto ∈ 
+16 SimboloIncorreto ∋ 
+17 SimboloIncorreto ℕ 
+19 ComentarioMF /# exa869 mi processadores de  linguagem de programacao  
