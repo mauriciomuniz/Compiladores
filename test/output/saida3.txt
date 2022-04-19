@@ -1,10 +1,3 @@
-01 IDE exemplo
-01 IDE teste
-01 DEL ;
-01 ART /
-01 ART /
-01 IDE codigo
-01 IDE exemplo
 03 IDE float
 03 IDE f
 03 REL =
@@ -47,8 +40,8 @@
 13 DEL (
 
  Existem estes erros lexicos a seguir: 
-07 CMF "teste  
-10 CMF "mensagem );  
-13 CMF "msg );  
-15 SIB @ 
+07 CDCMF "teste  
+10 CDCMF "mensagem );  
+13 CDCMF "msg );  
+15 SINC @ 
 16 CoMF /# exa869 mi processadores de  linguagem de programacao  

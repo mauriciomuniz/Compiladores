@@ -36,12 +36,13 @@
 07 DEL ;
 08 ART *
 08 ART /
-17 ART /
-17 ART /
-17 IDE teste
-17 IDE de
-17 IDE comentario
+16 ART /
+16 ART /
+16 IDE teste
+16 IDE de
+16 IDE comentario
+16 IDE errado
 
  Existem estes erros lexicos a seguir: 
 05 NMF 1. 
-21 CoMF /# c = a + + b;  
+20 CoMF /# c = a + + b;  

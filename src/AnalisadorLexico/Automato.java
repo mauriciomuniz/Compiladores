@@ -94,6 +94,8 @@ public class Automato {
                 barraSimples(lexema, a);
             } else if (a == '"') {//verifica se é uma '"' e envia para cadeia de caracteres 
                 cadeiaDeCaractere(lexema, a);
+            } else if (a == '\'') {//verifica se é uma '"' e envia para cadeia de caracteres 
+                caractere(lexema, a);
             } else {//qualquer simbolo diferente aos da tabela é considerado um erro de palavra invalida
                 this.palavraInvalida(lexema, a);
             }
@@ -152,7 +154,7 @@ public class Automato {
         //adiciona o simbolo invalido a lista de erros 
         lexema = lexema + a;
         this.aux++;
-        this.addListaErro("SIB", lexema, linhaInicial);
+        this.addListaErro("SINC", lexema, linhaInicial);
 
     }
 
@@ -524,7 +526,7 @@ public class Automato {
     /**
      * A cadeia de caractere é formada a partir do primeiro " e busca o ultimo "
      * caso não seja fechado é notificado o erro, aceita simbolos válidos da
-     * lista de símbolos, digitos, letras, e \"
+     * lista de símbolos menos o 34, digitos, letras
      *
      * @param lexema
      * @param a '"'
@@ -540,24 +542,13 @@ public class Automato {
         a = this.proximoChar();
         //recebe o primeiro " e consome o que tem dentro da linha até encontrar o ultimo "
         while (a != '"' && linhaInicial == linha) {
-            //caso receba um '\' pode receber um " e continuar na cadeia de caractere sem finalizar
-            if (a == ((char) 92)) {
-                this.aux++;
-                lexema = lexema + a;
-                a = this.proximoChar();
-                //verifica se é o " e retorna ao automato esperando o ultimo "
-                if (a == '"') {
-                    this.cadeiaDeCaractere(lexema, a);
-                    return;
-                }
-            }//consome a linha enquanto houver simblos validos ou letras ou digitos 
-            else if (Character.isLetterOrDigit(a) || token.verificarSimbolo(a)) {
+            if (Character.isLetterOrDigit(a) || token.verificarSimboloSem34(a)) {
                 lexema = lexema + a;
                 this.aux++;
                 a = this.proximoChar();
             } //se não for essas opções adiciona o erro na lista
             else {
-                this.addListaErro("CMF", lexema, linhaInicial);
+                this.addListaErro("CDCMF", lexema, linhaInicial);
                 return;
             }
 
@@ -566,6 +557,47 @@ public class Automato {
             lexema = lexema + a;
             this.aux++;
             tokenAuxiliar = new Token(linhaInicial + 1, auxiliarCadeiaCaractere + 1, "CDC", lexema);
+            this.listarTokens.add(tokenAuxiliar);
+        }// adiciona o erro a lista 
+        else {
+            this.addListaErro("CDCMF", lexema, linhaInicial);
+        }
+
+    }
+
+    /**
+     * O caractere é formado a partir do primeiro ' e busca o ultimo ' caso não
+     * seja fechado é notificado o erro, aceita simbolos válidos da lista de
+     * símbolos menos o 39, digitos, letras.
+     *
+     * @param lexema
+     * @param a '''
+     */
+    private void caractere(String lexema, char a) {
+
+        int linhaInicial = this.linha;
+        int auxiliarCadeiaCaractere = this.aux;
+        Token tokenAuxiliar;
+
+        lexema = lexema + a;
+        this.aux++;
+        a = this.proximoChar();
+        //recebe o primeiro ' e consome o que tem dentro da linha até encontrar o ultimo '
+
+        if (Character.isLetterOrDigit(a) || token.verificarSimboloSem39(a)) {
+            lexema = lexema + a;
+            this.aux++;
+            a = this.proximoChar();
+        } //se não for essas opções adiciona o erro na lista
+        else {
+            this.addListaErro("CMF", lexema, linhaInicial);
+            return;
+        }
+
+        if (a == '\'' && linhaInicial == linha) {
+            lexema = lexema + a;
+            this.aux++;
+            tokenAuxiliar = new Token(linhaInicial + 1, auxiliarCadeiaCaractere + 1, "CHAR", lexema);
             this.listarTokens.add(tokenAuxiliar);
         }// adiciona o erro a lista 
         else {

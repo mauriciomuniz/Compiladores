@@ -1,4 +1,4 @@
-exemplo teste; // codigo exemplo
+%exemplo teste; // codigo exemplo
 
 float f = -3.5;
 

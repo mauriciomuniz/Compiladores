@@ -22,7 +22,8 @@ public class EstruturaLexica {
     private final ArrayList<Character> operadorLogico = new ArrayList<>();
      */
     private final ArrayList<Character> delimitadores = new ArrayList<>();
-    private final ArrayList<Character> simbolos = new ArrayList<>();
+    private final ArrayList<Character> simboloS34 = new ArrayList<>();
+    private final ArrayList<Character> simboloS39 = new ArrayList<>();
     private final ArrayList<Character> letras = new ArrayList<>();
 
     /**
@@ -100,7 +101,13 @@ public class EstruturaLexica {
         //Lista de símbolos com a exceção das " de numero 34
         for (int i = 32; i <= 126; i++) {
             if (i != 34) {
-                this.simbolos.add((char) i);
+                this.simboloS34.add((char) i);
+            }
+        }
+        //Lista de símbolos com a exceção das " de numero 39
+        for (int i = 32; i <= 126; i++) {
+            if (i != 39) {
+                this.simboloS39.add((char) i);
             }
         }
 
@@ -183,8 +190,18 @@ public class EstruturaLexica {
      * @param caractere
      * @return
      */
-    public boolean verificarSimbolo(char caractere) {
-        return this.simbolos.contains(caractere);
+    public boolean verificarSimboloSem34(char caractere) {
+        return this.simboloS34.contains(caractere);
+    }
+
+    /**
+     * Verifica se o caracter recebido é um simbolo válido
+     *
+     * @param caractere
+     * @return
+     */
+    public boolean verificarSimboloSem39(char caractere) {
+        return this.simboloS39.contains(caractere);
     }
 
     /**

@@ -1,3 +1,4 @@
+%Teste de cadeia de caracteres
 "aaaaaaaaaaa"
 "aaaaaaaa
 aaaaaaa"
@@ -7,3 +8,9 @@ aaaaaaa"
 "aaaaaaaaaa\"
 "aaaaaaa@aaaaaa"
 "aaaaaaaaa"aaaaaaaaaa"aaaaaaa"
+
+%Teste de caracteres
+'a'
+'"'
+'''
+''

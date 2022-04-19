@@ -8,14 +8,13 @@ b = 2.2 - 1.1.1.1.1 ++ 4;
 */
 
 /#a = nro - 1.
-
 b = 2.2 - 1.1.1.1.1 ++ 4;
 #/
 
 /#comentário correto#/
 
-//teste de comentario
+//teste de comentario errado
 
-%teste de comentario
+%teste de comentario correto
 
 /# c = a + + b;

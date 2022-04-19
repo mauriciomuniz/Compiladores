@@ -1,14 +1,24 @@
-01 CDC "aaaaaaaaaaa"
-03 IDE aaaaaaa
-04 CDC "aaaa\"aaaaaaa"
-05 CDC "aaaa\""
-06 CDC ""
-08 CDC "aaaaaaa@aaaaaa"
-09 CDC "aaaaaaaaa"
-09 IDE aaaaaaaaaa
-09 CDC "aaaaaaa"
+02 CDC "aaaaaaaaaaa"
+04 IDE aaaaaaa
+05 CDC "aaaa\"
+05 IDE aaaaaaa
+06 CDC "aaaa\"
+07 CDC ""
+08 CDC "aaaaaaaaaa\"
+09 CDC "aaaaaaa@aaaaaa"
+10 CDC "aaaaaaaaa"
+10 IDE aaaaaaaaaa
+10 CDC "aaaaaaa"
+13 CHAR 'a'
+14 CHAR '"'
 
  Existem estes erros lexicos a seguir: 
-02 CMF "aaaaaaaa  
-03 CMF "  
-07 CMF "aaaaaaaaaa\"  
+03 CDCMF "aaaaaaaa  
+04 CDCMF "  
+05 CDCMF "  
+06 CDCMF "  
+15 CMF ' 
+15 CMF ' 
+15 CMF '  
+16 CMF ' 
+16 CMF '  

@@ -11,7 +11,7 @@ integer main()
 
    c = a + b; 				% soma a com b
 
-   write("a + b = %d \n ", c);
+   write("a + b = %d \n", c);
          'a + b = %d \n'      		% Error de Cadeia de Caractere
    return 0;
  }
