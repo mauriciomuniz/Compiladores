@@ -1,0 +1,41 @@
+const{
+    int i = 1;
+    float a = 2, b = 3;
+    boolean a_1 = true;
+    string c = "aaa", d = "dsfdfg", e = " yyyyy ";
+
+}
+var{
+    int i;
+    float a, b;
+    boolean a_1;
+    string c, d, e;
+
+}
+function int fib(int n){  
+    var{
+        int i, fib1, fib2 , soma;         
+    }
+    fib1 = 0;
+    fib2=1;
+    soma = 0;
+
+    for ( i = 3; i <= n; i++)           
+    {                                        
+        soma = (fib1 + fib2);                    
+        fib1 = fib2;                           
+        fib2 = soma;                           
+    }                                        
+    .retorno = fib2;                             
+}                                          
+  
+ procedure main(){
+    var{
+        int n;
+        int resultado;
+    }
+    
+    read(n);
+    resultado = fib(n);
+    write(resultado);
+}

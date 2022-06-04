@@ -1,0 +1,30 @@
+const{
+    int i = 1;
+    float a, b = 3;
+    boolean a_1 = true;
+    string c = "aaa", d = "dsfdfg", e = " yyyyy ";
+
+}
+var{
+    int i;
+    float a, b;
+    boolean a_1;
+    string c, d, e;
+
+}
+function int ooi (int ff, float dff){
+    var{
+        int i_1;
+        float a_3, b_3; 
+    }
+
+    i_1 =(5 + 2);
+
+
+
+    .i = i;
+}
+procedure oi (int ff){
+
+
+}

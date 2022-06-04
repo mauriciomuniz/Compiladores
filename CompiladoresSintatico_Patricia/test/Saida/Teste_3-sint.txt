@@ -1,0 +1,2 @@
+Linha: 15 Recebido: ')' Esperado: IDE
+Linha: 25 Recebido: 'i' Esperado: '='
