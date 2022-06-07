@@ -23,7 +23,7 @@ public class AnalisadorSintatico {
     }
 
     //<Start> ::= 'program' Identifier ';' <GlobalStatement>
-    public void program() {
+    public void Start() {
         if (listarTokens.getLexema().equals("program")) {
             if (listarTokens.getTipo().equals("Identificador")) {
                 if (listarTokens.getLexema().equals(";")) {
@@ -55,14 +55,28 @@ public class AnalisadorSintatico {
 
     //<VarList>::= <VarDeclaration> <VarList1> | '}'
     private void VarList() {
+        if ((listarTokens() != null)       {
+            VarDeclaration();
+            VarList1();
+        }
     }
 
     //<VarList1>::= <VarDeclaration> <VarList1> | '}'
     private void VarList1() {
+        if ((listarTokens() != null)       {
+            VarDeclaration();
+            VarList1();
+        }
     }
 
     //<VarDeclaration>::= <VarType> Identifier <VarDeclaration1>
     private void VarDeclaration() {
+        if (listarTokens.contains(atual().getLexema())) {
+            if (listarTokens.getTipo().equals("Identificador")) {
+                VarDeclaration1();
+            }
+
+        }
     }
 
     //<VarDeclaration1>::= ',' Identifier <VarDeclaration1> | ';'
