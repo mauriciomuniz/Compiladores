@@ -25,7 +25,7 @@ public class AnalisadorSintatico {
     //<Start> ::= 'program' Identifier ';' <GlobalStatement>
     public void program() {
         if (listarTokens.getLexema().equals("program")) {
-            if (listarTokens.getTipo().equals("Identificador")                       {
+            if (listarTokens.getTipo().equals("Identificador")) {
                 if (listarTokens.getLexema().equals(";")) {
                     globalStatement();
                 }
@@ -72,5 +72,51 @@ public class AnalisadorSintatico {
     // Declaracao Const
     //<ConstStatement> ::= 'const' '{' <ConstList>
     private void ConstStatement() {
+    }
+
+    //<ConstList>::= <ConstDeclaration> <ConstList1>
+    private void ConstList() {
+    }
+
+    //<ConstList1> ::= <ConstDeclaration> <ConstList1> | '}'
+    private void ConstList1() {
+    }
+
+    //Checar <ConstType>!
+    //<ConstDeclaration> ::= <ConstType> Identifier '=' <Value> <ConstDeclaration1>
+    private void ConstDeclaration() {
+    }
+
+    //<Value>  ::= Decimal | RealNumber | StringLiteral | Identifier <ValueRegister> | Char | Boolean
+    private void Value() {
+    }
+
+    // Declaracao Register
+    // <ValueRegister> ::= '.' Identifier |
+    private void Value() {
+    }
+
+    // <RegisterStatementMultiple> ::= <RegisterStatement> |
+    private void RegisterStatementMultiple() {
+    }
+
+    //<RegisterStatement> ::= 'register' Identifier '{' <RegisterList>
+    private void RegisterStatement() {
+    }
+
+    //<RegisterList> ::= <RegisterDeclaration> <RegisterList1>
+    private void RegisterList() {
+    }
+
+    //<RegisterList1> ::= <RegisterDeclaration> <RegisterList1> | '}' <RegisterStatementMultiple>
+    private void RegisterList1() {
+    }
+
+    //<RegisterDeclaration> ::= <ConstType> Identifier <RegisterDeclaration1>
+    private void RegisterDeclaration() {
+    }
+
+    //<RegisterDeclaration1> ::= ',' Identifier <RegisterDeclaration1> | ';'
+    private void RegisterDeclaration1() {
     }
 }
