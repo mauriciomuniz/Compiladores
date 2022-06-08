@@ -1,5 +1,6 @@
 //Meta criar o analisador de program, register, var, const.
-package AnalisadorLexico;
+package AnalisadorLexico;       
+package AnalisadorLexico.Token;
 
 import java.util.ArrayList;
 
@@ -86,14 +87,29 @@ public class AnalisadorSintatico {
     // Declaracao Const
     //<ConstStatement> ::= 'const' '{' <ConstList>
     private void ConstStatement() {
+         if (listarTokens.getLexema().equals("const")) {
+            if (listarTokens.getLexema().equals("{")) {
+                ConstList();
+            }
+        }
+        
     }
 
     //<ConstList>::= <ConstDeclaration> <ConstList1>
     private void ConstList() {
+         if (listarTokens() != null)       {
+            ConstDeclaration();
+            ConstList1();
+        }
     }
 
     //<ConstList1> ::= <ConstDeclaration> <ConstList1> | '}'
     private void ConstList1() {
+        if (listarTokens() != null)       {
+            ConstDeclaration();
+            ConstList1();
+        }
+        
     }
 
     //Checar <ConstType>!
