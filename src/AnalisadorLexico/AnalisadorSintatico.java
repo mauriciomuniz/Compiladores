@@ -13,6 +13,8 @@ public class AnalisadorSintatico {
 
     private ArrayList<String> VarType;
     private ArrayList<Token> listarTokens;
+    private int posicaoAtual;
+    private int posicaoFinal;
 
     public AnalisadorSintatico() {
         VarType = new ArrayList<>();
@@ -21,6 +23,14 @@ public class AnalisadorSintatico {
         VarType.add("real");
         VarType.add("boolean");
         VarType.add("char");
+    }
+    
+    //pega o token atual --------- testado
+    public Token atual() {
+        if (posicaoAtual < posicaoFinal) {
+            return (Token) listarTokens.get(posicaoAtual);
+        }
+        return null;
     }
 
     //<Start> ::= 'program' Identifier ';' <GlobalStatement>
@@ -39,9 +49,9 @@ public class AnalisadorSintatico {
         VarStatement();
         ConstStatement();
         RegisterStatement();
-        ProcedureStatement();
-        FunctionStatement();
-        Main();
+       // ProcedureStatement();
+       // FunctionStatement();
+       // Main();
     }
 
     //Declaracao Variaveis
@@ -124,10 +134,33 @@ public class AnalisadorSintatico {
     //Checar <ConstType>!
     //<ConstDeclaration> ::= <ConstType> Identifier '=' <Value> <ConstDeclaration1>
     private void ConstDeclaration() {
-    }
+        
+        if (listarTokens.contains(atual().getLexema())) {
+            if (listarTokens.getTipo().equals("Identificador")) {
+                if (listarTokens.getLexema().equals("=")){
+                    if (listarTokens.getTipo().equals("Value")){
+                        ConstDeclaration1();
+                        }
+                    }
+                }
+                
+            }
+        }
+        
+    
 
     //<ConstDeclaration1> ::= ',' Identifier  '=' <Value> <ConstDeclaration1> | ';'
     private void ConstDeclaration1() {
+         if (listarTokens.getLexema().equals(",")) {
+            if (listarTokens.getTipo().equals("Identificador")) {
+                if (listarTokens.getLexema().equals("=")){
+                    if (listarTokens.getTipo().equals("Value")){
+                        ConstDeclaration1();
+                    }
+                }
+            }
+        } else if (listarTokens.getLexema().equals(";")) {
+        }
     }
 
     //<Value>  ::= Decimal | RealNumber | StringLiteral | Identifier <ValueRegister> | Char | Boolean
