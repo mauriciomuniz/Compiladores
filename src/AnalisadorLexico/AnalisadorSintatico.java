@@ -1,6 +1,5 @@
 //Meta criar o analisador de program, register, var, const.
 package AnalisadorLexico;
-package AnalisadorLexico.Token;
 
 import java.util.ArrayList;
 
@@ -13,19 +12,34 @@ public class AnalisadorSintatico {
 
     private ArrayList<String> VarType;
     private ArrayList<Token> listarTokens;
+    private ArrayList<String> listarErros;
     private int posicaoAtual;
     private int posicaoFinal;
+    private Token ultimo, penultimo;
 
     public AnalisadorSintatico() {
         VarType = new ArrayList<>();
+        listarErros = new ArrayList<>();
+        posicaoAtual = 0;
         VarType.add("integer");
         VarType.add("string");
         VarType.add("real");
         VarType.add("boolean");
         VarType.add("char");
     }
-    
-    //pega o token atual --------- testado
+
+    //A testar....
+    public void analiseSintatica(ArrayList<Token> tokens) {
+        listarTokens = tokens;
+        penultimo = listarTokens.get(listarTokens.size() - 1);
+        ultimo = new Token(listarTokens.size(), penultimo.getAux(), "$", "$");
+        listarTokens.add(ultimo);
+        posicaoFinal = listarTokens.size();
+
+        Start();
+    }
+
+    //pega o token atual --------- A testar....
     public Token atual() {
         if (posicaoAtual < posicaoFinal) {
             return (Token) listarTokens.get(posicaoAtual);
@@ -33,11 +47,41 @@ public class AnalisadorSintatico {
         return null;
     }
 
+    //pega o proximo token ------- A testar.... Análise de Erros
+    public Token seguinte() {
+        if (posicaoAtual < posicaoFinal) {
+            if (listarTokens.get(posicaoAtual + 1) != null) {
+                return (Token) listarTokens.get(posicaoAtual + 1);
+            }
+        }
+        return null;
+    }
+
+    //pega o token de sincronização ----------- A testar....
+    public void sincronizacao(String sinc) {
+        while (!(atual().getLexema().equals(sinc))) {
+            posicaoAtual = posicaoAtual + 1;
+        }
+    }
+
+    //Pegar a lista de erros
+    public ArrayList<String> getListarErros() {
+        return listarErros;
+    }
+
+    //Adicionar o erro na lista
+    private void addErro(Token token, String erro) {
+        listarErros.add("Linha: " + token.getLinha() + " Recebido: " + "'" + token.getLexema() + "'" + " Esperado: " + erro);
+    }
+
     //<Start> ::= 'program' Identifier ';' <GlobalStatement>
     public void Start() {
-        if (listarTokens.getLexema().equals("program")) {
-            if (listarTokens.getTipo().equals("Identificador")) {
-                if (listarTokens.getLexema().equals(";")) {
+        if (atual().getLexema().equals("program")) {
+            posicaoAtual = posicaoAtual + 1;
+            if (atual().getTipo().equals("Identificador")) {
+                posicaoAtual = posicaoAtual + 1;
+                if (atual().getLexema().equals(";")) {
+                    posicaoAtual = posicaoAtual + 1;
                     globalStatement();
                 }
             }
@@ -49,16 +93,18 @@ public class AnalisadorSintatico {
         VarStatement();
         ConstStatement();
         RegisterStatement();
-       // ProcedureStatement();
-       // FunctionStatement();
-       // Main();
+        // ProcedureStatement();
+        // FunctionStatement();
+        // Main();
     }
 
     //Declaracao Variaveis
     //<VarStatement>::= 'var' '{' <VarList>
     private void VarStatement() {
-        if (listarTokens.getLexema().equals("var")) {
-            if (listarTokens.getLexema().equals("{")) {
+        if (atual().getLexema().equals("var")) {
+            posicaoAtual = posicaoAtual + 1;
+            if (atual().getLexema().equals("{")) {
+                posicaoAtual = posicaoAtual + 1;
                 VarList();
             }
         }
@@ -66,26 +112,32 @@ public class AnalisadorSintatico {
 
     //<VarList>::= <VarDeclaration> <VarList1> | '}'
     private void VarList() {
-        if ((listarTokens != null)) {
+        if ((atual() != null)) {
+            posicaoAtual = posicaoAtual + 1;
             VarDeclaration();
             VarList1();
-        } else if (listarTokens.getLexema().equals("}")) {
+        } else if (atual().getLexema().equals("}")) {
+            posicaoAtual = posicaoAtual + 1;
         }
     }
 
     //<VarList1>::= <VarDeclaration> <VarList1> | '}'
     private void VarList1() {
-        if ((listarTokens != null)) {
+        if ((atual() != null)) {
+            posicaoAtual = posicaoAtual + 1;
             VarDeclaration();
             VarList1();
-        } else if (listarTokens.getLexema().equals("}")) {
+        } else if (atual().getLexema().equals("}")) {
+            posicaoAtual = posicaoAtual + 1;
         }
     }
 
     //<VarDeclaration>::= <VarType> Identifier <VarDeclaration1>
     private void VarDeclaration() {
-        if (listarTokens.contains(atual().getLexema())) {
-            if (listarTokens.getTipo().equals("Identificador")) {
+        if (VarType.contains(atual().getLexema())) {
+            posicaoAtual = posicaoAtual + 1;
+            if (atual().getTipo().equals("Identificador")) {
+                posicaoAtual = posicaoAtual + 1;
                 VarDeclaration1();
             }
 
@@ -94,20 +146,24 @@ public class AnalisadorSintatico {
 
     //<VarDeclaration1>::= ',' Identifier <VarDeclaration1> | ';'
     private void VarDeclaration1() {
-        if (listarTokens.getLexema().equals(",")) {
-            if (listarTokens.getTipo().equals("Identificador")) {
+        if (atual().getLexema().equals(",")) {
+            posicaoAtual = posicaoAtual + 1;
+            if (atual().getTipo().equals("Identificador")) {
+                posicaoAtual = posicaoAtual + 1;
                 VarDeclaration1();
             }
-        } else if (listarTokens.getLexema().equals(";")) {
-
+        } else if (atual().getLexema().equals(";")) {
+            posicaoAtual = posicaoAtual + 1;
         }
     }
 
     // Declaracao Const
     //<ConstStatement> ::= 'const' '{' <ConstList>
     private void ConstStatement() {
-        if (listarTokens.getLexema().equals("const")) {
-            if (listarTokens.getLexema().equals("{")) {
+        if (atual().getLexema().equals("const")) {
+            posicaoAtual = posicaoAtual + 1;
+            if (atual().getLexema().equals("{")) {
+                posicaoAtual = posicaoAtual + 1;
                 ConstList();
             }
         }
@@ -116,7 +172,8 @@ public class AnalisadorSintatico {
 
     //<ConstList>::= <ConstDeclaration> <ConstList1>
     private void ConstList() {
-        if (listarTokens() != null) {
+        if (atual() != null) {
+            posicaoAtual = posicaoAtual + 1;
             ConstDeclaration();
             ConstList1();
         }
@@ -124,7 +181,8 @@ public class AnalisadorSintatico {
 
     //<ConstList1> ::= <ConstDeclaration> <ConstList1> | '}'
     private void ConstList1() {
-        if (listarTokens() != null) {
+        if (atual() != null) {
+            posicaoAtual = posicaoAtual + 1;
             ConstDeclaration();
             ConstList1();
         }
@@ -134,66 +192,80 @@ public class AnalisadorSintatico {
     //Checar <ConstType>!
     //<ConstDeclaration> ::= <ConstType> Identifier '=' <Value> <ConstDeclaration1>
     private void ConstDeclaration() {
-        
-        if (listarTokens.contains(atual().getLexema())) {
-            if (listarTokens.getTipo().equals("Identificador")) {
-                if (listarTokens.getLexema().equals("=")){
-                    if (listarTokens.getTipo().equals("Value")){
+
+        if (VarType.contains(atual().getLexema())) {
+            if (atual().getTipo().equals("Identificador")) {
+                posicaoAtual = posicaoAtual + 1;
+                if (atual().getLexema().equals("=")) {
+                    posicaoAtual = posicaoAtual + 1;
+                    if (atual().getTipo().equals("Value")) {
+                        posicaoAtual = posicaoAtual + 1;
                         ConstDeclaration1();
-                        }
                     }
                 }
-                
             }
+
         }
-        
-    
+    }
 
     //<ConstDeclaration1> ::= ',' Identifier  '=' <Value> <ConstDeclaration1> | ';'
     private void ConstDeclaration1() {
-         if (listarTokens.getLexema().equals(",")) {
-            if (listarTokens.getTipo().equals("Identificador")) {
-                if (listarTokens.getLexema().equals("=")){
-                    if (listarTokens.getTipo().equals("Value")){
+        if (atual().getLexema().equals(",")) {
+            posicaoAtual = posicaoAtual + 1;
+            if (atual().getTipo().equals("Identificador")) {
+                posicaoAtual = posicaoAtual + 1;
+                if (atual().getLexema().equals("=")) {
+                    posicaoAtual = posicaoAtual + 1;
+                    if (atual().getTipo().equals("Value")) {
+                        posicaoAtual = posicaoAtual + 1;
                         ConstDeclaration1();
                     }
                 }
             }
-        } else if (listarTokens.getLexema().equals(";")) {
+        } else if (atual().getLexema().equals(";")) {
+            posicaoAtual = posicaoAtual + 1;
         }
     }
 
     //<Value>  ::= Decimal | RealNumber | StringLiteral | Identifier <ValueRegister> | Char | Boolean
     private void Value() {
-        if (listarTokens.getTipo().equals("Identificador")) {
+        if (atual().getTipo().equals("Identificador")) {
+            posicaoAtual = posicaoAtual + 1;
             ValueRegister();
-        } else if ((listarTokens != null) && (listarTokens.getTipo().equals("Decimal")
-                || listarTokens.getTipo().equals("RealNumber") || listarTokens.getTipo().equals("StringLiteral")
-                || listarTokens.getLexema().equals("Char") || listarTokens.getLexema().equals("Boolean"))) {
+        } else if ((atual() != null) && (atual().getTipo().equals("Decimal")
+                || atual().getTipo().equals("RealNumber") || atual().getTipo().equals("StringLiteral")
+                || atual().getLexema().equals("Char") || atual().getLexema().equals("Boolean"))) {
+            posicaoAtual = posicaoAtual + 1;
         }
     }
 
     // Declaracao Register
     // <ValueRegister> ::= '.' Identifier |
     private void ValueRegister() {
-        if ((listarTokens != null) && listarTokens.getLexema().equals(".")) {
-            if ((listarTokens != null) && listarTokens.getTipo().equals("Identificador")) {
+        if ((atual() != null) && atual().getLexema().equals(".")) {
+            posicaoAtual = posicaoAtual + 1;
+            if ((atual() != null) && atual().getTipo().equals("Identificador")) {
+                posicaoAtual = posicaoAtual + 1;
             }
         }
     }
 
     // <RegisterStatementMultiple> ::= <RegisterStatement> |
     private void RegisterStatementMultiple() {
-        if ((listarTokens != null)) {
+        if ((atual() != null)) {
+            posicaoAtual = posicaoAtual + 1;
             RegisterStatement();
         }
     }
 
     //<RegisterStatement> ::= 'register' Identifier '{' <RegisterList>
     private void RegisterStatement() {
-        if (listarTokens.getLexema().equals("register")) {
-            if (listarTokens.getTipo().equals("Identificador")) {
-                if (listarTokens.getLexema().equals("{")) {
+        if ((atual() != null) && atual().getLexema().equals("register")) {
+            posicaoAtual = posicaoAtual + 1;
+            if ((atual() != null) && atual().getTipo().equals("Identificador")) {
+                posicaoAtual = posicaoAtual + 1;
+                if ((atual() != null) && atual().getLexema().equals("{")) {
+                    posicaoAtual = posicaoAtual + 1;
                     RegisterList();
                 }
             }
@@ -202,24 +274,30 @@ public class AnalisadorSintatico {
 
     //<RegisterList> ::= <RegisterDeclaration> <RegisterList1>
     private void RegisterList() {
-        RegisterDeclaration();
-        RegisterList1();
+        if ((atual() != null)) {
+            RegisterDeclaration();
+            RegisterList1();
+        }
     }
 
     //<RegisterList1> ::= <RegisterDeclaration> <RegisterList1> | '}' <RegisterStatementMultiple>
     private void RegisterList1() {
-        if ((listarTokens != null)) {
+        if ((atual() != null)) {
+            posicaoAtual = posicaoAtual + 1;
             RegisterDeclaration();
             RegisterList1();
-        } else if (listarTokens.getLexema().equals("}")) {
+        } else if ((atual() != null) && atual().getLexema().equals("}")) {
+            posicaoAtual = posicaoAtual + 1;
             RegisterStatementMultiple();
         }
     }
 
     //<RegisterDeclaration> ::= <ConstType> Identifier <RegisterDeclaration1>
     private void RegisterDeclaration() {
-        if (listarTokens.contains(atual().getLexema())) {
-            if (listarTokens.getTipo().equals("Identificador")) {
+        if ((atual() != null) && VarType.contains(atual().getLexema())) {
+            posicaoAtual = posicaoAtual + 1;
+            if (atual().getTipo().equals("Identificador")) {
+                posicaoAtual = posicaoAtual + 1;
                 RegisterDeclaration1();
             }
         }
@@ -227,11 +305,14 @@ public class AnalisadorSintatico {
 
     //<RegisterDeclaration1> ::= ',' Identifier <RegisterDeclaration1> | ';'
     private void RegisterDeclaration1() {
-        if (listarTokens.getLexema().equals(",")) {
-            if (listarTokens.getTipo().equals("Identificador")) {
+        if (atual().getLexema().equals(",")) {
+            posicaoAtual = posicaoAtual + 1;
+            if (atual().getTipo().equals("Identificador")) {
+                posicaoAtual = posicaoAtual + 1;
                 RegisterDeclaration1();
             }
-        } else if (listarTokens.getLexema().equals(";")) {
+        } else if (atual().getLexema().equals(";")) {
+            posicaoAtual = posicaoAtual + 1;
         }
     }
 }

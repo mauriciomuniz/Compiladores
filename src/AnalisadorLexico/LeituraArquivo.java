@@ -24,7 +24,7 @@ import java.util.regex.Pattern;
 public class LeituraArquivo {
 
     private String localFile;
-    //private String[] nomeArquivo;
+    private String[] nomeArquivo;
     Pattern patternEndFile = Pattern.compile("\\d+");
 
     /**
@@ -59,7 +59,7 @@ public class LeituraArquivo {
         ArrayList<String> code;
         try ( Scanner scanner = new Scanner(new FileReader("input/" + localFile))) {
             this.localFile = localFile;
-            //nomeArquivo = this.localFile.split(".txt");
+            nomeArquivo = this.localFile.split(".txt");
             code = new ArrayList<>();
 
             while (scanner.hasNextLine()) {
@@ -99,6 +99,22 @@ public class LeituraArquivo {
                 erros.forEach((erro) -> {
                     gravar.println(erro);
                 });
+            }
+        }
+    }
+
+    void escreverArquivoSintatico(ArrayList<String> listarErros) throws IOException {
+        try ( FileWriter file = new FileWriter("output/" + "\\saida" + this.nomeArquivo[0] + "-sint.txt", false)) {
+            PrintWriter gravar = new PrintWriter(file);
+
+            if (listarErros.isEmpty()) {
+                gravar.println("\n Nao existem erros Sintaticos");
+            } else {
+
+                for (int i = 0; i < listarErros.size(); i++) {
+                    gravar.println(listarErros.get(i));
+                }
+
             }
         }
     }
