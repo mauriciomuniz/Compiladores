@@ -93,7 +93,7 @@ public class AnalisadorSintatico {
         VarStatement();
         ConstStatement();
         RegisterStatement();
-        // ProcedureStatement();
+        ProcedureStatement();
         // FunctionStatement();
         // Main();
     }
@@ -314,5 +314,89 @@ public class AnalisadorSintatico {
         } else if (atual().getLexema().equals(";")) {
             posicaoAtual = posicaoAtual + 1;
         }
+    }
+
+    // Declaração Function e Procedure 
+    //<ProcedureStatement> ::= 'procedure' Identifier '(' <ParameterProcedure> '{' <LocalStatement> <ProcedureStatement1> |
+    private void ProcedureStatement() {
+        if ((atual() != null) && atual().getLexema().equals("procedure")) {
+            posicaoAtual = posicaoAtual + 1;
+            if (atual().getTipo().equals("Identificador")) {
+                posicaoAtual = posicaoAtual + 1;
+                if (atual().getLexema().equals("(")) {
+                    posicaoAtual = posicaoAtual + 1;
+                    ParameterProcedure();
+                    if (atual().getLexema().equals("{")) {
+                        posicaoAtual = posicaoAtual + 1;
+                        LocalStatement();
+                        ProcedureStatement1();
+                    }
+                }
+            }
+        }
+    }
+
+    //<ParameterProcedure> ::= <VarType> Identifier <ParameterListProcedure> | ')'
+    private void ParameterProcedure() {
+        if (VarType.contains(atual().getLexema())) {
+            posicaoAtual = posicaoAtual + 1;
+            if (atual().getTipo().equals("Identificador")) {
+                posicaoAtual = posicaoAtual + 1;
+                ParameterListProcedure();
+            }
+        } else if (atual().getLexema().equals(")")) {
+            posicaoAtual = posicaoAtual + 1;
+        }
+    }
+
+    //<ParameterListProcedure> ::=   ',' <ParameterProcedure> |  ')'  
+    private void ParameterListProcedure() {
+        if (atual().getLexema().equals(",")) {
+            posicaoAtual = posicaoAtual + 1;
+            ParameterProcedure();
+        } else if (atual().getLexema().equals(")")) {
+            posicaoAtual = posicaoAtual + 1;
+        }
+    }
+
+    //<LocalStatement> ::= <VarStatement> <LocalCommands>
+    private void LocalStatement() {
+        VarStatement();
+        LocalCommands();
+    }
+
+    //<ProcedureStatement1> ::= '}' | '}' 'procedure' Identifier '(' <ParameterProcedure> '{' <LocalStatement>  <ProcedureStatement1>
+    private void ProcedureStatement1() {
+        if (atual().getLexema().equals("}")) {
+            posicaoAtual = posicaoAtual + 1;
+        } else if (atual().getLexema().equals("}")) {
+            posicaoAtual = posicaoAtual + 1;
+            if (atual().getLexema().equals("procedure")) {
+                posicaoAtual = posicaoAtual + 1;
+                if (atual().getTipo().equals("Identificador")) {
+                    posicaoAtual = posicaoAtual + 1;
+                    if (atual().getLexema().equals("(")) {
+                        posicaoAtual = posicaoAtual + 1;
+                        ParameterProcedure();
+                        if (atual().getLexema().equals("{")) {
+                            posicaoAtual = posicaoAtual + 1;
+                            LocalStatement();
+                            ProcedureStatement1();
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    //<LocalCommands> ::= <IfDecs> <LocalCommands>
+    //              | <WriteDecs> <LocalCommands>
+    //              | <ReadDecs> <LocalCommands>
+    //              | <WhileDecs> <LocalCommands>
+    //              | <Assigment> <LocalCommands>
+    //              | <FunctionCall> <LocalCommands>
+    //              | <ProcedureCall> <LocalCommands>
+    //              |
+    private void LocalCommands() {
     }
 }
