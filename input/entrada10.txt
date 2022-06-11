@@ -20,68 +20,68 @@ register Pessoa
 
 procedure teste1(integer algo, boolean ab)
 {
-	var
-	{
-    		integer cont;
-	}	
-	read(abc);
+    var
+    {
+        integer cont;
+    }	
+    read(abc);
 }
 
 procedure teste1() {
-	var{}	
-	read(abc);
+    var{}	
+    read(abc);
 }
 function teste1(): integer {
-	var
-	{
-    		integer cont;
-	}
+    var
+    {
+        integer cont;
+    }
 	
-	read(abc);
-	return 1.23;
+    read(abc);
+    return 1.23;
 }
 function teste1(integer idade): boolean {
-	var {}
-	
-	if (idade && MAXIDADE) {
-		idade++;
-	}
-	return false;
+    var {}
+
+    if (idade && MAXIDADE) {
+        idade++;
+    }
+    return false;
 }
 function teste1(integer algo, boolean ab): string {
-	var
-	{
-    		integer cont;
-	}	
-	read(abc);
-	j_ = 2;
-	k_aa = 1 + 2;
-	a = b + 4;
-	e = 3 + c;
-	e = c + c;
-	e = c++;
-	e = 3 - c;
-	e = 3 * 6;
-	e = 3 / 3;
-	q = 2 > 1;
-	q = 2 >= 1;
-	q = 2 < 1;
-	q = 2 <= 1;
-	q = 2 != 1;
-	q = !true;
-	q = !a;
-	q = true && false;
-	q = a && true;
-	q = true || false;
-	a = false || bc;
-	a = "testeee";
-	a = 'a';
-	a.c = 2;
-	a = pessoa.idade;
-	result = calculate(3, 2);
-	process(2);
+    var
+    {
+        integer cont;
+    }	
+    read(abc);
+    j_ = 2;
+    k_aa = 1 + 2;
+    a = b + 4;
+    e = 3 + c;
+    e = c + c;
+    e = c++;
+    e = 3 - c;
+    e = 3 * 6;
+    e = 3 / 3;
+    q = 2 > 1;
+    q = 2 >= 1;
+    q = 2 < 1;
+    q = 2 <= 1;
+    q = 2 != 1;
+    q = !true;
+    q = !a;
+    q = true && false;
+    q = a && true;
+    q = true || false;
+    a = false || bc;
+    a = "testeee";
+    a = 'a';
+    a.c = 2;
+    a = pessoa.idade;
+    result = calculate(3, 2);
+    process(2);
 
-	return ab;
+    return ab;
 }
 
 main
@@ -100,10 +100,10 @@ main
     write("Digite a quantidade de pessoas: ");
     read (qtd);
 	if ( cont && true || a < b) {
-		read(p.nome);
+            read(p.nome);
 	}
 	if ( a > b || a < b) {
-		read(p.nome);
+            read(p.nome);
 	}	
 
     while (cont < qtd)
@@ -119,11 +119,11 @@ main
 
         if (resposta == true)
         {
-        	write("Pode doar sangue!");
-            	qtd = qtd + 1;
-		if (a && false) {
-			c = 3 + 4;
-		}
+            write("Pode doar sangue!");
+            qtd = qtd + 1;
+            if (a && false) {
+                    c = 3 + 4;
+            }
         }
 
         else
@@ -134,10 +134,10 @@ main
         cont = cont+1;
     }
 	while (a && true) {
-		qtd = qtd + 1;
+            qtd = qtd + 1;
 	}
 	while (3 && 6) {
-		qtd = qtd + 1;
+            qtd = qtd + 1;
 	}
 
     write ("A quantidade de pessoas que puderam doar sangue foi de ", qtd, " de um total de ", cont, " pessoas."); 
