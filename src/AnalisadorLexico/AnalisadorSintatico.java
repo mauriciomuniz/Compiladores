@@ -127,14 +127,14 @@ public class AnalisadorSintatico {
             posicaoAtual = posicaoAtual + 1;
             VarDeclaration();
             VarList1();
-        } else if (atual().getLexema().equals("}")) {
+        } else if ((atual() != null) && atual().getLexema().equals("}")) {
             posicaoAtual = posicaoAtual + 1;
         }
     }
 
     //<VarDeclaration>::= <VarType> Identifier <VarDeclaration1>
     private void VarDeclaration() {
-        if (VarType.contains(atual().getLexema())) {
+        if ((atual() != null) && VarType.contains(atual().getLexema())) {
             posicaoAtual = posicaoAtual + 1;
             if (atual().getTipo().equals("Identificador")) {
                 posicaoAtual = posicaoAtual + 1;
@@ -160,7 +160,7 @@ public class AnalisadorSintatico {
     // Declaracao Const
     //<ConstStatement> ::= 'const' '{' <ConstList>
     private void ConstStatement() {
-        if (atual().getLexema().equals("const")) {
+        if ((atual() != null) && atual().getLexema().equals("const")) {
             posicaoAtual = posicaoAtual + 1;
             if (atual().getLexema().equals("{")) {
                 posicaoAtual = posicaoAtual + 1;
