@@ -90,7 +90,7 @@ public class AnalisadorSintatico {
                     globalStatement();
                 } else {
                     addErro(atual(), "';'");
-                    System.out.println(atual().getLinha());
+                    //System.out.println(atual().getLinha());
                     if ((seguinte() != null) && seguinte().getLexema().equals(";")) {
                         posicaoAtual = posicaoAtual + 1;
                         globalStatement();
@@ -116,11 +116,222 @@ public class AnalisadorSintatico {
                 }
             } else {
                 addErro(atual(), "Identificador");
-                System.out.println(atual().getLinha());
+                //System.out.println(atual().getLinha());                
                 if ((seguinte() != null) && seguinte().getTipo().equals("Identificador")) {
                     posicaoAtual = posicaoAtual + 1;
+                    if (atual().getLexema().equals(";")) {
+                        posicaoAtual = posicaoAtual + 1;
+                        globalStatement();
+                    } else {
+                        addErro(atual(), "';'");
+                        //System.out.println(atual().getLinha());
+                        if ((seguinte() != null) && seguinte().getLexema().equals(";")) {
+                            posicaoAtual = posicaoAtual + 1;
+                            globalStatement();
+                        } else {
+                            if (seguinte().getLexema().equals("var")) {
+                                globalStatement();
+                            } else {
+                                posicaoAtual = posicaoAtual + 1;
+                                while (!(atual().getLexema().equals(";") || (atual().getLexema().equals("var")))) {
+                                    addErro(atual(), "';'");
+                                    posicaoAtual = posicaoAtual + 1;
+                                }
+                                switch (atual().getLexema()) {
+                                    case "$":
+                                        addErro(atual(), "Fim de programa");
+                                        break;
+                                    default:
+                                        globalStatement();
+                                        break;
+                                }
+                            }
+                        }
+                    }
                 } else {
+                    if (seguinte().getTipo().equals("Identificador")) {
+                        posicaoAtual = posicaoAtual + 1;
+                    } else {
+                        posicaoAtual = posicaoAtual + 1;
+                        while (!(atual().getTipo().equals("Identificador")
+                                || atual().getLexema().equals(";")
+                                || atual().getLexema().equals("var"))) {
+                            addErro(atual(), "'Identificador'");
+                            posicaoAtual = posicaoAtual + 1;
+                        }
+                        posicaoAtual = posicaoAtual + 1;
 
+                        if (atual().getLexema().equals("$")) {
+                            addErro(atual(), "Fim de programa");
+                        } else if (atual().getLexema().equals(";")) {
+                            posicaoAtual = posicaoAtual + 1;
+                            globalStatement();
+                        } else {
+                            addErro(atual(), "';'");
+                            //System.out.println(atual().getLinha());
+                            if ((seguinte() != null) && seguinte().getLexema().equals(";")) {
+                                posicaoAtual = posicaoAtual + 1;
+                                globalStatement();
+                            } else {
+                                if (seguinte().getLexema().equals("var")) {
+                                    globalStatement();
+                                } else {
+                                    posicaoAtual = posicaoAtual + 1;
+                                    while (!(atual().getLexema().equals(";") || (atual().getLexema().equals("var")))) {
+                                        addErro(atual(), "';'");
+                                        posicaoAtual = posicaoAtual + 1;
+                                    }
+                                    switch (atual().getLexema()) {
+                                        case "$":
+                                            addErro(atual(), "Fim de programa");
+                                            break;
+                                        default:
+                                            globalStatement();
+                                            break;
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                }
+            }
+        } else {
+            addErro(atual(), "'program'");
+            if ((seguinte() != null) && seguinte().getLexema().equals("program")) {
+                posicaoAtual = posicaoAtual + 1;
+                posicaoAtual = posicaoAtual + 1;
+                if (atual().getTipo().equals("Identificador")) {
+                    posicaoAtual = posicaoAtual + 1;
+                    if (atual().getLexema().equals(";")) {
+                        posicaoAtual = posicaoAtual + 1;
+                        globalStatement();
+                    } else {
+                        addErro(atual(), "';'");
+                        //System.out.println(atual().getLinha());
+                        if ((seguinte() != null) && seguinte().getLexema().equals(";")) {
+                            posicaoAtual = posicaoAtual + 1;
+                            globalStatement();
+                        } else {
+                            if (seguinte().getLexema().equals("var")) {
+                                globalStatement();
+                            } else {
+                                posicaoAtual = posicaoAtual + 1;
+                                while (!(atual().getLexema().equals(";") || (atual().getLexema().equals("var")))) {
+                                    addErro(atual(), "';'");
+                                    posicaoAtual = posicaoAtual + 1;
+                                }
+                                switch (atual().getLexema()) {
+                                    case "$":
+                                        addErro(atual(), "Fim de programa");
+                                        break;
+                                    default:
+                                        globalStatement();
+                                        break;
+                                }
+                            }
+                        }
+                    }
+                } else {
+                    addErro(atual(), "Identificador");
+                    //System.out.println(atual().getLinha());                
+                    if ((seguinte() != null) && seguinte().getTipo().equals("Identificador")) {
+                        posicaoAtual = posicaoAtual + 1;
+                        if (atual().getLexema().equals(";")) {
+                            posicaoAtual = posicaoAtual + 1;
+                            globalStatement();
+                        } else {
+                            addErro(atual(), "';'");
+                            //System.out.println(atual().getLinha());
+                            if ((seguinte() != null) && seguinte().getLexema().equals(";")) {
+                                posicaoAtual = posicaoAtual + 1;
+                                globalStatement();
+                            } else {
+                                if (seguinte().getLexema().equals("var")) {
+                                    globalStatement();
+                                } else {
+                                    posicaoAtual = posicaoAtual + 1;
+                                    while (!(atual().getLexema().equals(";") || (atual().getLexema().equals("var")))) {
+                                        addErro(atual(), "';'");
+                                        posicaoAtual = posicaoAtual + 1;
+                                    }
+                                    switch (atual().getLexema()) {
+                                        case "$":
+                                            addErro(atual(), "Fim de programa");
+                                            break;
+                                        default:
+                                            globalStatement();
+                                            break;
+                                    }
+                                }
+                            }
+                        }
+                    } else {
+                        if (seguinte().getTipo().equals("Identificador")) {
+                            posicaoAtual = posicaoAtual + 1;
+                        } else {
+                            posicaoAtual = posicaoAtual + 1;
+                            while (!(atual().getTipo().equals("Identificador")
+                                    || atual().getLexema().equals(";")
+                                    || atual().getLexema().equals("var"))) {
+                                addErro(atual(), "'Identificador'");
+                                posicaoAtual = posicaoAtual + 1;
+                            }
+                            posicaoAtual = posicaoAtual + 1;
+
+                            if (atual().getLexema().equals("$")) {
+                                addErro(atual(), "Fim de programa");
+                            } else if (atual().getLexema().equals(";")) {
+                                posicaoAtual = posicaoAtual + 1;
+                                globalStatement();
+                            } else {
+                                addErro(atual(), "';'");
+                                //System.out.println(atual().getLinha());
+                                if ((seguinte() != null) && seguinte().getLexema().equals(";")) {
+                                    posicaoAtual = posicaoAtual + 1;
+                                    globalStatement();
+                                } else {
+                                    if (seguinte().getLexema().equals("var")) {
+                                        globalStatement();
+                                    } else {
+                                        posicaoAtual = posicaoAtual + 1;
+                                        while (!(atual().getLexema().equals(";") || (atual().getLexema().equals("var")))) {
+                                            addErro(atual(), "';'");
+                                            posicaoAtual = posicaoAtual + 1;
+                                        }
+                                        switch (atual().getLexema()) {
+                                            case "$":
+                                                addErro(atual(), "Fim de programa");
+                                                break;
+                                            default:
+                                                globalStatement();
+                                                break;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+                    }
+                }
+            } else {
+                posicaoAtual = posicaoAtual + 1;
+                while (!(atual().getLexema().equals("program")
+                        || atual().getTipo().equals("Identificador")
+                        || atual().getLexema().equals(";")
+                        || atual().getLexema().equals("var"))) {
+                    addErro(atual(), "'program'");
+                    posicaoAtual = posicaoAtual + 1;
+
+                    if ((seguinte() != null) && atual().getLexema().equals("$")) {
+                        addErro(atual(), "Fim de programa");
+                    }
+                    
+                    
+                    
+                    // Falta terminar esta parte pra checar os erros depois do program
+                    
+                    
                 }
             }
         }

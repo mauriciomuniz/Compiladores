@@ -1,11 +1,10 @@
-01 PalavraReservada program
-01 Identificador teste
-01 Identificador test
-01 Delimitador ,
-01 Delimitador .
-01 PalavraReservada const
-01 Identificador afs
-01 PalavraReservada var
-01 Delimitador ;
+08 Numero 50
+08 Numero 60
+08 Delimitador ,
+08 Delimitador .
+08 PalavraReservada const
+08 PalavraReservada program
+08 Identificador teste
+08 Delimitador ;
 
  Nao apresentou erros lexicos neste arquivo

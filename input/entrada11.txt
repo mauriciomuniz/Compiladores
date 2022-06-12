@@ -1,1 +1,8 @@
-program teste test , . const afs var ;
+%program teste test , . const afs var ;
+%program 50 test , . const afs;
+%program 50 60 teste , . const teste ;
+%program 50 60 , . const ;
+%50 60 teste , . const teste ;
+%50 program teste , . const teste ;
+%50 60 , . const teste ;
+50 60 , . const program teste ;
