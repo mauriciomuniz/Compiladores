@@ -1,0 +1,5 @@
+Linha: 01 Recebido: 'test' Esperado: ';'
+Linha: 01 Recebido: ',' Esperado: ';'
+Linha: 01 Recebido: '.' Esperado: ';'
+Linha: 01 Recebido: 'const' Esperado: ';'
+Linha: 01 Recebido: 'afs' Esperado: ';'

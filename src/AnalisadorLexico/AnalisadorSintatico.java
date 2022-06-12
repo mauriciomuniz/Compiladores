@@ -31,12 +31,17 @@ public class AnalisadorSintatico {
     //A testar....
     public void analiseSintatica(ArrayList<Token> tokens) {
         listarTokens = tokens;
-        penultimo = listarTokens.get(listarTokens.size() - 1);
-        ultimo = new Token(listarTokens.size(), penultimo.getAux(), "$", "$");
-        listarTokens.add(ultimo);
-        posicaoFinal = listarTokens.size();
+        if (listarTokens.isEmpty()) {
+            System.out.println("-------- A lista de Tokens esta vazia -------------");
+        } else {
+            penultimo = listarTokens.get(listarTokens.size() - 1);
+            ultimo = new Token(listarTokens.size(), penultimo.getAux(), "$", "$");
+            listarTokens.add(ultimo);
+            posicaoFinal = listarTokens.size();
 
-        Start();
+            Start();
+        }
+
     }
 
     //pega o token atual --------- A testar....
@@ -49,7 +54,7 @@ public class AnalisadorSintatico {
 
     //pega o proximo token ------- A testar.... Análise de Erros
     public Token seguinte() {
-        if (posicaoAtual < posicaoFinal) {
+        if (posicaoAtual + 1 < posicaoFinal) {
             if (listarTokens.get(posicaoAtual + 1) != null) {
                 return (Token) listarTokens.get(posicaoAtual + 1);
             }
@@ -83,6 +88,39 @@ public class AnalisadorSintatico {
                 if (atual().getLexema().equals(";")) {
                     posicaoAtual = posicaoAtual + 1;
                     globalStatement();
+                } else {
+                    addErro(atual(), "';'");
+                    System.out.println(atual().getLinha());
+                    if ((seguinte() != null) && seguinte().getLexema().equals(";")) {
+                        posicaoAtual = posicaoAtual + 1;
+                        globalStatement();
+                    } else {
+                        if (seguinte().getLexema().equals("var")) {
+                            globalStatement();
+                        } else {
+                            posicaoAtual = posicaoAtual + 1;
+                            while (!(atual().getLexema().equals(";") || (atual().getLexema().equals("var")))) {
+                                addErro(atual(), "';'");
+                                posicaoAtual = posicaoAtual + 1;
+                            }
+                            switch (atual().getLexema()) {
+                                case "$":
+                                    addErro(atual(), "Fim de programa");
+                                    break;
+                                default:
+                                    globalStatement();
+                                    break;
+                            }
+                        }
+                    }
+                }
+            } else {
+                addErro(atual(), "Identificador");
+                System.out.println(atual().getLinha());
+                if ((seguinte() != null) && seguinte().getTipo().equals("Identificador")) {
+                    posicaoAtual = posicaoAtual + 1;
+                } else {
+
                 }
             }
         }
@@ -321,12 +359,12 @@ public class AnalisadorSintatico {
     private void ProcedureStatement() {
         if ((atual() != null) && atual().getLexema().equals("procedure")) {
             posicaoAtual = posicaoAtual + 1;
-            if (atual().getTipo().equals("Identificador")) {
+            if ((atual() != null) && atual().getTipo().equals("Identificador")) {
                 posicaoAtual = posicaoAtual + 1;
-                if (atual().getLexema().equals("(")) {
+                if ((atual() != null) && atual().getLexema().equals("(")) {
                     posicaoAtual = posicaoAtual + 1;
                     ParameterProcedure();
-                    if (atual().getLexema().equals("{")) {
+                    if ((atual() != null) && atual().getLexema().equals("{")) {
                         posicaoAtual = posicaoAtual + 1;
                         LocalStatement();
                         ProcedureStatement1();

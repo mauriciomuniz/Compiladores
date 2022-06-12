@@ -1,0 +1,11 @@
+01 PalavraReservada program
+01 Identificador teste
+01 Identificador test
+01 Delimitador ,
+01 Delimitador .
+01 PalavraReservada const
+01 Identificador afs
+01 PalavraReservada var
+01 Delimitador ;
+
+ Nao apresentou erros lexicos neste arquivo
