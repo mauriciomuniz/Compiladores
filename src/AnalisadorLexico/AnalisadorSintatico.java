@@ -411,7 +411,7 @@ public class AnalisadorSintatico {
     private void ConstStatement() {
         if ((atual() != null) && atual().getLexema().equals("const")) {
             posicaoAtual = posicaoAtual + 1;
-            if (atual().getLexema().equals("{")) {
+            if (atual()!= null && atual().getLexema().equals("{")) {
                 posicaoAtual = posicaoAtual + 1;
                 ConstList();
             }
@@ -434,6 +434,13 @@ public class AnalisadorSintatico {
             posicaoAtual = posicaoAtual + 1;
             ConstDeclaration();
             ConstList1();
+            if ((atual() != null) && (atual().getLexema().equals("}"))) {
+                                posicaoAtual = posicaoAtual + 1;
+
+                            } else {
+                                addErro(atual(), "'}'");
+                                System.out.println(atual().getLinha());
+                            }
         }
 
     }
@@ -459,13 +466,13 @@ public class AnalisadorSintatico {
 
     //<ConstDeclaration1> ::= ',' Identifier  '=' <Value> <ConstDeclaration1> | ';'
     private void ConstDeclaration1() {
-        if (atual().getLexema().equals(",")) {
+        if ((atual() != null) && atual().getLexema().equals(",")) {
             posicaoAtual = posicaoAtual + 1;
-            if (atual().getTipo().equals("Identificador")) {
+            if ((atual() != null) && atual().getTipo().equals("Identificador")) {
                 posicaoAtual = posicaoAtual + 1;
-                if (atual().getLexema().equals("=")) {
+                if ((atual() != null) && atual().getLexema().equals("=")) {
                     posicaoAtual = posicaoAtual + 1;
-                    if (atual().getTipo().equals("Value")) {
+                    if ((atual() != null) && atual().getTipo().equals("Value")) {
                         posicaoAtual = posicaoAtual + 1;
                         ConstDeclaration1();
                     }
@@ -623,7 +630,7 @@ public class AnalisadorSintatico {
     //<LocalStatement> ::= <VarStatement> <LocalCommands>
     private void LocalStatement() {
         VarStatement();
-        LocalCommands();
+       // LocalCommands();
     }
 
     //<ProcedureStatement1> ::= '}' | '}' 'procedure' Identifier '(' <ParameterProcedure> '{' <LocalStatement>  <ProcedureStatement1>
@@ -649,7 +656,48 @@ public class AnalisadorSintatico {
             }
         }
     }
-
+    
+    //<IfDecs> ::= 'if' '(' <AssignExpr> ')' '{' <LocalCommands> '}' <ElseDecs>                                                    
+    private void IfDecs() {
+        if ((atual() != null) && (atual().getLexema().equals("if"))) {
+            posicaoAtual = posicaoAtual + 1;
+            if ((atual() != null) && (atual().getLexema().equals("("))) {
+                posicaoAtual = posicaoAtual + 1;
+                AssingExpr();
+                if ((atual() != null) && (atual().getLexema().equals(")"))) {
+                    posicaoAtual = posicaoAtual + 1;
+                    if ((atual() != null) && (atual().getLexema().equals("{"))) {
+                        posicaoAtual = posicaoAtual + 1;
+                        LocalCommands();
+                        if ((atual() != null) && (atual().getLexema().equals("}"))) {
+                            posicaoAtual = posicaoAtual + 1;
+                            ElseDecs();
+                        }
+        
+                    }   
+                }   
+            } 
+        }   
+    }                   
+    //<ElseDecs>::= 'else' '{' <LocalCommands> '}' |
+    private void ElseDecs(){
+        if ((atual() != null) && (atual().getLexema().equals("else"))) {
+            posicaoAtual = posicaoAtual + 1;
+            if ((atual() != null) && (atual().getLexema().equals("{"))){
+                posicaoAtual = posicaoAtual + 1;
+                if ((atual() != null) && (atual().getLexema().equals("{"))) {
+                    posicaoAtual = posicaoAtual + 1;
+                    LocalCommands();
+                    if ((atual() != null) && (atual().getLexema().equals("}"))) {
+                            posicaoAtual = posicaoAtual + 1;
+                            ElseDecs();
+                    }
+                }
+            }
+        }
+    }
+    
+    
     //<LocalCommands> ::= <IfDecs> <LocalCommands>
     //              | <WriteDecs> <LocalCommands>
     //              | <ReadDecs> <LocalCommands>
@@ -658,6 +706,24 @@ public class AnalisadorSintatico {
     //              | <FunctionCall> <LocalCommands>
     //              | <ProcedureCall> <LocalCommands>
     //              |
+    
     private void LocalCommands() {
+        if ((atual() != null) && (atual().getLexema().equals("IfDecs"))){
+           IfDecs(); 
+        } else if ((atual() != null) && (atual().getLexema().equals("WriteDecs"))) {
+            WriteDecs();
+        } else if ((atual() != null) && (atual().getLexema().equals("ReadDecs"))) {
+            ReadDecs();
+        } else if ((atual() != null) && (atual().getLexema().equals("WhileDecs"))) {
+            WhileDecs();
+        } else if ((atual() != null) && (atual().getTipo().equals("Assigment"))) {
+            Assigment();
+        } else if ((atual() != null) && (atual().getTipo().equals("FunctionCall"))) {
+            FunctionCall();
+        }else if ((atual() != null) && (atual().getTipo().equals("ProcedureCall"))) {
+            ProcedureCall();
+        }
+
     }
 }
+
