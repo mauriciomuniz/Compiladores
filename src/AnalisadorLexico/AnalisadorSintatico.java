@@ -276,6 +276,18 @@ public class AnalisadorSintatico {
             posicaoAtual = posicaoAtual + 1;
         }
     }
+ /*   
+ private void Value() {
+        if (atual().getTipo().equals("Identificador")) {
+            posicaoAtual = posicaoAtual + 1;
+            ValueRegister();
+        } else if ((atual() != null) && (atual().getTipo().equals("Decimal")
+                || atual().getTipo().equals("RealNumber") || atual().getTipo().equals("StringLiteral")
+                || atual().getTipo().equals("Char") || atual().getTipo().equals("Boolean"))) {
+            posicaoAtual = posicaoAtual + 1;
+        }
+    }*/ //nessa parte aqui olhando pelo modelo base só colocariamos lexema pra 'true' ou 'false',
+        //como temos o boolean ele já decide um ou outro
 
     // Declaracao Register
     // <ValueRegister> ::= '.' Identifier |
