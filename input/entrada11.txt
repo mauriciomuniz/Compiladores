@@ -1,8 +1,23 @@
+%asf
+%program
+%program ;
+%program 6 7 ;
+%program 6 7 teste;
+%program teste;
+%program teste
+%program teste , 50
+%program 60 teste ;
+%program 60 teste 600 ;
 %program teste test , . const afs var ;
 %program 50 test , . const afs;
 %program 50 60 teste , . const teste ;
 %program 50 60 , . const ;
-%50 60 teste , . const teste ;
+%program 50 60 , . const
+%50 program teste;
+%50 program , teste;
+%50 program 60 teste ;
 %50 program teste , . const teste ;
-%50 60 , . const teste ;
-50 60 , . const program teste ;
+%50 60 program teste;
+%50 60 , . const program teste ;
+%50 60 , . const program 60 teste ;
+%50 60 , . const teste 80 afs;

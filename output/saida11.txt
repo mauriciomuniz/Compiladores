@@ -1,10 +1,2 @@
-08 Numero 50
-08 Numero 60
-08 Delimitador ,
-08 Delimitador .
-08 PalavraReservada const
-08 PalavraReservada program
-08 Identificador teste
-08 Delimitador ;
 
  Nao apresentou erros lexicos neste arquivo
