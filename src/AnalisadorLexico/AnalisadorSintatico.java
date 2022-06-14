@@ -79,7 +79,7 @@ public class AnalisadorSintatico {
         listarErros.add("Linha: " + token.getLinha() + " Recebido: " + "'" + token.getLexema() + "'" + " Esperado: " + erro);
     }
 
-    //---------------------------<Start> ::= 'program' Identifier ';' <GlobalStatement>------------------------------------------------
+    //---------------------------<Start> ::= 'program' Identifier ';' <GlobalStatement>---------------------------------------
     public void Start() {
         if (atual().getLexema().equals("program")) {
             posicaoAtual = posicaoAtual + 1;
@@ -854,6 +854,7 @@ public class AnalisadorSintatico {
         }
     }*/ //nessa parte aqui olhando pelo modelo base só colocariamos lexema pra 'true' ou 'false',
     //como temos o boolean ele já decide um ou outro
+    
     // Declaracao Register
     // <ValueRegister> ::= '.' Identifier |
     private void ValueRegister() {
@@ -950,36 +951,7 @@ public class AnalisadorSintatico {
             }
         }
     }
-
-    //<ParameterProcedure> ::= <VarType> Identifier <ParameterListProcedure> | ')'
-    private void ParameterProcedure() {
-        if (VarType.contains(atual().getLexema())) {
-            posicaoAtual = posicaoAtual + 1;
-            if (atual().getTipo().equals("Identificador")) {
-                posicaoAtual = posicaoAtual + 1;
-                ParameterListProcedure();
-            }
-        } else if (atual().getLexema().equals(")")) {
-            posicaoAtual = posicaoAtual + 1;
-        }
-    }
-
-    //<ParameterListProcedure> ::=   ',' <ParameterProcedure> |  ')'  
-    private void ParameterListProcedure() {
-        if (atual().getLexema().equals(",")) {
-            posicaoAtual = posicaoAtual + 1;
-            ParameterProcedure();
-        } else if (atual().getLexema().equals(")")) {
-            posicaoAtual = posicaoAtual + 1;
-        }
-    }
-
-    //<LocalStatement> ::= <VarStatement> <LocalCommands>
-    private void LocalStatement() {
-        VarStatement();
-        // LocalCommands();
-    }
-
+    
     //<ProcedureStatement1> ::= '}' | '}' 'procedure' Identifier '(' <ParameterProcedure> '{' <LocalStatement>  <ProcedureStatement1>
     private void ProcedureStatement1() {
         if (atual().getLexema().equals("}")) {
@@ -1004,6 +976,134 @@ public class AnalisadorSintatico {
         }
     }
 
+    //<ParameterProcedure> ::= <VarType> Identifier <ParameterListProcedure> | ')'
+    private void ParameterProcedure() {
+        if (VarType.contains(atual().getLexema())) {
+            posicaoAtual = posicaoAtual + 1;
+            if (atual().getTipo().equals("Identificador")) {
+                posicaoAtual = posicaoAtual + 1;
+                ParameterListProcedure();
+            }
+        } else if (atual().getLexema().equals(")")) {
+            posicaoAtual = posicaoAtual + 1;
+        }
+    }
+
+    //<ParameterListProcedure> ::=   ',' <ParameterProcedure> |  ')'  
+    private void ParameterListProcedure() {
+        if (atual().getLexema().equals(",")) {
+            posicaoAtual = posicaoAtual + 1;
+            ParameterProcedure();
+        } else if (atual().getLexema().equals(")")) {
+            posicaoAtual = posicaoAtual + 1;
+        }
+    }
+    
+    //<ParameterFunction> ::= <VarType> Identifier <ParameterListFunction> | ')' ':' <VarType>
+    
+    //<ParameterListFunction> ::=   ',' <ParameterFunction> |  ')' ':' <VarType> 
+    
+    //<FunctionStatement>::= 'function' Identifier  '(' <ParameterFunction> '{' <LocalStatement> 'return' <Value>';' <FunctionStatement1> |
+    
+    //<FunctionStatement1>::= '}' | '}' 'function' Identifier  '(' <ParameterFunction>  '{' <LocalStatement> 'return' <Value>';' <FunctionStatement1> 
+
+    //---------Atribuição
+    //<Assigment> ::= Identifier <AssigmentRegister>
+    
+    //<AssigmentRegister> ::= '.' Identifier '=' <AssigmentOperators> ';' | '=' <AssigmentOperators> ';' | '++' ';' | '--' ';'
+
+    //<AssigmentOperators> ::= <Value> | <BinaryExpression> | <UnaryExpression>
+
+    //! Expressão
+    //<BinaryExpression> ::= <AddendOperator> <BinaryExpressionContin> 
+    
+    //<BinaryExpressionContin> ::= '+' <AddendOperator> 
+    //                    | '-' <AddendOperator>
+    //                    | '*' <AddendOperator>
+    //                    | '/' <AddendOperator>
+    //                    | '++'
+    //                    | '--'
+    //                    | <RelationalExpression>
+    //                    | <LogicalExpression>
+    
+    //<RelationalExpression> ::= '<' <AddendOperator>
+    //                    | '>' <AddendOperator>
+    //                    | '!=' <AddendOperator>
+    //                    | '<=' <AddendOperator>
+    //                    | '>=' <AddendOperator>
+    //                    | '==' <AddendOperator>
+    
+    //<LogicalExpression> ::= '||' <AddendOperator> | '&&' <AddendOperator>
+    
+    //<AddendOperator> ::= Identifier | Decimal | RealNumber | Boolean
+    
+    //<UnaryExpression> ::= '!' <AddendOperatorUnary>
+    
+    //<AddendOperatorUnary> ::= Identifier | Boolean
+    
+    //---------Declaracoes Logicas
+    //<AssignExpr> ::= <LogicalOrExpression> |
+    
+    //<LogicalOrExpression> ::= <LogicalAndExpression> <LogicalOrExpression1>    
+    
+    //<LogicalOrExpression1> ::= '||' <LogicalAndExpression> <LogicalOrExpression1> | 
+    
+    //<LogicalAndExpression> ::= <Condition> <LogicalAndExpression1>            
+    
+    //<LogicalAndExpression1> ::= '&&' <Condition> <LogicalAndExpression1> |
+    
+    //---------Chamada de função
+    //<FunctionCall> ::= Identifier '=' Identifier '(' <Argument> ')' ';'
+    
+    //<Argument> ::= <Value> <ArgumentList> |
+    
+    //<ArgumentList> ::= ',' <Argument> |
+    
+    //---------Chamada de procedure
+    //<ProcedureCall> ::= Identifier '(' <Argument> ')' ';'
+
+    //---------Declaração Main
+    //<Main> ::= 'main' '{' <LocalStatement> '}'
+    
+    //---------Blocos
+    //<LocalStatement> ::= <VarStatement> <LocalCommands>
+    private void LocalStatement() {
+        VarStatement();
+        // LocalCommands();
+    }
+    
+    //<LocalCommands> ::= <IfDecs> <LocalCommands>
+    //              | <WriteDecs> <LocalCommands>
+    //              | <ReadDecs> <LocalCommands>
+    //              | <WhileDecs> <LocalCommands>
+    //              | <Assigment> <LocalCommands>
+    //              | <FunctionCall> <LocalCommands>
+    //              | <ProcedureCall> <LocalCommands>
+    //              |
+    private void LocalCommands() {
+        if ((atual() != null) && (atual().getLexema().equals("IfDecs"))) {
+            IfDecs();
+        } else if ((atual() != null) && (atual().getLexema().equals("WriteDecs"))) {
+            //WriteDecs();
+        } else if ((atual() != null) && (atual().getLexema().equals("ReadDecs"))) {
+            //ReadDecs();
+        } else if ((atual() != null) && (atual().getLexema().equals("WhileDecs"))) {
+            //WhileDecs();
+        } else if ((atual() != null) && (atual().getTipo().equals("Assigment"))) {
+            //Assigment();
+        } else if ((atual() != null) && (atual().getTipo().equals("FunctionCall"))) {
+            //FunctionCall();
+        } else if ((atual() != null) && (atual().getTipo().equals("ProcedureCall"))) {
+            //ProcedureCall();
+        }
+    }
+    
+    //---------Condicao
+    //<Condition> ::= <AddendOperator> <ConditionContin>
+    
+    //<ConditionContin> ::= <RelationalExpression> | <LogicalExpression>
+
+    //---------Declaracao If/Else
     //<IfDecs> ::= 'if' '(' <AssignExpr> ')' '{' <LocalCommands> '}' <ElseDecs>                                                    
     private void IfDecs() {
         if ((atual() != null) && (atual().getLexema().equals("if"))) {
@@ -1045,29 +1145,26 @@ public class AnalisadorSintatico {
         }
     }
 
-    //<LocalCommands> ::= <IfDecs> <LocalCommands>
-    //              | <WriteDecs> <LocalCommands>
-    //              | <ReadDecs> <LocalCommands>
-    //              | <WhileDecs> <LocalCommands>
-    //              | <Assigment> <LocalCommands>
-    //              | <FunctionCall> <LocalCommands>
-    //              | <ProcedureCall> <LocalCommands>
-    //              |
-    private void LocalCommands() {
-        if ((atual() != null) && (atual().getLexema().equals("IfDecs"))) {
-            IfDecs();
-        } else if ((atual() != null) && (atual().getLexema().equals("WriteDecs"))) {
-            //WriteDecs();
-        } else if ((atual() != null) && (atual().getLexema().equals("ReadDecs"))) {
-            //ReadDecs();
-        } else if ((atual() != null) && (atual().getLexema().equals("WhileDecs"))) {
-            //WhileDecs();
-        } else if ((atual() != null) && (atual().getTipo().equals("Assigment"))) {
-            //Assigment();
-        } else if ((atual() != null) && (atual().getTipo().equals("FunctionCall"))) {
-            //FunctionCall();
-        } else if ((atual() != null) && (atual().getTipo().equals("ProcedureCall"))) {
-            //ProcedureCall();
-        }
-    }
+    //---------Declaracao while
+    //<WhileDecs>::= 'while' '('<AssignExpr>')' '{' <LocalCommands> '}'  
+
+    //---------Declaração Write 
+    //<WriteDecs> ::= 'print' '(' <ArgumentsWrite>
+
+    //<ArgumentsWrite> ::= Identifier <RegisterWrite> <ListArgumentsWrite> | <WriteContent> <ListArgumentsWrite>
+
+    //<WriteContent> ::= Decimal | RealNumber | StringLiteral
+
+    //<RegisterWrite> ::= '.' Identifier |
+
+    //<ListArgumentsWrite> ::= ',' <ArgumentsWrite> | ')' ';'
+
+    //---------Declaração Read
+    //<ReadDecs> ::= 'read' '(' <ArgumentsRead>
+
+    //<ArgumentsRead> ::= Identifier <RegisterRead> <ListArgumentsRead>
+
+    //<RegisterRead> ::= '.' Identifier |
+
+    //<ListArgumentsRead> ::= ',' <ArgumentsRead> | ')' ';' 
 }
