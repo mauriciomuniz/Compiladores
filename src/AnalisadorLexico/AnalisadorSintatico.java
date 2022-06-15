@@ -966,23 +966,33 @@ public class AnalisadorSintatico {
         }
     }
 
-    //<ProcedureStatement1> ::= '}' | '}' 'procedure' Identifier '(' <ParameterProcedure> '{' <LocalStatement>  <ProcedureStatement1>
+    //<ProcedureStatement1> ::= '}'  <ProcedureRecursive>
     private void ProcedureStatement1() {
         if (atual().getLexema().equals("}")) {
             posicaoAtual = posicaoAtual + 1;
-        } else if (atual().getLexema().equals("}")) {
+            ProcedureRecursive();
+        }
+    }
+
+    //<ProcedureRecursive> ::= 'procedure' Identifier '(' <ParameterProcedure> '{' <LocalStatement>  <ProcedureStatement1> | 
+    private void ProcedureRecursive() {
+        if (atual().getLexema().equals("procedure")) {
             posicaoAtual = posicaoAtual + 1;
-            if (atual().getLexema().equals("procedure")) {
+            if (atual().getTipo().equals("Identificador")) {
                 posicaoAtual = posicaoAtual + 1;
-                if (atual().getTipo().equals("Identificador")) {
+                if (atual().getLexema().equals("(")) {
                     posicaoAtual = posicaoAtual + 1;
-                    if (atual().getLexema().equals("(")) {
+                    ParameterProcedure();
+                    if (atual().getLexema().equals("{")) {
                         posicaoAtual = posicaoAtual + 1;
-                        ParameterProcedure();
-                        if (atual().getLexema().equals("{")) {
+                        LocalStatement();
+                        if (atual().getLexema().equals("return")) {
                             posicaoAtual = posicaoAtual + 1;
-                            LocalStatement();
-                            ProcedureStatement1();
+                            Value();
+                            if (atual().getLexema().equals(";")) {
+                                posicaoAtual = posicaoAtual + 1;
+                                ProcedureStatement1();
+                            }
                         }
                     }
                 }
@@ -1074,29 +1084,32 @@ public class AnalisadorSintatico {
         }
     }
 
-    //<FunctionStatement1>::= '}' | '}' 'function' Identifier  '(' <ParameterFunction>  '{' <LocalStatement> 'return' <Value>';' <FunctionStatement1> 
+    //<FunctionStatement1>::= '}' <FunctionRecursive>
     private void FunctionStatement1() {
         if (atual().getLexema().equals("}")) {
             posicaoAtual = posicaoAtual + 1;
-        } else if (atual().getLexema().equals("}")) {
+            FunctionRecursive();
+        }
+    }
+
+    //<FunctionRecursive> ::=  'function' Identifier  '(' <ParameterFunction>  '{' <LocalStatement> 'return' <Value>';' <FunctionStatement1> | 
+    private void FunctionRecursive() {
+        if (atual().getLexema().equals("function")) {
             posicaoAtual = posicaoAtual + 1;
-            if (atual().getLexema().equals("function")) {
+            if (atual().getTipo().equals("Identificador")) {
                 posicaoAtual = posicaoAtual + 1;
-                if (atual().getTipo().equals("Identificador")) {
+                if (atual().getLexema().equals("(")) {
                     posicaoAtual = posicaoAtual + 1;
-                    if (atual().getLexema().equals("(")) {
+                    ParameterFunction();
+                    if (atual().getLexema().equals("{")) {
                         posicaoAtual = posicaoAtual + 1;
-                        ParameterFunction();
-                        if (atual().getLexema().equals("{")) {
+                        LocalStatement();
+                        if (atual().getLexema().equals("return")) {
                             posicaoAtual = posicaoAtual + 1;
-                            LocalStatement();
-                            if (atual().getLexema().equals("return")) {
+                            Value();
+                            if (atual().getLexema().equals(";")) {
                                 posicaoAtual = posicaoAtual + 1;
-                                Value();
-                                if (atual().getLexema().equals(";")) {
-                                    posicaoAtual = posicaoAtual + 1;
-                                    FunctionStatement1();
-                                }
+                                FunctionStatement1();
                             }
                         }
                     }
@@ -1104,9 +1117,9 @@ public class AnalisadorSintatico {
             }
         }
     }
-
     //---------Atribuição
     //<Assigment> ::= Identifier <AssigmentRegister>
+
     private void Assigment() {
         if (atual().getTipo().equals("Identificador")) {
             posicaoAtual = posicaoAtual + 1;
