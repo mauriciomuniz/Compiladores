@@ -1015,23 +1015,103 @@ public class AnalisadorSintatico {
 
     //<ParameterFunction> ::= <VarType> Identifier <ParameterListFunction> | ')' ':' <VarType>
     private void ParameterFunction() {
+        if (atual().getLexema().equals("VarType")) {
+            posicaoAtual = posicaoAtual + 1;
+            if (atual().getTipo().equals("Identificador")) {
+                posicaoAtual = posicaoAtual + 1;
+                ParameterListFunction();
+            }
+        } else if (atual().getLexema().equals(")")) {
+            posicaoAtual = posicaoAtual + 1;
+            if (atual().getLexema().equals(")")) {
+                posicaoAtual = posicaoAtual + 1;
+                if (VarType.contains(atual().getLexema())) {
+                    posicaoAtual = posicaoAtual + 1;
+                }
+            }
+        }
     }
 
     //<ParameterListFunction> ::=   ',' <ParameterFunction> |  ')' ':' <VarType> 
     private void ParameterListFunction() {
+        if (atual().getLexema().equals(",")) {
+            posicaoAtual = posicaoAtual + 1;
+            ParameterFunction();
+        } else if (atual().getLexema().equals(")")) {
+            posicaoAtual = posicaoAtual + 1;
+            if (atual().getLexema().equals(")")) {
+                posicaoAtual = posicaoAtual + 1;
+                if (VarType.contains(atual().getLexema())) {
+                    posicaoAtual = posicaoAtual + 1;
+                }
+            }
+        }
     }
 
     //<FunctionStatement>::= 'function' Identifier  '(' <ParameterFunction> '{' <LocalStatement> 'return' <Value>';' <FunctionStatement1> |
     private void FunctionStatement() {
+        if (atual().getLexema().equals("function")) {
+            posicaoAtual = posicaoAtual + 1;
+            if (atual().getTipo().equals("Identificador")) {
+                posicaoAtual = posicaoAtual + 1;
+                if (atual().getLexema().equals("(")) {
+                    posicaoAtual = posicaoAtual + 1;
+                    ParameterFunction();
+                    if (atual().getLexema().equals("{")) {
+                        posicaoAtual = posicaoAtual + 1;
+                        LocalStatement();
+                        if (atual().getLexema().equals("return")) {
+                            posicaoAtual = posicaoAtual + 1;
+                            Value();
+                            if (atual().getLexema().equals(";")) {
+                                posicaoAtual = posicaoAtual + 1;
+                                FunctionStatement1();
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 
     //<FunctionStatement1>::= '}' | '}' 'function' Identifier  '(' <ParameterFunction>  '{' <LocalStatement> 'return' <Value>';' <FunctionStatement1> 
     private void FunctionStatement1() {
+        if (atual().getLexema().equals("}")) {
+            posicaoAtual = posicaoAtual + 1;
+        } else if (atual().getLexema().equals("}")) {
+            posicaoAtual = posicaoAtual + 1;
+            if (atual().getLexema().equals("function")) {
+                posicaoAtual = posicaoAtual + 1;
+                if (atual().getTipo().equals("Identificador")) {
+                    posicaoAtual = posicaoAtual + 1;
+                    if (atual().getLexema().equals("(")) {
+                        posicaoAtual = posicaoAtual + 1;
+                        ParameterFunction();
+                        if (atual().getLexema().equals("{")) {
+                            posicaoAtual = posicaoAtual + 1;
+                            LocalStatement();
+                            if (atual().getLexema().equals("return")) {
+                                posicaoAtual = posicaoAtual + 1;
+                                Value();
+                                if (atual().getLexema().equals(";")) {
+                                    posicaoAtual = posicaoAtual + 1;
+                                    FunctionStatement1();
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
+
     //---------Atribuição
     //<Assigment> ::= Identifier <AssigmentRegister>
-
     private void Assigment() {
+        if (atual().getTipo().equals("Identificador")) {
+            posicaoAtual = posicaoAtual + 1;
+            AssigmentRegister();
+        }
     }
 
     //<AssigmentRegister> ::= '.' Identifier '=' <AssigmentOperators> ';' | '=' <AssigmentOperators> ';' | '++' ';' | '--' ';'
@@ -1045,6 +1125,9 @@ public class AnalisadorSintatico {
     //! Expressão
     //<BinaryExpression> ::= <AddendOperator> <BinaryExpressionContin> 
     private void BinaryExpression() {
+        AddendOperator();
+        BinaryExpressionContin();
+
     }
 
     //<BinaryExpressionContin> ::= '+' <AddendOperator> 
@@ -1081,6 +1164,11 @@ public class AnalisadorSintatico {
 
     //<AddendOperatorUnary> ::= Identifier | Boolean
     private void AddendOperatorUnary() {
+        if (atual().getTipo().equals("Identificador")) {
+            posicaoAtual = posicaoAtual + 1;
+        } else if (atual().getLexema().equals("Boolean")) {
+            posicaoAtual = posicaoAtual + 1;
+        }
     }
 
     //---------Declaracoes Logicas
@@ -1131,7 +1219,7 @@ public class AnalisadorSintatico {
     //<LocalStatement> ::= <VarStatement> <LocalCommands>
     private void LocalStatement() {
         VarStatement();
-        // LocalCommands();
+        LocalCommands();
     }
 
     //<LocalCommands> ::= <IfDecs> <LocalCommands>
@@ -1146,23 +1234,25 @@ public class AnalisadorSintatico {
         if ((atual() != null) && (atual().getLexema().equals("IfDecs"))) {
             IfDecs();
         } else if ((atual() != null) && (atual().getLexema().equals("WriteDecs"))) {
-            //WriteDecs();
+            WriteDecs();
         } else if ((atual() != null) && (atual().getLexema().equals("ReadDecs"))) {
-            //ReadDecs();
+            ReadDecs();
         } else if ((atual() != null) && (atual().getLexema().equals("WhileDecs"))) {
-            //WhileDecs();
+            WhileDecs();
         } else if ((atual() != null) && (atual().getTipo().equals("Assigment"))) {
-            //Assigment();
+            Assigment();
         } else if ((atual() != null) && (atual().getTipo().equals("FunctionCall"))) {
-            //FunctionCall();
+            FunctionCall();
         } else if ((atual() != null) && (atual().getTipo().equals("ProcedureCall"))) {
-            //ProcedureCall();
+            ProcedureCall();
         }
     }
 
     //---------Condicao
     //<Condition> ::= <AddendOperator> <ConditionContin>
     private void Condition() {
+        AddendOperator();
+        ConditionContin();
     }
 
     //<ConditionContin> ::= <RelationalExpression> | <LogicalExpression>
@@ -1216,44 +1306,119 @@ public class AnalisadorSintatico {
     private void WhileDecs() {
         if ((atual() != null) && (atual().getLexema().equals("while"))) {
             posicaoAtual = posicaoAtual + 1;
+            if ((atual() != null) && (atual().getLexema().equals("("))) {
+                posicaoAtual = posicaoAtual + 1;
+                ArgumentsWrite();
+                if ((atual() != null) && (atual().getLexema().equals(")"))) {
+                    posicaoAtual = posicaoAtual + 1;
+                    if ((atual() != null) && (atual().getLexema().equals("{"))) {
+                        posicaoAtual = posicaoAtual + 1;
+                        LocalCommands();
+                        if ((atual() != null) && (atual().getLexema().equals("}"))) {
+                            posicaoAtual = posicaoAtual + 1;
+                        }
+                    }
+                }
+            }
         }
     }
 
     //---------Declaração Write 
     //<WriteDecs> ::= 'print' '(' <ArgumentsWrite>
     private void WriteDecs() {
+        if ((atual() != null) && (atual().getLexema().equals("print"))) {
+            posicaoAtual = posicaoAtual + 1;
+            if ((atual() != null) && (atual().getLexema().equals("("))) {
+                posicaoAtual = posicaoAtual + 1;
+                ArgumentsWrite();
+            }
+        }
     }
 
     //<ArgumentsWrite> ::= Identifier <RegisterWrite> <ListArgumentsWrite> | <WriteContent> <ListArgumentsWrite>
     private void ArgumentsWrite() {
+        if (atual().getTipo().equals("Identificador")) {
+            posicaoAtual = posicaoAtual + 1;
+            RegisterWrite();
+            ListArgumentsWrite();
+        } else {
+            WriteContent();
+            ListArgumentsWrite();
+        }
     }
 
     //<WriteContent> ::= Decimal | RealNumber | StringLiteral
     private void WriteContent() {
+        if ((atual() != null) && (atual().getTipo().equals("Decimal")
+                || atual().getTipo().equals("RealNumber") || atual().getTipo().equals("StringLiteral"))) {
+            posicaoAtual = posicaoAtual + 1;
+        }
     }
 
     //<RegisterWrite> ::= '.' Identifier |
     private void RegisterWrite() {
+        if ((atual() != null) && (atual().getLexema().equals("."))) {
+            posicaoAtual = posicaoAtual + 1;
+            if (atual().getTipo().equals("Identificador")) {
+                posicaoAtual = posicaoAtual + 1;
+            }
+        }
     }
 
     //<ListArgumentsWrite> ::= ',' <ArgumentsWrite> | ')' ';'
     private void ListArgumentsWrite() {
+        if ((atual() != null) && (atual().getLexema().equals(","))) {
+            posicaoAtual = posicaoAtual + 1;
+            ArgumentsWrite();
+        } else if ((atual() != null) && (atual().getLexema().equals(")"))) {
+            posicaoAtual = posicaoAtual + 1;
+            if ((atual() != null) && (atual().getLexema().equals(";"))) {
+                posicaoAtual = posicaoAtual + 1;
+            }
+        }
     }
 
     //---------Declaração Read
     //<ReadDecs> ::= 'read' '(' <ArgumentsRead>
     private void ReadDecs() {
+        if ((atual() != null) && (atual().getLexema().equals("read"))) {
+            posicaoAtual = posicaoAtual + 1;
+            if ((atual() != null) && (atual().getLexema().equals("("))) {
+                posicaoAtual = posicaoAtual + 1;
+                ArgumentsRead();
+            }
+        }
     }
 
     //<ArgumentsRead> ::= Identifier <RegisterRead> <ListArgumentsRead>
     private void ArgumentsRead() {
+        if (atual().getTipo().equals("Identificador")) {
+            posicaoAtual = posicaoAtual + 1;
+            RegisterRead();
+            ListArgumentsRead();
+        }
     }
 
     //<RegisterRead> ::= '.' Identifier |
     private void RegisterRead() {
+        if ((atual() != null) && (atual().getLexema().equals("."))) {
+            posicaoAtual = posicaoAtual + 1;
+            if (atual().getTipo().equals("Identificador")) {
+                posicaoAtual = posicaoAtual + 1;
+            }
+        }
     }
 
     //<ListArgumentsRead> ::= ',' <ArgumentsRead> | ')' ';' 
     private void ListArgumentsRead() {
+        if ((atual() != null) && (atual().getLexema().equals(","))) {
+            posicaoAtual = posicaoAtual + 1;
+            ArgumentsRead();
+        } else if ((atual() != null) && (atual().getLexema().equals(")"))) {
+            posicaoAtual = posicaoAtual + 1;
+            if ((atual() != null) && (atual().getLexema().equals(";"))) {
+                posicaoAtual = posicaoAtual + 1;
+            }
+        }
     }
 }
