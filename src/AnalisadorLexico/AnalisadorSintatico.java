@@ -702,7 +702,11 @@ public class AnalisadorSintatico {
             if (atual().getLexema().equals("{")) {
                 posicaoAtual = posicaoAtual + 1;
                 VarList();
+            } else {
+                addErro(atual(), "'{'");
             }
+        } else {
+            addErro(atual(), "'var'");
         }
     }
 
@@ -714,6 +718,8 @@ public class AnalisadorSintatico {
             VarList1();
         } else if (atual().getLexema().equals("}")) {
             posicaoAtual = posicaoAtual + 1;
+        } else {
+            addErro(atual(), "'}'");
         }
     }
 
@@ -725,6 +731,8 @@ public class AnalisadorSintatico {
             VarList1();
         } else if ((atual() != null) && atual().getLexema().equals("}")) {
             posicaoAtual = posicaoAtual + 1;
+        } else {
+            addErro(atual(), "'}'");
         }
     }
 
@@ -735,8 +743,11 @@ public class AnalisadorSintatico {
             if (atual().getTipo().equals("Identificador")) {
                 posicaoAtual = posicaoAtual + 1;
                 VarDeclaration1();
+            } else {
+                addErro(atual(), "'Identificador'");
             }
-
+        } else {
+            addErro(atual(), "tipo");
         }
     }
 
@@ -747,9 +758,13 @@ public class AnalisadorSintatico {
             if (atual().getTipo().equals("Identificador")) {
                 posicaoAtual = posicaoAtual + 1;
                 VarDeclaration1();
+            } else {
+                addErro(atual(), "Identificador");
             }
         } else if (atual().getLexema().equals(";")) {
             posicaoAtual = posicaoAtual + 1;
+        } else {
+            addErro(atual(), ";");
         }
     }
 
@@ -854,7 +869,6 @@ public class AnalisadorSintatico {
         }
     }*/ //nessa parte aqui olhando pelo modelo base só colocariamos lexema pra 'true' ou 'false',
     //como temos o boolean ele já decide um ou outro
-    
     // Declaracao Register
     // <ValueRegister> ::= '.' Identifier |
     private void ValueRegister() {
@@ -951,7 +965,7 @@ public class AnalisadorSintatico {
             }
         }
     }
-    
+
     //<ProcedureStatement1> ::= '}' | '}' 'procedure' Identifier '(' <ParameterProcedure> '{' <LocalStatement>  <ProcedureStatement1>
     private void ProcedureStatement1() {
         if (atual().getLexema().equals("}")) {
@@ -998,25 +1012,41 @@ public class AnalisadorSintatico {
             posicaoAtual = posicaoAtual + 1;
         }
     }
-    
-    //<ParameterFunction> ::= <VarType> Identifier <ParameterListFunction> | ')' ':' <VarType>
-    
-    //<ParameterListFunction> ::=   ',' <ParameterFunction> |  ')' ':' <VarType> 
-    
-    //<FunctionStatement>::= 'function' Identifier  '(' <ParameterFunction> '{' <LocalStatement> 'return' <Value>';' <FunctionStatement1> |
-    
-    //<FunctionStatement1>::= '}' | '}' 'function' Identifier  '(' <ParameterFunction>  '{' <LocalStatement> 'return' <Value>';' <FunctionStatement1> 
 
+    //<ParameterFunction> ::= <VarType> Identifier <ParameterListFunction> | ')' ':' <VarType>
+    private void ParameterFunction() {
+    }
+
+    //<ParameterListFunction> ::=   ',' <ParameterFunction> |  ')' ':' <VarType> 
+    private void ParameterListFunction() {
+    }
+
+    //<FunctionStatement>::= 'function' Identifier  '(' <ParameterFunction> '{' <LocalStatement> 'return' <Value>';' <FunctionStatement1> |
+    private void FunctionStatement() {
+    }
+
+    //<FunctionStatement1>::= '}' | '}' 'function' Identifier  '(' <ParameterFunction>  '{' <LocalStatement> 'return' <Value>';' <FunctionStatement1> 
+    private void FunctionStatement1() {
+    }
     //---------Atribuição
     //<Assigment> ::= Identifier <AssigmentRegister>
-    
+
+    private void Assigment() {
+    }
+
     //<AssigmentRegister> ::= '.' Identifier '=' <AssigmentOperators> ';' | '=' <AssigmentOperators> ';' | '++' ';' | '--' ';'
+    private void AssigmentRegister() {
+    }
 
     //<AssigmentOperators> ::= <Value> | <BinaryExpression> | <UnaryExpression>
+    private void AssigmentOperators() {
+    }
 
     //! Expressão
     //<BinaryExpression> ::= <AddendOperator> <BinaryExpressionContin> 
-    
+    private void BinaryExpression() {
+    }
+
     //<BinaryExpressionContin> ::= '+' <AddendOperator> 
     //                    | '-' <AddendOperator>
     //                    | '*' <AddendOperator>
@@ -1025,53 +1055,85 @@ public class AnalisadorSintatico {
     //                    | '--'
     //                    | <RelationalExpression>
     //                    | <LogicalExpression>
-    
+    private void BinaryExpressionContin() {
+    }
+
     //<RelationalExpression> ::= '<' <AddendOperator>
     //                    | '>' <AddendOperator>
     //                    | '!=' <AddendOperator>
     //                    | '<=' <AddendOperator>
     //                    | '>=' <AddendOperator>
     //                    | '==' <AddendOperator>
-    
+    private void RelationalExpression() {
+    }
+
     //<LogicalExpression> ::= '||' <AddendOperator> | '&&' <AddendOperator>
-    
+    private void LogicalExpression() {
+    }
+
     //<AddendOperator> ::= Identifier | Decimal | RealNumber | Boolean
-    
+    private void AddendOperator() {
+    }
+
     //<UnaryExpression> ::= '!' <AddendOperatorUnary>
-    
+    private void UnaryExpression() {
+    }
+
     //<AddendOperatorUnary> ::= Identifier | Boolean
-    
+    private void AddendOperatorUnary() {
+    }
+
     //---------Declaracoes Logicas
     //<AssignExpr> ::= <LogicalOrExpression> |
-    
-    //<LogicalOrExpression> ::= <LogicalAndExpression> <LogicalOrExpression1>    
-    
-    //<LogicalOrExpression1> ::= '||' <LogicalAndExpression> <LogicalOrExpression1> | 
-    
-    //<LogicalAndExpression> ::= <Condition> <LogicalAndExpression1>            
-    
+    private void AssignExpr() {
+    }
+
+    //<LogicalOrExpression> ::= <LogicalAndExpression> <LogicalOrExpression1>
+    private void LogicalOrExpression() {
+    }
+
+    //<LogicalOrExpression1> ::= '||' <LogicalAndExpression> <LogicalOrExpression1> |
+    private void LogicalOrExpression1() {
+    }
+
+    //<LogicalAndExpression> ::= <Condition> <LogicalAndExpression1>
+    private void LogicalAndExpression() {
+    }
+
     //<LogicalAndExpression1> ::= '&&' <Condition> <LogicalAndExpression1> |
-    
+    private void LogicalAndExpression1() {
+    }
+
     //---------Chamada de função
     //<FunctionCall> ::= Identifier '=' Identifier '(' <Argument> ')' ';'
-    
+    private void FunctionCall() {
+    }
+
     //<Argument> ::= <Value> <ArgumentList> |
-    
+    private void Argument() {
+    }
+
     //<ArgumentList> ::= ',' <Argument> |
-    
+    private void ArgumentList() {
+    }
+
     //---------Chamada de procedure
     //<ProcedureCall> ::= Identifier '(' <Argument> ')' ';'
+    private void ProcedureCall() {
+    }
 
     //---------Declaração Main
     //<Main> ::= 'main' '{' <LocalStatement> '}'
-    
+    private void Main() {
+    }
+
     //---------Blocos
     //<LocalStatement> ::= <VarStatement> <LocalCommands>
     private void LocalStatement() {
         VarStatement();
         // LocalCommands();
     }
-    
+
     //<LocalCommands> ::= <IfDecs> <LocalCommands>
     //              | <WriteDecs> <LocalCommands>
     //              | <ReadDecs> <LocalCommands>
@@ -1097,11 +1159,15 @@ public class AnalisadorSintatico {
             //ProcedureCall();
         }
     }
-    
+
     //---------Condicao
     //<Condition> ::= <AddendOperator> <ConditionContin>
-    
+    private void Condition() {
+    }
+
     //<ConditionContin> ::= <RelationalExpression> | <LogicalExpression>
+    private void ConditionContin() {
+    }
 
     //---------Declaracao If/Else
     //<IfDecs> ::= 'if' '(' <AssignExpr> ')' '{' <LocalCommands> '}' <ElseDecs>                                                    
@@ -1147,24 +1213,47 @@ public class AnalisadorSintatico {
 
     //---------Declaracao while
     //<WhileDecs>::= 'while' '('<AssignExpr>')' '{' <LocalCommands> '}'  
+    private void WhileDecs() {
+        if ((atual() != null) && (atual().getLexema().equals("while"))) {
+            posicaoAtual = posicaoAtual + 1;
+        }
+    }
 
     //---------Declaração Write 
     //<WriteDecs> ::= 'print' '(' <ArgumentsWrite>
+    private void WriteDecs() {
+    }
 
     //<ArgumentsWrite> ::= Identifier <RegisterWrite> <ListArgumentsWrite> | <WriteContent> <ListArgumentsWrite>
+    private void ArgumentsWrite() {
+    }
 
     //<WriteContent> ::= Decimal | RealNumber | StringLiteral
+    private void WriteContent() {
+    }
 
     //<RegisterWrite> ::= '.' Identifier |
+    private void RegisterWrite() {
+    }
 
     //<ListArgumentsWrite> ::= ',' <ArgumentsWrite> | ')' ';'
+    private void ListArgumentsWrite() {
+    }
 
     //---------Declaração Read
     //<ReadDecs> ::= 'read' '(' <ArgumentsRead>
+    private void ReadDecs() {
+    }
 
     //<ArgumentsRead> ::= Identifier <RegisterRead> <ListArgumentsRead>
+    private void ArgumentsRead() {
+    }
 
     //<RegisterRead> ::= '.' Identifier |
+    private void RegisterRead() {
+    }
 
     //<ListArgumentsRead> ::= ',' <ArgumentsRead> | ')' ';' 
+    private void ListArgumentsRead() {
+    }
 }
