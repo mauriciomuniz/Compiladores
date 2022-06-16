@@ -690,8 +690,8 @@ public class AnalisadorSintatico {
         ConstStatement();
         RegisterStatement();
         ProcedureStatement();
-        // FunctionStatement();
-        // Main();
+        FunctionStatement();
+        Main();
     }
 
     //Declaracao Variaveis
@@ -784,7 +784,6 @@ public class AnalisadorSintatico {
     //<ConstList>::= <ConstDeclaration> <ConstList1>
     private void ConstList() {
         if (atual() != null) {
-            posicaoAtual = posicaoAtual + 1;
             ConstDeclaration();
             ConstList1();
         }
@@ -793,16 +792,15 @@ public class AnalisadorSintatico {
     //<ConstList1> ::= <ConstDeclaration> <ConstList1> | '}'
     private void ConstList1() {
         if (atual() != null) {
-            posicaoAtual = posicaoAtual + 1;
             ConstDeclaration();
             ConstList1();
-            if ((atual() != null) && (atual().getLexema().equals("}"))) {
-                posicaoAtual = posicaoAtual + 1;
 
-            } else {
-                addErro(atual(), "'}'");
-                System.out.println(atual().getLinha());
-            }
+        } else if ((atual() != null) && (atual().getLexema().equals("}"))) {
+            posicaoAtual = posicaoAtual + 1;
+
+        } else {
+            addErro(atual(), "'}'");
+            System.out.println(atual().getLinha());
         }
 
     }
@@ -816,10 +814,8 @@ public class AnalisadorSintatico {
                 posicaoAtual = posicaoAtual + 1;
                 if (atual().getLexema().equals("=")) {
                     posicaoAtual = posicaoAtual + 1;
-                    if (atual().getTipo().equals("Value")) {
-                        posicaoAtual = posicaoAtual + 1;
-                        ConstDeclaration1();
-                    }
+                    Value();
+                    ConstDeclaration1();
                 }
             }
 
@@ -834,10 +830,8 @@ public class AnalisadorSintatico {
                 posicaoAtual = posicaoAtual + 1;
                 if ((atual() != null) && atual().getLexema().equals("=")) {
                     posicaoAtual = posicaoAtual + 1;
-                    if ((atual() != null) && atual().getTipo().equals("Value")) {
-                        posicaoAtual = posicaoAtual + 1;
-                        ConstDeclaration1();
-                    }
+                    Value();
+                    ConstDeclaration1();
                 }
             }
         } else if (atual().getLexema().equals(";")) {
@@ -913,7 +907,6 @@ public class AnalisadorSintatico {
     //<RegisterList1> ::= <RegisterDeclaration> <RegisterList1> | '}' <RegisterStatementMultiple>
     private void RegisterList1() {
         if ((atual() != null)) {
-            posicaoAtual = posicaoAtual + 1;
             RegisterDeclaration();
             RegisterList1();
         } else if ((atual() != null) && atual().getLexema().equals("}")) {
@@ -986,14 +979,7 @@ public class AnalisadorSintatico {
                     if (atual().getLexema().equals("{")) {
                         posicaoAtual = posicaoAtual + 1;
                         LocalStatement();
-                        if (atual().getLexema().equals("return")) {
-                            posicaoAtual = posicaoAtual + 1;
-                            Value();
-                            if (atual().getLexema().equals(";")) {
-                                posicaoAtual = posicaoAtual + 1;
-                                ProcedureStatement1();
-                            }
-                        }
+                        ProcedureStatement1();
                     }
                 }
             }
@@ -1033,7 +1019,7 @@ public class AnalisadorSintatico {
             }
         } else if (atual().getLexema().equals(")")) {
             posicaoAtual = posicaoAtual + 1;
-            if (atual().getLexema().equals(")")) {
+            if (atual().getLexema().equals(":")) {
                 posicaoAtual = posicaoAtual + 1;
                 if (VarType.contains(atual().getLexema())) {
                     posicaoAtual = posicaoAtual + 1;
@@ -1049,7 +1035,7 @@ public class AnalisadorSintatico {
             ParameterFunction();
         } else if (atual().getLexema().equals(")")) {
             posicaoAtual = posicaoAtual + 1;
-            if (atual().getLexema().equals(")")) {
+            if (atual().getLexema().equals(":")) {
                 posicaoAtual = posicaoAtual + 1;
                 if (VarType.contains(atual().getLexema())) {
                     posicaoAtual = posicaoAtual + 1;
@@ -1117,9 +1103,9 @@ public class AnalisadorSintatico {
             }
         }
     }
+
     //---------Atribuição
     //<Assigment> ::= Identifier <AssigmentRegister>
-
     private void Assigment() {
         if (atual().getTipo().equals("Identificador")) {
             posicaoAtual = posicaoAtual + 1;
@@ -1129,10 +1115,44 @@ public class AnalisadorSintatico {
 
     //<AssigmentRegister> ::= '.' Identifier '=' <AssigmentOperators> ';' | '=' <AssigmentOperators> ';' | '++' ';' | '--' ';'
     private void AssigmentRegister() {
+        if (atual().getLexema().equals(".")) {
+            posicaoAtual = posicaoAtual + 1;
+            if (atual().getTipo().equals("Identificador")) {
+                posicaoAtual = posicaoAtual + 1;
+                if ((atual() != null) && atual().getLexema().equals("=")) {
+                    posicaoAtual = posicaoAtual + 1;
+                    AssigmentOperators();
+                }
+            }
+        } else if (atual().getLexema().equals("=")) {
+            posicaoAtual = posicaoAtual + 1;
+            AssigmentOperators();
+            if (atual().getLexema().equals(";")) {
+                posicaoAtual = posicaoAtual + 1;
+            }
+        } else if ((atual() != null) && ((atual().getLexema().equals("++")))) {
+            posicaoAtual = posicaoAtual + 1;
+            if (atual().getLexema().equals(";")) {
+                posicaoAtual = posicaoAtual + 1;
+            }
+        } else if ((atual() != null) && ((atual().getLexema().equals("--")))) {
+            posicaoAtual = posicaoAtual + 1;
+            if (atual().getLexema().equals(";")) {
+                posicaoAtual = posicaoAtual + 1;
+            }
+        }
     }
 
+    //Corrigir
     //<AssigmentOperators> ::= <Value> | <BinaryExpression> | <UnaryExpression>
     private void AssigmentOperators() {
+        if (atual() != null) {
+            Value();
+        } else if (atual() != null) {
+            BinaryExpression();
+        } else if (atual() != null) {
+            UnaryExpression();
+        }
     }
 
     //! Expressão
@@ -1165,6 +1185,13 @@ public class AnalisadorSintatico {
 
     //<LogicalExpression> ::= '||' <AddendOperator> | '&&' <AddendOperator>
     private void LogicalExpression() {
+        if ((atual() != null) && (atual().getLexema().equals("||"))) {
+            posicaoAtual = posicaoAtual + 1;
+            AddendOperator();
+        } else if ((atual() != null) && (atual().getLexema().equals("&&"))) {
+            posicaoAtual = posicaoAtual + 1;
+            AddendOperator();
+        }
     }
 
     //<AddendOperator> ::= Identifier | Decimal | RealNumber | Boolean
@@ -1173,6 +1200,10 @@ public class AnalisadorSintatico {
 
     //<UnaryExpression> ::= '!' <AddendOperatorUnary>
     private void UnaryExpression() {
+        if ((atual() != null) && (atual().getLexema().equals("!"))) {
+            posicaoAtual = posicaoAtual + 1;
+            AddendOperatorUnary();
+        }
     }
 
     //<AddendOperatorUnary> ::= Identifier | Boolean
@@ -1187,45 +1218,108 @@ public class AnalisadorSintatico {
     //---------Declaracoes Logicas
     //<AssignExpr> ::= <LogicalOrExpression> |
     private void AssignExpr() {
+        LogicalOrExpression();
     }
 
     //<LogicalOrExpression> ::= <LogicalAndExpression> <LogicalOrExpression1>
     private void LogicalOrExpression() {
+        LogicalOrExpression();
+        LogicalOrExpression1();
     }
 
     //<LogicalOrExpression1> ::= '||' <LogicalAndExpression> <LogicalOrExpression1> |
     private void LogicalOrExpression1() {
+        if ((atual() != null) && (atual().getLexema().equals("||"))) {
+            posicaoAtual = posicaoAtual + 1;
+            LogicalAndExpression();
+            LogicalOrExpression1();
+        }
     }
 
     //<LogicalAndExpression> ::= <Condition> <LogicalAndExpression1>
     private void LogicalAndExpression() {
+        Condition();
+        LogicalAndExpression1();
     }
 
     //<LogicalAndExpression1> ::= '&&' <Condition> <LogicalAndExpression1> |
     private void LogicalAndExpression1() {
+        if ((atual() != null) && (atual().getLexema().equals("&&"))) {
+            posicaoAtual = posicaoAtual + 1;
+            Condition();
+            LogicalAndExpression1();
+        }
     }
 
     //---------Chamada de função
     //<FunctionCall> ::= Identifier '=' Identifier '(' <Argument> ')' ';'
     private void FunctionCall() {
+        if (atual().getTipo().equals("Identificador")) {
+            posicaoAtual = posicaoAtual + 1;
+            if (atual().getLexema().equals("=")) {
+                posicaoAtual = posicaoAtual + 1;
+                if (atual().getTipo().equals("Identificador")) {
+                    posicaoAtual = posicaoAtual + 1;
+                    if (atual().getLexema().equals("(")) {
+                        posicaoAtual = posicaoAtual + 1;
+                        Argument();
+                        if (atual().getLexema().equals(")")) {
+                            posicaoAtual = posicaoAtual + 1;
+                            if (atual().getLexema().equals(";")) {
+                                posicaoAtual = posicaoAtual + 1;
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 
     //<Argument> ::= <Value> <ArgumentList> |
     private void Argument() {
+        Value();
+        ArgumentList();
     }
 
     //<ArgumentList> ::= ',' <Argument> |
     private void ArgumentList() {
+        if (atual().getLexema().equals(",")) {
+            posicaoAtual = posicaoAtual + 1;
+            Argument();
+        }
     }
 
     //---------Chamada de procedure
     //<ProcedureCall> ::= Identifier '(' <Argument> ')' ';'
     private void ProcedureCall() {
+        if (atual().getTipo().equals("Identificador")) {
+            posicaoAtual = posicaoAtual + 1;
+            if (atual().getLexema().equals("(")) {
+                posicaoAtual = posicaoAtual + 1;
+                Argument();
+                if (atual().getLexema().equals(")")) {
+                    posicaoAtual = posicaoAtual + 1;
+                    if (atual().getLexema().equals(";")) {
+                        posicaoAtual = posicaoAtual + 1;
+                    }
+                }
+            }
+        }
     }
 
     //---------Declaração Main
     //<Main> ::= 'main' '{' <LocalStatement> '}'
     private void Main() {
+        if (atual().getLexema().equals("main")) {
+            posicaoAtual = posicaoAtual + 1;
+            if (atual().getLexema().equals("{")) {
+                posicaoAtual = posicaoAtual + 1;
+                LocalStatement();
+                if (atual().getLexema().equals("}")) {
+                    posicaoAtual = posicaoAtual + 1;
+                }
+            }
+        }
     }
 
     //---------Blocos
@@ -1270,6 +1364,11 @@ public class AnalisadorSintatico {
 
     //<ConditionContin> ::= <RelationalExpression> | <LogicalExpression>
     private void ConditionContin() {
+        if ((atual() != null)) {
+            RelationalExpression();
+        } else if ((atual() != null)) {
+            LogicalExpression();
+        }
     }
 
     //---------Declaracao If/Else
@@ -1279,7 +1378,7 @@ public class AnalisadorSintatico {
             posicaoAtual = posicaoAtual + 1;
             if ((atual() != null) && (atual().getLexema().equals("("))) {
                 posicaoAtual = posicaoAtual + 1;
-                //AssingExpr();
+                AssignExpr();
                 if ((atual() != null) && (atual().getLexema().equals(")"))) {
                     posicaoAtual = posicaoAtual + 1;
                     if ((atual() != null) && (atual().getLexema().equals("{"))) {
@@ -1321,7 +1420,7 @@ public class AnalisadorSintatico {
             posicaoAtual = posicaoAtual + 1;
             if ((atual() != null) && (atual().getLexema().equals("("))) {
                 posicaoAtual = posicaoAtual + 1;
-                ArgumentsWrite();
+                AssignExpr();
                 if ((atual() != null) && (atual().getLexema().equals(")"))) {
                     posicaoAtual = posicaoAtual + 1;
                     if ((atual() != null) && (atual().getLexema().equals("{"))) {
@@ -1354,7 +1453,7 @@ public class AnalisadorSintatico {
             posicaoAtual = posicaoAtual + 1;
             RegisterWrite();
             ListArgumentsWrite();
-        } else {
+        } else if (atual() != null) {
             WriteContent();
             ListArgumentsWrite();
         }
