@@ -843,15 +843,15 @@ public class AnalisadorSintatico {
                         ConstDeclaration1();
                     } else {
                         addErro(atual(), "'='");
-                        System.out.println(" ConstDeclaration " + atual().getLinha());
+                        //System.out.println(" ConstDeclaration " + atual().getLinha());
                     }
                 } else {
                     addErro(atual(), "'Identificador'");
-                    System.out.println(" Identificador " + atual().getLinha());
+                    //System.out.println(" Identificador " + atual().getLinha());
                 }
             } else {
                 addErro(atual(), "'tipo'");
-                System.out.println(" tipo " + atual().getLinha());
+                //System.out.println(" tipo " + atual().getLinha());
             }
         }
         RecursiveConst++;
@@ -867,10 +867,19 @@ public class AnalisadorSintatico {
                     posicaoAtual = posicaoAtual + 1;
                     Value();
                     ConstDeclaration1();
+                } else {
+                    addErro(atual(), "'='");
+                    //System.out.println(" ConstDeclaration1 " + atual().getLinha());
                 }
+            } else {
+                addErro(atual(), "'Identificador'");
+                //System.out.println(" Identificador " + atual().getLinha());
             }
         } else if (atual().getLexema().equals(";")) {
             posicaoAtual = posicaoAtual + 1;
+        } else {
+            addErro(atual(), "';'");
+            //System.out.println(" Identificador " + atual().getLinha());
         }
     }
 
@@ -881,12 +890,14 @@ public class AnalisadorSintatico {
         if (atual().getTipo().equals("Identificador")) {
             posicaoAtual = posicaoAtual + 1;
             ValueRegister();
-        } else if ((atual() != null) && (atual().getTipo().equals("Decimal")
-                || atual().getTipo().equals("RealNumber") || atual().getTipo().equals("StringLiteral")
+        } else if ((atual() != null) && (atual().getTipo().equals("NumeroREAL")
+                || atual().getTipo().equals("NumeroINT") || atual().getTipo().equals("StringLiteral")
                 || atual().getLexema().equals("Char") || atual().getLexema().equals("true")
                 || atual().getLexema().equals("false"))) {
+            //System.out.println("---------------------------------------------------Value() = " + atual().getTipo());
             posicaoAtual = posicaoAtual + 1;
         } else {
+            //System.out.println("---------------------------------------------------Value() = " + atual().getTipo());
             addErro(atual(), "Valor incorreto para valores");
             while (!(atual().getLexema().equals(",")
                     || atual().getLexema().equals(";")
@@ -907,13 +918,19 @@ public class AnalisadorSintatico {
             posicaoAtual = posicaoAtual + 1;
             if ((atual() != null) && atual().getTipo().equals("Identificador")) {
                 posicaoAtual = posicaoAtual + 1;
+            } else {
+                addErro(atual(), "'Identificador'");
+                //System.out.println(" Identificador " + atual().getLinha());
             }
+        } else {
+            addErro(atual(), "'.'");
+            //System.out.println(" . " + atual().getLinha());
         }
     }
 
     // <RegisterStatementMultiple> ::= <RegisterStatement> |
     private void RegisterStatementMultiple() {
-        if ((atual() != null)) {
+        if ((atual() != null) && !atual().getLexema().equals("procedure")) {
             RegisterStatement();
         }
     }
@@ -927,8 +944,17 @@ public class AnalisadorSintatico {
                 if ((atual() != null) && atual().getLexema().equals("{")) {
                     posicaoAtual = posicaoAtual + 1;
                     RegisterList();
+                } else {
+                    addErro(atual(), "'{'");
+                    //System.out.println(" { " + atual().getLinha());
                 }
+            } else {
+                addErro(atual(), "'Identificador'");
+                //System.out.println(" Identificador " + atual().getLinha());
             }
+        } else {
+            addErro(atual(), "'register'");
+            //System.out.println(" register " + atual().getLinha());
         }
     }
 
@@ -944,12 +970,17 @@ public class AnalisadorSintatico {
     //<RegisterList1> ::= <RegisterDeclaration> <RegisterList1> | '}' <RegisterStatementMultiple>
     private void RegisterList1() {
         if (RecursiveRegister <= 500) {
-            if ((atual() != null)) {
-                RegisterDeclaration();
-                RegisterList1();
-            } else if ((atual() != null) && atual().getLexema().equals("}")) {
-                posicaoAtual = posicaoAtual + 1;
-                RegisterStatementMultiple();
+            if ((atual() != null) && !atual().getLexema().equals("procedure")) {
+                if (!atual().getLexema().equals("}")) {
+                    RegisterDeclaration();
+                    RegisterList1();
+                } else if ((atual() != null) && atual().getLexema().equals("}")) {
+                    posicaoAtual = posicaoAtual + 1;
+                    RegisterStatementMultiple();
+                } else {
+                    addErro(atual(), "'}'");
+                    //System.out.println(" } " + atual().getLinha());
+                }
             }
         }
         RecursiveRegister++;
@@ -964,7 +995,13 @@ public class AnalisadorSintatico {
                 if (atual().getTipo().equals("Identificador")) {
                     posicaoAtual = posicaoAtual + 1;
                     RegisterDeclaration1();
+                } else {
+                    addErro(atual(), "'Identificador'");
+                    //System.out.println(" Identificador " + atual().getLinha());
                 }
+            } else {
+                addErro(atual(), "'tipo'");
+                //System.out.println(" tipo " + atual().getLinha());
             }
         }
         RecursiveRegister++;
@@ -977,9 +1014,15 @@ public class AnalisadorSintatico {
             if (atual().getTipo().equals("Identificador")) {
                 posicaoAtual = posicaoAtual + 1;
                 RegisterDeclaration1();
+            } else {
+                addErro(atual(), "'Identificador'");
+                //System.out.println(" Identificador " + atual().getLinha());
             }
         } else if ((atual() != null) && atual().getLexema().equals(";")) {
             posicaoAtual = posicaoAtual + 1;
+        } else {
+            addErro(atual(), "';'");
+            //System.out.println(" ; " + atual().getLinha());
         }
     }
 
@@ -997,9 +1040,21 @@ public class AnalisadorSintatico {
                         posicaoAtual = posicaoAtual + 1;
                         LocalStatement();
                         ProcedureStatement1();
+                    } else {
+                        addErro(atual(), "'{'");
+                        System.out.println(" { " + atual().getLinha());
                     }
+                } else {
+                    addErro(atual(), "'('");
+                    System.out.println(" ( " + atual().getLinha());
                 }
+            } else {
+                addErro(atual(), "'Identificador'");
+                System.out.println(" Identificador " + atual().getLinha());
             }
+        } else {
+            addErro(atual(), "'procedure'");
+            System.out.println(" procedure " + atual().getLinha());
         }
     }
 

@@ -518,15 +518,19 @@ public class Automato {
                 this.aux++;
                 a = this.proximoChar();
             }
+            if (!erro) {
+                tokenAuxiliar = new Token(linhaInicial + 1, auxiliarNumero + 1, "NumeroREAL", lexema);
+                listarTokens.add(tokenAuxiliar);
+                return;
+            }//se houver erro de numero malç formado é adicionado a lista de erros
+            else {
+                addListaErro("NumeroMF", lexema, linhaInicial);
+            }
         }
-        //se não houver erros adiciona o numero a lista de tokens
-        if (!erro) {
-            tokenAuxiliar = new Token(linhaInicial + 1, auxiliarNumero + 1, "Numero", lexema);
-            listarTokens.add(tokenAuxiliar);
-        }//se houver erro de numero mal formado é adicionado a lista de erros
-        else {
-            addListaErro("NumeroMF", lexema, linhaInicial);
-        }
+        tokenAuxiliar = new Token(linhaInicial + 1, auxiliarNumero + 1, "NumeroINT", lexema);
+        listarTokens.add(tokenAuxiliar);
+        //se houver erro de numero mal formado é adicionado a lista de erros
+
     }
 
     /**
