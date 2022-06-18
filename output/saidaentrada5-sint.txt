@@ -1,0 +1,5 @@
+Linha: 01 Recebido: 'int' Esperado: 'program'
+Linha: 01 Recebido: '=' Esperado: ';'
+Linha: 01 Recebido: '-2' Esperado: ';'
+Linha: 02 Recebido: 'float' Esperado: 'var'
+Linha: 02 Recebido: 'float' Esperado: 'var'

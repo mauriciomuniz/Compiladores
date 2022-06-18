@@ -2,7 +2,9 @@ program teste;
 
 var
 {
-    integer cont;
+    integer cont, cont1, cont2;
+    integer cont3, con1, nt2;
+    %integer cont5, con22, n312;
 }
 const
 {

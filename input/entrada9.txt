@@ -1,6 +1,9 @@
 %Teste compartilhado do Google Classroom
 program Programa1;
-
+var
+{
+	integer cont = 0;
+}
 register Pessoa
 {
 	integer idade;
@@ -13,11 +16,6 @@ const
 	integer MINIDADE = 18;
 	integer MAXIDADE = 69;
 	real MINPESO = 50.0;
-}
-
-var
-{
-	integer cont = 0;
 }
 
 function PodeDoar (integer idade, real peso) : boolean

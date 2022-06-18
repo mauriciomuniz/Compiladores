@@ -1,0 +1,5 @@
+Linha: 01 Recebido: 'boolean' Esperado: 'program'
+Linha: 01 Recebido: 'true' Esperado: 'program'
+Linha: 01 Recebido: ',' Esperado: 'program'
+Linha: 01 Recebido: 'false' Esperado: 'program'
+Linha: 03 Recebido: 'true' Esperado: 'var'

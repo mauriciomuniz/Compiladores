@@ -1,0 +1,2 @@
+Linha: 01 Recebido: 'delimitadores' Esperado: 'program'
+Linha: 01 Recebido: ',' Esperado: 'var'

@@ -16,6 +16,9 @@ public class AnalisadorSintatico {
     private int posicaoAtual;
     private int posicaoFinal;
     private Token ultimo, penultimo;
+    static int RecursiveRegister = 0;
+    static int RecursiveVar = 0;
+    static int RecursiveConst = 0;
 
     public AnalisadorSintatico() {
         VarType = new ArrayList<>();
@@ -489,7 +492,6 @@ public class AnalisadorSintatico {
                 }
 
                 if (atual() != null) {
-                    System.out.println("----------------------------------------------------Entrou aqui--------------------------------------------");
                     switch (atual().getLexema()) {
                         case "$":
                             //addErro(atual(), "Fim de programa");
@@ -713,7 +715,6 @@ public class AnalisadorSintatico {
     //<VarList>::= <VarDeclaration> <VarList1> | '}'
     private void VarList() {
         if ((atual() != null)) {
-            posicaoAtual = posicaoAtual + 1;
             VarDeclaration();
             VarList1();
         } else if (atual().getLexema().equals("}")) {
@@ -723,32 +724,47 @@ public class AnalisadorSintatico {
         }
     }
 
+    //Testando com VarList por causa de java.lang.StackOverflowError
     //<VarList1>::= <VarDeclaration> <VarList1> | '}'
     private void VarList1() {
-        if ((atual() != null)) {
-            posicaoAtual = posicaoAtual + 1;
-            VarDeclaration();
-            VarList1();
-        } else if ((atual() != null) && atual().getLexema().equals("}")) {
-            posicaoAtual = posicaoAtual + 1;
-        } else {
-            addErro(atual(), "'}'");
+        if (RecursiveVar <= 7000) {
+            if ((atual() != null)) {
+                VarDeclaration();
+                if (!atual().getLexema().equals("}")) {
+                    //System.out.println("--------------------------------- " + VarType.contains(atual().getLexema()) + " --------------------------");
+                    VarList1();
+                }
+                if ((atual() != null) && atual().getLexema().equals("}")) {
+                    posicaoAtual = posicaoAtual + 1;
+                } else {
+                    if (atual() != null) {
+                        addErro(atual(), "'}'");
+                    }
+                }
+            }
         }
+        RecursiveVar++;
     }
 
+    //RecursiveVar
     //<VarDeclaration>::= <VarType> Identifier <VarDeclaration1>
     private void VarDeclaration() {
-        if ((atual() != null) && VarType.contains(atual().getLexema())) {
-            posicaoAtual = posicaoAtual + 1;
-            if (atual().getTipo().equals("Identificador")) {
-                posicaoAtual = posicaoAtual + 1;
-                VarDeclaration1();
-            } else {
-                addErro(atual(), "'Identificador'");
+        if (RecursiveVar <= 7000) {
+            if (atual() != null) {
+                if (VarType.contains(atual().getLexema())) {
+                    posicaoAtual = posicaoAtual + 1;
+                    if (atual().getTipo().equals("Identificador")) {
+                        posicaoAtual = posicaoAtual + 1;
+                        VarDeclaration1();
+                    } else {
+                        addErro(atual(), "'Identificador'");
+                    }
+                } else {
+                    addErro(atual(), "tipo");
+                }
             }
-        } else {
-            addErro(atual(), "tipo");
         }
+        RecursiveVar++;
     }
 
     //<VarDeclaration1>::= ',' Identifier <VarDeclaration1> | ';'
@@ -762,6 +778,7 @@ public class AnalisadorSintatico {
                 addErro(atual(), "Identificador");
             }
         } else if (atual().getLexema().equals(";")) {
+            //System.out.println("----------------------------Achou o ;-----------------------------------------------------------");
             posicaoAtual = posicaoAtual + 1;
         } else {
             addErro(atual(), ";");
@@ -778,7 +795,6 @@ public class AnalisadorSintatico {
                 ConstList();
             }
         }
-
     }
 
     //<ConstList>::= <ConstDeclaration> <ConstList1>
@@ -789,37 +805,41 @@ public class AnalisadorSintatico {
         }
     }
 
+    //RecursiveConst
     //<ConstList1> ::= <ConstDeclaration> <ConstList1> | '}'
     private void ConstList1() {
-        if (atual() != null) {
-            ConstDeclaration();
-            ConstList1();
+        if (RecursiveConst <= 7000) {
+            if (atual() != null) {
+                ConstDeclaration();
+                ConstList1();
 
-        } else if ((atual() != null) && (atual().getLexema().equals("}"))) {
-            posicaoAtual = posicaoAtual + 1;
+            } else if ((atual() != null) && (atual().getLexema().equals("}"))) {
+                posicaoAtual = posicaoAtual + 1;
 
-        } else {
-            addErro(atual(), "'}'");
-            System.out.println(atual().getLinha());
+            } else {
+                addErro(atual(), "'}'");
+                System.out.println(atual().getLinha());
+            }
         }
-
+        RecursiveConst++;
     }
 
     //Checar <ConstType>!
     //<ConstDeclaration> ::= <ConstType> Identifier '=' <Value> <ConstDeclaration1>
     private void ConstDeclaration() {
-
-        if (VarType.contains(atual().getLexema())) {
-            if (atual().getTipo().equals("Identificador")) {
-                posicaoAtual = posicaoAtual + 1;
-                if (atual().getLexema().equals("=")) {
+        if (RecursiveConst <= 7000) {
+            if (VarType.contains(atual().getLexema())) {
+                if (atual().getTipo().equals("Identificador")) {
                     posicaoAtual = posicaoAtual + 1;
-                    Value();
-                    ConstDeclaration1();
+                    if (atual().getLexema().equals("=")) {
+                        posicaoAtual = posicaoAtual + 1;
+                        Value();
+                        ConstDeclaration1();
+                    }
                 }
             }
-
         }
+        RecursiveConst++;
     }
 
     //<ConstDeclaration1> ::= ',' Identifier  '=' <Value> <ConstDeclaration1> | ';'
@@ -877,7 +897,6 @@ public class AnalisadorSintatico {
     // <RegisterStatementMultiple> ::= <RegisterStatement> |
     private void RegisterStatementMultiple() {
         if ((atual() != null)) {
-            posicaoAtual = posicaoAtual + 1;
             RegisterStatement();
         }
     }
@@ -904,37 +923,45 @@ public class AnalisadorSintatico {
         }
     }
 
+    //Testes evitar o StackOverflowError
     //<RegisterList1> ::= <RegisterDeclaration> <RegisterList1> | '}' <RegisterStatementMultiple>
     private void RegisterList1() {
-        if ((atual() != null)) {
-            RegisterDeclaration();
-            RegisterList1();
-        } else if ((atual() != null) && atual().getLexema().equals("}")) {
-            posicaoAtual = posicaoAtual + 1;
-            RegisterStatementMultiple();
-        }
-    }
-
-    //<RegisterDeclaration> ::= <ConstType> Identifier <RegisterDeclaration1>
-    private void RegisterDeclaration() {
-        if ((atual() != null) && VarType.contains(atual().getLexema())) {
-            posicaoAtual = posicaoAtual + 1;
-            if (atual().getTipo().equals("Identificador")) {
+        if (RecursiveRegister <= 9000) {
+            if ((atual() != null)) {
+                RegisterDeclaration();
+                RegisterList1();
+            } else if ((atual() != null) && atual().getLexema().equals("}")) {
                 posicaoAtual = posicaoAtual + 1;
-                RegisterDeclaration1();
+                RegisterStatementMultiple();
             }
         }
+        RecursiveRegister++;
+    }
+
+    //Testes evitar o StackOverflowErrors
+    //<RegisterDeclaration> ::= <ConstType> Identifier <RegisterDeclaration1>
+    private void RegisterDeclaration() {
+        if (RecursiveRegister <= 9000) {
+            if ((atual() != null) && VarType.contains(atual().getLexema())) {
+                posicaoAtual = posicaoAtual + 1;
+                if (atual().getTipo().equals("Identificador")) {
+                    posicaoAtual = posicaoAtual + 1;
+                    RegisterDeclaration1();
+                }
+            }
+        }
+        RecursiveRegister++;
     }
 
     //<RegisterDeclaration1> ::= ',' Identifier <RegisterDeclaration1> | ';'
     private void RegisterDeclaration1() {
-        if (atual().getLexema().equals(",")) {
+        if ((atual() != null) && atual().getLexema().equals(",")) {
             posicaoAtual = posicaoAtual + 1;
             if (atual().getTipo().equals("Identificador")) {
                 posicaoAtual = posicaoAtual + 1;
                 RegisterDeclaration1();
             }
-        } else if (atual().getLexema().equals(";")) {
+        } else if ((atual() != null) && atual().getLexema().equals(";")) {
             posicaoAtual = posicaoAtual + 1;
         }
     }
@@ -1046,7 +1073,7 @@ public class AnalisadorSintatico {
 
     //<FunctionStatement>::= 'function' Identifier  '(' <ParameterFunction> '{' <LocalStatement> 'return' <Value>';' <FunctionStatement1> |
     private void FunctionStatement() {
-        if (atual().getLexema().equals("function")) {
+        if ((atual() != null) && atual().getLexema().equals("function")) {
             posicaoAtual = posicaoAtual + 1;
             if (atual().getTipo().equals("Identificador")) {
                 posicaoAtual = posicaoAtual + 1;
@@ -1310,7 +1337,7 @@ public class AnalisadorSintatico {
     //---------Declaração Main
     //<Main> ::= 'main' '{' <LocalStatement> '}'
     private void Main() {
-        if (atual().getLexema().equals("main")) {
+        if ((atual() != null) && atual().getLexema().equals("main")) {
             posicaoAtual = posicaoAtual + 1;
             if (atual().getLexema().equals("{")) {
                 posicaoAtual = posicaoAtual + 1;
