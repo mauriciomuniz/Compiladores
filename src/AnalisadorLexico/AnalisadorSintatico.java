@@ -109,7 +109,7 @@ public class AnalisadorSintatico {
                             if (atual() != null) {
                                 switch (atual().getLexema()) {
                                     case "$":
-                                        addErro(atual(), "Fim de programa");
+                                        addErro(atual(), "Fim de programa Inesperado");
                                         break;
                                     case ";":
                                         posicaoAtual = posicaoAtual + 1;
@@ -150,7 +150,7 @@ public class AnalisadorSintatico {
                                 if (atual() != null) {
                                     switch (atual().getLexema()) {
                                         case "$":
-                                            addErro(atual(), "Fim de programa");
+                                            addErro(atual(), "Fim de programa Inesperado");
                                             break;
                                         case ";":
                                             posicaoAtual = posicaoAtual + 1;
@@ -176,7 +176,7 @@ public class AnalisadorSintatico {
 
                     if (atual() != null) {
                         if (atual().getLexema().equals("$")) {
-                            addErro(atual(), "Fim de programa");
+                            addErro(atual(), "Fim de programa Inesperado");
                         } else if (atual().getLexema().equals(";")) {
                             posicaoAtual = posicaoAtual + 1;
                             globalStatement();
@@ -207,7 +207,7 @@ public class AnalisadorSintatico {
                                         if (atual() != null) {
                                             switch (atual().getLexema()) {
                                                 case "$":
-                                                    addErro(atual(), "Fim de programa");
+                                                    addErro(atual(), "Fim de programa Inesperado");
                                                     break;
                                                 case ";":
                                                     posicaoAtual = posicaoAtual + 1;
@@ -240,7 +240,7 @@ public class AnalisadorSintatico {
                                     if (atual() != null) {
                                         switch (atual().getLexema()) {
                                             case "$":
-                                                addErro(atual(), "Fim de programa");
+                                                addErro(atual(), "Fim de programa Inesperado");
                                                 break;
                                             case ";":
                                                 posicaoAtual = posicaoAtual + 1;
@@ -288,7 +288,7 @@ public class AnalisadorSintatico {
                                 if (atual() != null) {
                                     switch (atual().getLexema()) {
                                         case "$":
-                                            addErro(atual(), "Fim de programa");
+                                            addErro(atual(), "Fim de programa Inesperado");
                                             break;
                                         case ";":
                                             posicaoAtual = posicaoAtual + 1;
@@ -329,7 +329,7 @@ public class AnalisadorSintatico {
                                     if (atual() != null) {
                                         switch (atual().getLexema()) {
                                             case "$":
-                                                addErro(atual(), "Fim de programa");
+                                                addErro(atual(), "Fim de programa Inesperado");
                                                 break;
                                             case ";":
                                                 posicaoAtual = posicaoAtual + 1;
@@ -355,7 +355,7 @@ public class AnalisadorSintatico {
 
                         if (atual() != null) {
                             if (atual().getLexema().equals("$")) {
-                                addErro(atual(), "Fim de programa");
+                                addErro(atual(), "Fim de programa Inesperado");
                             } else if (atual().getLexema().equals(";")) {
                                 posicaoAtual = posicaoAtual + 1;
                                 globalStatement();
@@ -386,7 +386,7 @@ public class AnalisadorSintatico {
                                             if (atual() != null) {
                                                 switch (atual().getLexema()) {
                                                     case "$":
-                                                        addErro(atual(), "Fim de programa");
+                                                        addErro(atual(), "Fim de programa Inesperado");
                                                         break;
                                                     case ";":
                                                         posicaoAtual = posicaoAtual + 1;
@@ -419,7 +419,7 @@ public class AnalisadorSintatico {
                                         if (atual() != null) {
                                             switch (atual().getLexema()) {
                                                 case "$":
-                                                    addErro(atual(), "Fim de programa");
+                                                    addErro(atual(), "Fim de programa Inesperado");
                                                     break;
                                                 case ";":
                                                     posicaoAtual = posicaoAtual + 1;
@@ -473,7 +473,7 @@ public class AnalisadorSintatico {
                                         if (atual() != null) {
                                             switch (atual().getLexema()) {
                                                 case "$":
-                                                    addErro(atual(), "Fim de programa");
+                                                    addErro(atual(), "Fim de programa Inesperado");
                                                     break;
                                                 case ";":
                                                     posicaoAtual = posicaoAtual + 1;
@@ -494,7 +494,7 @@ public class AnalisadorSintatico {
                 if (atual() != null) {
                     switch (atual().getLexema()) {
                         case "$":
-                            //addErro(atual(), "Fim de programa");
+                            //addErro(atual(), "Fim de programa Inesperado");
                             break;
                         case "program":
                             posicaoAtual = posicaoAtual + 1;
@@ -521,7 +521,7 @@ public class AnalisadorSintatico {
                                             if (atual() != null) {
                                                 switch (atual().getLexema()) {
                                                     case "$":
-                                                        addErro(atual(), "Fim de programa");
+                                                        addErro(atual(), "Fim de programa Inesperado");
                                                         break;
                                                     case ";":
                                                         posicaoAtual = posicaoAtual + 1;
@@ -562,7 +562,7 @@ public class AnalisadorSintatico {
                                                 if (atual() != null) {
                                                     switch (atual().getLexema()) {
                                                         case "$":
-                                                            addErro(atual(), "Fim de programa");
+                                                            addErro(atual(), "Fim de programa Inesperado");
                                                             break;
                                                         case ";":
                                                             posicaoAtual = posicaoAtual + 1;
@@ -588,7 +588,7 @@ public class AnalisadorSintatico {
 
                                     if (atual() != null) {
                                         if (atual().getLexema().equals("$")) {
-                                            addErro(atual(), "Fim de programa");
+                                            addErro(atual(), "Fim de programa Inesperado");
                                         } else if (atual().getLexema().equals(";")) {
                                             posicaoAtual = posicaoAtual + 1;
                                             globalStatement();
@@ -619,7 +619,7 @@ public class AnalisadorSintatico {
                                                         if (atual() != null) {
                                                             switch (atual().getLexema()) {
                                                                 case "$":
-                                                                    addErro(atual(), "Fim de programa");
+                                                                    addErro(atual(), "Fim de programa Inesperado");
                                                                     break;
                                                                 case ";":
                                                                     posicaoAtual = posicaoAtual + 1;
@@ -652,7 +652,7 @@ public class AnalisadorSintatico {
                                                     if (atual() != null) {
                                                         switch (atual().getLexema()) {
                                                             case "$":
-                                                                addErro(atual(), "Fim de programa");
+                                                                addErro(atual(), "Fim de programa Inesperado");
                                                                 break;
                                                             case ";":
                                                                 posicaoAtual = posicaoAtual + 1;
@@ -727,19 +727,20 @@ public class AnalisadorSintatico {
     //Testando com VarList por causa de java.lang.StackOverflowError
     //<VarList1>::= <VarDeclaration> <VarList1> | '}'
     private void VarList1() {
-        if (RecursiveVar <= 7000) {
+        if (RecursiveVar <= 500) {
             if ((atual() != null)) {
-                VarDeclaration();
+                //VarDeclaration();
                 if (!atual().getLexema().equals("}")) {
-                    //System.out.println("--------------------------------- " + VarType.contains(atual().getLexema()) + " --------------------------");
+                    //System.out.println("--------------------------- " + VarType.contains(atual().getLexema()) + " --------------------------");
+                    VarDeclaration();
                     VarList1();
-                }
-                if ((atual() != null) && atual().getLexema().equals("}")) {
+                } else if ((atual() != null) && atual().getLexema().equals("}")) {
                     posicaoAtual = posicaoAtual + 1;
                 } else {
-                    if (atual() != null) {
-                        addErro(atual(), "'}'");
-                    }
+                    //if (atual() != null) {
+                    addErro(atual(), "'}'");
+                    System.out.println(atual().getLinha());
+                    //}
                 }
             }
         }
@@ -749,7 +750,7 @@ public class AnalisadorSintatico {
     //RecursiveVar
     //<VarDeclaration>::= <VarType> Identifier <VarDeclaration1>
     private void VarDeclaration() {
-        if (RecursiveVar <= 7000) {
+        if (RecursiveVar <= 500) {
             if (atual() != null) {
                 if (VarType.contains(atual().getLexema())) {
                     posicaoAtual = posicaoAtual + 1;
@@ -760,7 +761,7 @@ public class AnalisadorSintatico {
                         addErro(atual(), "'Identificador'");
                     }
                 } else {
-                    addErro(atual(), "tipo");
+                    addErro(atual(), "'tipo'");
                 }
             }
         }
@@ -775,13 +776,13 @@ public class AnalisadorSintatico {
                 posicaoAtual = posicaoAtual + 1;
                 VarDeclaration1();
             } else {
-                addErro(atual(), "Identificador");
+                addErro(atual(), "'Identificador'");
             }
         } else if (atual().getLexema().equals(";")) {
             //System.out.println("----------------------------Achou o ;-----------------------------------------------------------");
             posicaoAtual = posicaoAtual + 1;
         } else {
-            addErro(atual(), ";");
+            addErro(atual(), "';'");
         }
     }
 
@@ -793,7 +794,11 @@ public class AnalisadorSintatico {
             if (atual() != null && atual().getLexema().equals("{")) {
                 posicaoAtual = posicaoAtual + 1;
                 ConstList();
+            } else {
+                addErro(atual(), "'{'");
             }
+        } else {
+            addErro(atual(), "'const'");
         }
     }
 
@@ -808,17 +813,17 @@ public class AnalisadorSintatico {
     //RecursiveConst
     //<ConstList1> ::= <ConstDeclaration> <ConstList1> | '}'
     private void ConstList1() {
-        if (RecursiveConst <= 7000) {
+        if (RecursiveConst <= 500) {
             if (atual() != null) {
-                ConstDeclaration();
-                ConstList1();
-
-            } else if ((atual() != null) && (atual().getLexema().equals("}"))) {
-                posicaoAtual = posicaoAtual + 1;
-
-            } else {
-                addErro(atual(), "'}'");
-                System.out.println(atual().getLinha());
+                if (!atual().getLexema().equals("}")) {
+                    ConstDeclaration();
+                    ConstList1();
+                } else if ((atual() != null) && (atual().getLexema().equals("}"))) {
+                    posicaoAtual = posicaoAtual + 1;
+                } else {
+                    addErro(atual(), "'}'");
+                    System.out.println(atual().getLinha());
+                }
             }
         }
         RecursiveConst++;
@@ -827,16 +832,26 @@ public class AnalisadorSintatico {
     //Checar <ConstType>!
     //<ConstDeclaration> ::= <ConstType> Identifier '=' <Value> <ConstDeclaration1>
     private void ConstDeclaration() {
-        if (RecursiveConst <= 7000) {
+        if (RecursiveConst <= 500) {
             if (VarType.contains(atual().getLexema())) {
+                posicaoAtual = posicaoAtual + 1;
                 if (atual().getTipo().equals("Identificador")) {
                     posicaoAtual = posicaoAtual + 1;
                     if (atual().getLexema().equals("=")) {
                         posicaoAtual = posicaoAtual + 1;
                         Value();
                         ConstDeclaration1();
+                    } else {
+                        addErro(atual(), "'='");
+                        System.out.println(" ConstDeclaration " + atual().getLinha());
                     }
+                } else {
+                    addErro(atual(), "'Identificador'");
+                    System.out.println(" Identificador " + atual().getLinha());
                 }
+            } else {
+                addErro(atual(), "'tipo'");
+                System.out.println(" tipo " + atual().getLinha());
             }
         }
         RecursiveConst++;
@@ -859,6 +874,8 @@ public class AnalisadorSintatico {
         }
     }
 
+    //nessa parte aqui olhando pelo modelo base só colocariamos lexema pra 'true' ou 'false',
+    //como temos o boolean ele já decide um ou outro
     //<Value>  ::= Decimal | RealNumber | StringLiteral | Identifier <ValueRegister> | Char | Boolean
     private void Value() {
         if (atual().getTipo().equals("Identificador")) {
@@ -866,23 +883,23 @@ public class AnalisadorSintatico {
             ValueRegister();
         } else if ((atual() != null) && (atual().getTipo().equals("Decimal")
                 || atual().getTipo().equals("RealNumber") || atual().getTipo().equals("StringLiteral")
-                || atual().getLexema().equals("Char") || atual().getLexema().equals("Boolean"))) {
+                || atual().getLexema().equals("Char") || atual().getLexema().equals("true")
+                || atual().getLexema().equals("false"))) {
             posicaoAtual = posicaoAtual + 1;
+        } else {
+            addErro(atual(), "Valor incorreto para valores");
+            while (!(atual().getLexema().equals(",")
+                    || atual().getLexema().equals(";")
+                    || atual().getLexema().equals("$")
+                    || atual().getLexema().equals("}"))) {
+                posicaoAtual = posicaoAtual + 1;
+            }
+            if (atual().getLexema().equals("$")) {
+                addErro(atual(), "fim de programa Inesperado");
+            }
         }
     }
 
-    /*   
- private void Value() {
-        if (atual().getTipo().equals("Identificador")) {
-            posicaoAtual = posicaoAtual + 1;
-            ValueRegister();
-        } else if ((atual() != null) && (atual().getTipo().equals("Decimal")
-                || atual().getTipo().equals("RealNumber") || atual().getTipo().equals("StringLiteral")
-                || atual().getTipo().equals("Char") || atual().getTipo().equals("Boolean"))) {
-            posicaoAtual = posicaoAtual + 1;
-        }
-    }*/ //nessa parte aqui olhando pelo modelo base só colocariamos lexema pra 'true' ou 'false',
-    //como temos o boolean ele já decide um ou outro
     // Declaracao Register
     // <ValueRegister> ::= '.' Identifier |
     private void ValueRegister() {
@@ -926,7 +943,7 @@ public class AnalisadorSintatico {
     //Testes evitar o StackOverflowError
     //<RegisterList1> ::= <RegisterDeclaration> <RegisterList1> | '}' <RegisterStatementMultiple>
     private void RegisterList1() {
-        if (RecursiveRegister <= 9000) {
+        if (RecursiveRegister <= 500) {
             if ((atual() != null)) {
                 RegisterDeclaration();
                 RegisterList1();
@@ -941,7 +958,7 @@ public class AnalisadorSintatico {
     //Testes evitar o StackOverflowErrors
     //<RegisterDeclaration> ::= <ConstType> Identifier <RegisterDeclaration1>
     private void RegisterDeclaration() {
-        if (RecursiveRegister <= 9000) {
+        if (RecursiveRegister <= 500) {
             if ((atual() != null) && VarType.contains(atual().getLexema())) {
                 posicaoAtual = posicaoAtual + 1;
                 if (atual().getTipo().equals("Identificador")) {
