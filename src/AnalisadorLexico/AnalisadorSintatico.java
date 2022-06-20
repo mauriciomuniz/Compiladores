@@ -699,7 +699,7 @@ public class AnalisadorSintatico {
     //Declaracao Variaveis
     //<VarStatement>::= 'var' '{' <VarList>
     private void VarStatement() {
-        if (atual().getLexema().equals("var")) {
+        if ((atual() != null) && atual().getLexema().equals("var")) {
             posicaoAtual = posicaoAtual + 1;
             if (atual().getLexema().equals("{")) {
                 posicaoAtual = posicaoAtual + 1;
@@ -1060,7 +1060,7 @@ public class AnalisadorSintatico {
 
     //<ProcedureStatement1> ::= '}'  <ProcedureRecursive>
     private void ProcedureStatement1() {
-        if (atual().getLexema().equals("}")) {
+        if ((atual() != null) && atual().getLexema().equals("}")) {
             posicaoAtual = posicaoAtual + 1;
             ProcedureRecursive();
         }
@@ -1068,14 +1068,14 @@ public class AnalisadorSintatico {
 
     //<ProcedureRecursive> ::= 'procedure' Identifier '(' <ParameterProcedure> '{' <LocalStatement>  <ProcedureStatement1> | 
     private void ProcedureRecursive() {
-        if (atual().getLexema().equals("procedure")) {
+        if ((atual() != null) && atual().getLexema().equals("procedure")) {
             posicaoAtual = posicaoAtual + 1;
-            if (atual().getTipo().equals("Identificador")) {
+            if ((atual() != null) && atual().getTipo().equals("Identificador")) {
                 posicaoAtual = posicaoAtual + 1;
-                if (atual().getLexema().equals("(")) {
+                if ((atual() != null) && atual().getLexema().equals("(")) {
                     posicaoAtual = posicaoAtual + 1;
                     ParameterProcedure();
-                    if (atual().getLexema().equals("{")) {
+                    if ((atual() != null) && atual().getLexema().equals("{")) {
                         posicaoAtual = posicaoAtual + 1;
                         LocalStatement();
                         ProcedureStatement1();
@@ -1089,7 +1089,7 @@ public class AnalisadorSintatico {
     private void ParameterProcedure() {
         if (VarType.contains(atual().getLexema())) {
             posicaoAtual = posicaoAtual + 1;
-            if (atual().getTipo().equals("Identificador")) {
+            if ((atual() != null) && atual().getTipo().equals("Identificador")) {
                 posicaoAtual = posicaoAtual + 1;
                 ParameterListProcedure();
             }
@@ -1100,7 +1100,7 @@ public class AnalisadorSintatico {
 
     //<ParameterListProcedure> ::=   ',' <ParameterProcedure> |  ')'  
     private void ParameterListProcedure() {
-        if (atual().getLexema().equals(",")) {
+        if ((atual() != null) && atual().getLexema().equals(",")) {
             posicaoAtual = posicaoAtual + 1;
             ParameterProcedure();
         } else if (atual().getLexema().equals(")")) {
@@ -1110,9 +1110,9 @@ public class AnalisadorSintatico {
 
     //<ParameterFunction> ::= <VarType> Identifier <ParameterListFunction> | ')' ':' <VarType>
     private void ParameterFunction() {
-        if (atual().getLexema().equals("VarType")) {
+        if ((atual() != null) && atual().getLexema().equals("VarType")) {
             posicaoAtual = posicaoAtual + 1;
-            if (atual().getTipo().equals("Identificador")) {
+            if ((atual() != null) && atual().getTipo().equals("Identificador")) {
                 posicaoAtual = posicaoAtual + 1;
                 ParameterListFunction();
             }
@@ -1129,7 +1129,7 @@ public class AnalisadorSintatico {
 
     //<ParameterListFunction> ::=   ',' <ParameterFunction> |  ')' ':' <VarType> 
     private void ParameterListFunction() {
-        if (atual().getLexema().equals(",")) {
+        if ((atual() != null) && atual().getLexema().equals(",")) {
             posicaoAtual = posicaoAtual + 1;
             ParameterFunction();
         } else if (atual().getLexema().equals(")")) {
@@ -1171,7 +1171,7 @@ public class AnalisadorSintatico {
 
     //<FunctionStatement1>::= '}' <FunctionRecursive>
     private void FunctionStatement1() {
-        if (atual().getLexema().equals("}")) {
+        if ((atual() != null) && atual().getLexema().equals("}")) {
             posicaoAtual = posicaoAtual + 1;
             FunctionRecursive();
         }
@@ -1179,20 +1179,20 @@ public class AnalisadorSintatico {
 
     //<FunctionRecursive> ::=  'function' Identifier  '(' <ParameterFunction>  '{' <LocalStatement> 'return' <Value>';' <FunctionStatement1> | 
     private void FunctionRecursive() {
-        if (atual().getLexema().equals("function")) {
+        if ((atual() != null) && atual().getLexema().equals("function")) {
             posicaoAtual = posicaoAtual + 1;
-            if (atual().getTipo().equals("Identificador")) {
+            if ((atual() != null) && atual().getTipo().equals("Identificador")) {
                 posicaoAtual = posicaoAtual + 1;
-                if (atual().getLexema().equals("(")) {
+                if ((atual() != null) && atual().getLexema().equals("(")) {
                     posicaoAtual = posicaoAtual + 1;
                     ParameterFunction();
-                    if (atual().getLexema().equals("{")) {
+                    if ((atual() != null) && atual().getLexema().equals("{")) {
                         posicaoAtual = posicaoAtual + 1;
                         LocalStatement();
-                        if (atual().getLexema().equals("return")) {
+                        if ((atual() != null) && atual().getLexema().equals("return")) {
                             posicaoAtual = posicaoAtual + 1;
                             Value();
-                            if (atual().getLexema().equals(";")) {
+                            if ((atual() != null) && atual().getLexema().equals(";")) {
                                 posicaoAtual = posicaoAtual + 1;
                                 FunctionStatement1();
                             }
@@ -1391,14 +1391,14 @@ public class AnalisadorSintatico {
     //---------Chamada de procedure
     //<ProcedureCall> ::= Identifier '(' <Argument> ')' ';'
     private void ProcedureCall() {
-        if (atual().getTipo().equals("Identificador")) {
+        if ((atual() != null) && atual().getTipo().equals("Identificador")) {
             posicaoAtual = posicaoAtual + 1;
-            if (atual().getLexema().equals("(")) {
+            if ((atual() != null) && atual().getLexema().equals("(")) {
                 posicaoAtual = posicaoAtual + 1;
                 Argument();
-                if (atual().getLexema().equals(")")) {
+                if ((atual() != null) && atual().getLexema().equals(")")) {
                     posicaoAtual = posicaoAtual + 1;
-                    if (atual().getLexema().equals(";")) {
+                    if ((atual() != null) && atual().getLexema().equals(";")) {
                         posicaoAtual = posicaoAtual + 1;
                     }
                 }
