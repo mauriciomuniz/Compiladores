@@ -135,7 +135,7 @@ public class Automato {
             tokenaux = new Token(linhaInicial + 1, auxPalavraReservadaId + 1, "PalavraReservada", lexema);
         }//se não considera a palavra um identificador 
         else {
-            tokenaux = new Token(linhaInicial + 1, auxPalavraReservadaId + 1, "Identificador", lexema);
+            tokenaux = new Token(linhaInicial + 1, auxPalavraReservadaId + 1, "Identifier", lexema);
         }//adiciona o token a lista de tokens corretos
         listarTokens.add(tokenaux);
 
@@ -254,7 +254,7 @@ public class Automato {
                 } while (token.verificarEspaco(a));
                 if (Character.isDigit(a) && linhaInicial == linha) {
                     // compara se o último token é um numero ou identificador
-                    if (!(tokenAnterior.getTipo().equals("Numero") || tokenAnterior.getTipo().equals("Identificador"))) {
+                    if (!(tokenAnterior.getTipo().equals("Numero") || tokenAnterior.getTipo().equals("Identifier"))) {
                         //se não for um numero ou um identificador é enviado para o método de número
                         this.numero(lexema, a);
                         return;
@@ -266,7 +266,7 @@ public class Automato {
                 this.aux++;
             } else if (Character.isDigit(a)) {
                 // compara se o último token é um numero ou identificador
-                if (!(tokenAnterior.getTipo().equals("Numero") || tokenAnterior.getTipo().equals("Identificador"))) {
+                if (!(tokenAnterior.getTipo().equals("Numero") || tokenAnterior.getTipo().equals("Identifier"))) {
                     //se não for um numero ou um identificador é enviado para o método de número
                     this.numero(lexema, a);
                     return;
@@ -519,7 +519,7 @@ public class Automato {
                 a = this.proximoChar();
             }
             if (!erro) {
-                tokenAuxiliar = new Token(linhaInicial + 1, auxiliarNumero + 1, "NumeroREAL", lexema);
+                tokenAuxiliar = new Token(linhaInicial + 1, auxiliarNumero + 1, "RealNumber", lexema);
                 listarTokens.add(tokenAuxiliar);
                 return;
             }//se houver erro de numero malç formado é adicionado a lista de erros
@@ -527,7 +527,7 @@ public class Automato {
                 addListaErro("NumeroMF", lexema, linhaInicial);
             }
         }
-        tokenAuxiliar = new Token(linhaInicial + 1, auxiliarNumero + 1, "NumeroINT", lexema);
+        tokenAuxiliar = new Token(linhaInicial + 1, auxiliarNumero + 1, "Decimal", lexema);
         listarTokens.add(tokenAuxiliar);
         //se houver erro de numero mal formado é adicionado a lista de erros
 
