@@ -1,2 +1,3 @@
-
- Nao existem erros Sintaticos
+Linha: 29 Recebido: 'read' Esperado: '}'
+Linha: 29 Recebido: 'read' Esperado: 'function'
+Linha: 29 Recebido: 'read' Esperado: 'main'

@@ -6,7 +6,7 @@
 05 PalavraReservada integer
 05 Identificador cont
 05 OpRelacional =
-05 Numero 0
+05 NumeroINT 0
 05 Delimitador ;
 06 Delimitador }
 07 PalavraReservada register
@@ -27,17 +27,17 @@
 16 PalavraReservada integer
 16 Identificador MINIDADE
 16 OpRelacional =
-16 Numero 18
+16 NumeroINT 18
 16 Delimitador ;
 17 PalavraReservada integer
 17 Identificador MAXIDADE
 17 OpRelacional =
-17 Numero 69
+17 NumeroINT 69
 17 Delimitador ;
 18 PalavraReservada real
 18 Identificador MINPESO
 18 OpRelacional =
-18 Numero 50.0
+18 NumeroREAL 50.0
 18 Delimitador ;
 19 Delimitador }
 21 PalavraReservada function
@@ -103,7 +103,7 @@
 47 PalavraReservada integer
 47 Identificador qtd
 47 OpRelacional =
-47 Numero 0
+47 NumeroINT 0
 47 Delimitador ,
 47 Identificador id
 47 Delimitador ;
@@ -197,7 +197,7 @@
 67 OpRelacional =
 67 Identificador qtd
 67 OpAritmetico +
-67 Numero 1
+67 NumeroINT 1
 67 Delimitador ;
 68 Delimitador }
 69 PalavraReservada else

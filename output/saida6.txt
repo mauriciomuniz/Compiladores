@@ -68,12 +68,11 @@
 16 Delimitador ]
 17 Identificador b
 17 OpRelacional =
-17 Numero -4
+17 NumeroINT -4
 18 Identificador c
 18 OpRelacional >
-18 Numero 2
-18 OpAritmetico -
-18 Numero 2
+18 NumeroINT 2
+18 NumeroINT -2
 18 OpLogico ||
 
  Existem estes erros lexicos a seguir: 

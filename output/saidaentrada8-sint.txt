@@ -1,2 +1,7 @@
 Linha: 01 Recebido: 'delimitadores' Esperado: 'program'
 Linha: 01 Recebido: ',' Esperado: 'var'
+Linha: 01 Recebido: ',' Esperado: 'const'
+Linha: 01 Recebido: ',' Esperado: 'register'
+Linha: 01 Recebido: ',' Esperado: 'procedure'
+Linha: 01 Recebido: ',' Esperado: 'function'
+Linha: 01 Recebido: ',' Esperado: 'main'
