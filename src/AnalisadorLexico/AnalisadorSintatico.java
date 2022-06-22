@@ -1063,7 +1063,10 @@ public class AnalisadorSintatico {
         if ((atual() != null) && atual().getLexema().equals("}")) {
             posicaoAtual = posicaoAtual + 1;
             ProcedureRecursive();
-        }
+        }else {
+                        addErro(atual(), "'}'");
+                        System.out.println(" } " + atual().getLinha());
+              }
     }
 
     //<ProcedureRecursive> ::= 'procedure' Identifier '(' <ParameterProcedure> '{' <LocalStatement>  <ProcedureStatement1> | 
@@ -1080,8 +1083,24 @@ public class AnalisadorSintatico {
                         LocalStatement();
                         ProcedureStatement1();
                     }
+                    else {
+                        addErro(atual(), "'{'");
+                        System.out.println(" { " + atual().getLinha());
+                    }
+                }
+                else {
+                    addErro(atual(), "'('");
+                    System.out.println(" ( " + atual().getLinha());
                 }
             }
+            else {
+                addErro(atual(), "'Identificador'");
+                System.out.println(" Identificador " + atual().getLinha());
+            }
+        }
+        else {
+            addErro(atual(), "'procedure'");
+            System.out.println(" procedure " + atual().getLinha());
         }
     }
 
@@ -1162,10 +1181,34 @@ public class AnalisadorSintatico {
                                 posicaoAtual = posicaoAtual + 1;
                                 FunctionStatement1();
                             }
+                            else {
+                                addErro(atual(), "';'");
+                                System.out.println(" ; " + atual().getLinha());
+                            }
+                        }
+                        else {
+                            addErro(atual(), "'return'");
+                            System.out.println(" return " + atual().getLinha());
                         }
                     }
+                    else {
+                        addErro(atual(), "'{'");
+                        System.out.println(" { " + atual().getLinha());
+                    }
+                }
+                else {
+                    addErro(atual(), "'('");
+                    System.out.println(" ( " + atual().getLinha());
                 }
             }
+            else {
+                addErro(atual(), "'Identificador'");
+                System.out.println(" Identificador " + atual().getLinha());
+            }
+        }
+        else {
+            addErro(atual(), "'function'");
+            System.out.println(" function " + atual().getLinha());
         }
     }
 
@@ -1174,6 +1217,9 @@ public class AnalisadorSintatico {
         if ((atual() != null) && atual().getLexema().equals("}")) {
             posicaoAtual = posicaoAtual + 1;
             FunctionRecursive();
+        }else {
+            addErro(atual(), "'}'");
+            System.out.println(" } " + atual().getLinha());
         }
     }
 
@@ -1196,9 +1242,29 @@ public class AnalisadorSintatico {
                                 posicaoAtual = posicaoAtual + 1;
                                 FunctionStatement1();
                             }
+                            else {
+                                addErro(atual(), "';'");
+                                System.out.println(" ; " + atual().getLinha());
+                            }
+                        }
+                        else {
+                            addErro(atual(), "'return'");
+                            System.out.println(" return " + atual().getLinha());
                         }
                     }
+                    else {
+                        addErro(atual(), "'{'");
+                        System.out.println(" { " + atual().getLinha());
+                    }
                 }
+                else {
+                    addErro(atual(), "'('");
+                    System.out.println(" ( " + atual().getLinha());
+                }
+            }
+            else {
+                addErro(atual(), "'Identificador'");
+                System.out.println(" Identificador " + atual().getLinha());
             }
         }
     }
