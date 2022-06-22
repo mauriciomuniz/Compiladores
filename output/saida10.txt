@@ -68,6 +68,8 @@
 29 PalavraReservada read
 29 Delimitador (
 29 Identificador abc
+29 Delimitador .
+29 Identificador ade
 29 Delimitador )
 29 Delimitador ;
 30 Delimitador }
@@ -82,6 +84,8 @@
 34 PalavraReservada read
 34 Delimitador (
 34 Identificador abc
+34 Delimitador .
+34 Identificador ade
 34 Delimitador )
 34 Delimitador ;
 35 Delimitador }
@@ -101,6 +105,8 @@
 42 PalavraReservada read
 42 Delimitador (
 42 Identificador abc
+42 Delimitador .
+42 Identificador ade
 42 Delimitador )
 42 Delimitador ;
 43 PalavraReservada return
@@ -155,6 +161,8 @@
 58 PalavraReservada read
 58 Delimitador (
 58 Identificador abc
+58 Delimitador .
+58 Identificador ade
 58 Delimitador )
 58 Delimitador ;
 59 Identificador j_

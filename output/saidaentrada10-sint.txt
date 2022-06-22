@@ -1,3 +1,4 @@
-Linha: 29 Recebido: 'read' Esperado: '}'
-Linha: 29 Recebido: 'read' Esperado: 'function'
-Linha: 29 Recebido: 'read' Esperado: 'main'
+Linha: 45 Recebido: 'integer' Esperado: ')'
+Linha: 45 Recebido: 'integer' Esperado: '{'
+Linha: 45 Recebido: 'integer' Esperado: 'function'
+Linha: 45 Recebido: 'integer' Esperado: 'main'

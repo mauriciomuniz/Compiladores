@@ -712,15 +712,26 @@ public class AnalisadorSintatico {
         }
     }
 
+//    //<VarList>::= <VarDeclaration> <VarList1> | '}'
+//    private void VarList() {
+//        if (atual() != null && !seguinte().getLexema().equals("}")) {
+//            System.out.println("Está aqui----------------------------------------------");
+//            VarDeclaration();
+//            VarList1();
+//        } else if (atual().getLexema().equals("}")) {
+//            posicaoAtual = posicaoAtual + 1;
+//        } else {
+//            addErro(atual(), "'}'");
+//        }
+//    }
     //<VarList>::= <VarDeclaration> <VarList1> | '}'
     private void VarList() {
-        if ((atual() != null)) {
-            VarDeclaration();
-            VarList1();
-        } else if (atual().getLexema().equals("}")) {
+        if (atual().getLexema().equals("}")) {
             posicaoAtual = posicaoAtual + 1;
         } else {
-            addErro(atual(), "'}'");
+            System.out.println(" Teste pra ver se ele passou aqui----------------------------------------------");
+            VarDeclaration();
+            VarList1();
         }
     }
 
@@ -1095,8 +1106,13 @@ public class AnalisadorSintatico {
                 System.out.println(" Identificador " + atual().getLinha());
             }
         } else {
-            addErro(atual(), "'procedure'");
-            System.out.println(" procedure " + atual().getLinha());
+            if (atual().getLexema().equals("function")) {
+                System.out.println("Achou o function!!!!!!!!---------------------------------------------");
+                FunctionStatement();
+            } else {
+                addErro(atual(), "'procedure'");
+                System.out.println(" procedure " + atual().getLinha());
+            }
         }
     }
 
@@ -1107,9 +1123,13 @@ public class AnalisadorSintatico {
             if ((atual() != null) && atual().getTipo().equals("Identificador")) {
                 posicaoAtual = posicaoAtual + 1;
                 ParameterListProcedure();
+            } else {
+                addErro(atual(), "'Identificador'");
             }
         } else if (atual().getLexema().equals(")")) {
             posicaoAtual = posicaoAtual + 1;
+        } else {
+            addErro(atual(), "')'");
         }
     }
 
@@ -1120,6 +1140,8 @@ public class AnalisadorSintatico {
             ParameterProcedure();
         } else if (atual().getLexema().equals(")")) {
             posicaoAtual = posicaoAtual + 1;
+        } else {
+            addErro(atual(), "')'");
         }
     }
 
@@ -1130,6 +1152,8 @@ public class AnalisadorSintatico {
             if ((atual() != null) && atual().getTipo().equals("Identificador")) {
                 posicaoAtual = posicaoAtual + 1;
                 ParameterListFunction();
+            } else {
+                addErro(atual(), "'Identificador'");
             }
         } else if (atual().getLexema().equals(")")) {
             posicaoAtual = posicaoAtual + 1;
@@ -1137,8 +1161,14 @@ public class AnalisadorSintatico {
                 posicaoAtual = posicaoAtual + 1;
                 if (VarType.contains(atual().getLexema())) {
                     posicaoAtual = posicaoAtual + 1;
+                } else {
+                    addErro(atual(), "'tipo'");
                 }
+            } else {
+                addErro(atual(), "':'");
             }
+        } else {
+            addErro(atual(), "')'");
         }
     }
 
@@ -1153,8 +1183,14 @@ public class AnalisadorSintatico {
                 posicaoAtual = posicaoAtual + 1;
                 if (VarType.contains(atual().getLexema())) {
                     posicaoAtual = posicaoAtual + 1;
+                } else {
+                    addErro(atual(), "'tipo'");
                 }
+            } else {
+                addErro(atual(), "':'");
             }
+        } else {
+            addErro(atual(), "')'");
         }
     }
 
@@ -1580,20 +1616,37 @@ public class AnalisadorSintatico {
     //              | <ProcedureCall> <LocalCommands>
     //              |
     private void LocalCommands() {
-        if ((atual() != null) && (atual().getLexema().equals("IfDecs"))) {
+        if ((atual() != null) && (atual().getLexema().equals("if"))) {
             IfDecs();
-        } else if ((atual() != null) && (atual().getLexema().equals("WriteDecs"))) {
+            LocalCommands();
+        } else if ((atual() != null) && (atual().getLexema().equals("write"))) {
             WriteDecs();
-        } else if ((atual() != null) && (atual().getLexema().equals("ReadDecs"))) {
+            LocalCommands();
+        } else if ((atual() != null) && (atual().getLexema().equals("read"))) {
             ReadDecs();
-        } else if ((atual() != null) && (atual().getLexema().equals("WhileDecs"))) {
+            LocalCommands();
+        } else if ((atual() != null) && (atual().getLexema().equals("while"))) {
             WhileDecs();
-        } else if ((atual() != null) && (atual().getTipo().equals("Assigment"))) {
-            Assigment();
-        } else if ((atual() != null) && (atual().getTipo().equals("FunctionCall"))) {
-            FunctionCall();
-        } else if ((atual() != null) && (atual().getTipo().equals("ProcedureCall"))) {
-            ProcedureCall();
+            LocalCommands();
+
+            //Dividir os três de baixo com o seguinte()
+        } else if ((atual() != null) && (atual().getTipo().equals("Identificador"))) {
+            switch (seguinte().getLexema()) {
+                case ".":
+                    Assigment();
+                    LocalCommands();
+                    break;
+                case "=":
+                    FunctionCall();
+                    LocalCommands();
+                    break;
+                case "(":
+                    ProcedureCall();
+                    LocalCommands();
+                    break;
+                default:
+                    break;
+            }
         }
     }
 
