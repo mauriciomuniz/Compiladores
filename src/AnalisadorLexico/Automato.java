@@ -558,7 +558,7 @@ public class Automato {
                 a = this.proximoChar();
             } //se não for essas opções adiciona o erro na lista
             else {
-                this.addListaErro("CadeiaDeCharMF", lexema, linhaInicial);
+                this.addListaErro("StringLiteralMF", lexema, linhaInicial);
                 return;
             }
 
@@ -566,11 +566,11 @@ public class Automato {
         if (a == '"' && linhaInicial == linha) {
             lexema = lexema + a;
             this.aux++;
-            tokenAuxiliar = new Token(linhaInicial + 1, auxiliarCadeiaCaractere + 1, "CadeiaDeChar", lexema);
+            tokenAuxiliar = new Token(linhaInicial + 1, auxiliarCadeiaCaractere + 1, "StringLiteral", lexema);
             this.listarTokens.add(tokenAuxiliar);
         }// adiciona o erro a lista 
         else {
-            this.addListaErro("CadeiaDeCharMF", lexema, linhaInicial);
+            this.addListaErro("StringLiteralMF", lexema, linhaInicial);
         }
 
     }
@@ -607,7 +607,7 @@ public class Automato {
         if (a == '\'' && linhaInicial == linha) {
             lexema = lexema + a;
             this.aux++;
-            tokenAuxiliar = new Token(linhaInicial + 1, auxiliarCadeiaCaractere + 1, "Caractere", lexema);
+            tokenAuxiliar = new Token(linhaInicial + 1, auxiliarCadeiaCaractere + 1, "Char", lexema);
             this.listarTokens.add(tokenAuxiliar);
         }// adiciona o erro a lista 
         else {

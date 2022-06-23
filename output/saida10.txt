@@ -282,11 +282,11 @@
 78 Delimitador ;
 79 Identifier a
 79 OpRelacional =
-79 CadeiaDeChar "testeee"
+79 StringLiteral "testeee"
 79 Delimitador ;
 80 Identifier a
 80 OpRelacional =
-80 Caractere 'a'
+80 Char 'a'
 80 Delimitador ;
 81 Identifier a
 81 Delimitador .
@@ -349,7 +349,7 @@
 100 Delimitador ;
 102 PalavraReservada write
 102 Delimitador (
-102 CadeiaDeChar "Digite a quantidade de pessoas: "
+102 StringLiteral "Digite a quantidade de pessoas: "
 102 Delimitador )
 102 Delimitador ;
 103 PalavraReservada read
@@ -404,7 +404,7 @@
 112 Delimitador {
 113 PalavraReservada write
 113 Delimitador (
-113 CadeiaDeChar "Digite o nome da pessoa:"
+113 StringLiteral "Digite o nome da pessoa:"
 113 Delimitador )
 113 Delimitador ;
 114 PalavraReservada read
@@ -416,7 +416,7 @@
 114 Delimitador ;
 115 PalavraReservada write
 115 Delimitador (
-115 CadeiaDeChar "Digite a idade da pessoa:"
+115 StringLiteral "Digite a idade da pessoa:"
 115 Delimitador )
 115 Delimitador ;
 116 PalavraReservada read
@@ -428,7 +428,7 @@
 116 Delimitador ;
 117 PalavraReservada write
 117 Delimitador (
-117 CadeiaDeChar "Digite o peso da pessoa:"
+117 StringLiteral "Digite o peso da pessoa:"
 117 Delimitador )
 117 Delimitador ;
 118 PalavraReservada read
@@ -460,7 +460,7 @@
 123 Delimitador {
 124 PalavraReservada write
 124 Delimitador (
-124 CadeiaDeChar "Pode doar sangue!"
+124 StringLiteral "Pode doar sangue!"
 124 Delimitador )
 124 Delimitador ;
 125 Identifier qtd
@@ -488,7 +488,7 @@
 132 Delimitador {
 133 PalavraReservada write
 133 Delimitador (
-133 CadeiaDeChar "Nao Pode doar sangue!"
+133 StringLiteral "Nao Pode doar sangue!"
 133 Delimitador )
 133 Delimitador ;
 134 Delimitador }
@@ -529,15 +529,15 @@
 143 Delimitador }
 145 PalavraReservada write
 145 Delimitador (
-145 CadeiaDeChar "A quantidade de pessoas que puderam doar sangue foi de "
+145 StringLiteral "A quantidade de pessoas que puderam doar sangue foi de "
 145 Delimitador ,
 145 Identifier qtd
 145 Delimitador ,
-145 CadeiaDeChar " de um total de "
+145 StringLiteral " de um total de "
 145 Delimitador ,
 145 Identifier cont
 145 Delimitador ,
-145 CadeiaDeChar " pessoas."
+145 StringLiteral " pessoas."
 145 Delimitador )
 145 Delimitador ;
 146 Delimitador }
