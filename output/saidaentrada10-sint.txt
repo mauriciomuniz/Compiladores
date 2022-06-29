@@ -1,4 +1,2 @@
-Linha: 49 Recebido: 'idade' Esperado: '}'
-Linha: 49 Recebido: 'idade' Esperado: 'return'
-Linha: 49 Recebido: 'idade' Esperado: 'function'
-Linha: 49 Recebido: 'idade' Esperado: 'main'
+Linha: 81 Recebido: ';' Esperado: 'return'
+Linha: 81 Recebido: ';' Esperado: 'main'

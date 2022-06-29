@@ -65,6 +65,16 @@ public class AnalisadorSintatico {
         return null;
     }
 
+    //Pega o token depois do seguinte
+    public Token terceiro() {
+        if (posicaoAtual + 2 < posicaoFinal) {
+            if (listarTokens.get(posicaoAtual + 2) != null) {
+                return (Token) listarTokens.get(posicaoAtual + 2);
+            }
+        }
+        return null;
+    }
+
     //pega o token de sincronização ----------- A testar....
     public void sincronizacao(String sinc) {
         while (!(atual().getLexema().equals(sinc))) {
@@ -123,7 +133,7 @@ public class AnalisadorSintatico {
                     }
                 }
             } else {
-                addErro(atual(), "Identifier");   
+                addErro(atual(), "Identifier");
                 if ((seguinte() != null) && seguinte().getTipo().equals("Identifier")) {
                     posicaoAtual = posicaoAtual + 1;
                     posicaoAtual = posicaoAtual + 1;
@@ -297,7 +307,7 @@ public class AnalisadorSintatico {
                         }
                     }
                 } else {
-                    addErro(atual(), "Identifier"); 
+                    addErro(atual(), "Identifier");
                     if ((seguinte() != null) && seguinte().getTipo().equals("Identifier")) {
                         posicaoAtual = posicaoAtual + 1;
                         posicaoAtual = posicaoAtual + 1;
@@ -524,7 +534,7 @@ public class AnalisadorSintatico {
                                     }
                                 }
                             } else {
-                                addErro(atual(), "Identifier");   
+                                addErro(atual(), "Identifier");
                                 if ((seguinte() != null) && seguinte().getTipo().equals("Identifier")) {
                                     posicaoAtual = posicaoAtual + 1;
                                     posicaoAtual = posicaoAtual + 1;
@@ -896,15 +906,17 @@ public class AnalisadorSintatico {
     }
 
     //nessa parte aqui olhando pelo modelo base só colocariamos lexema pra 'true' ou 'false',
-    //como temos o boolean ele já decide um ou outro
+    //como temos o boolean ele já decide um ou outro CORRIGIR essa parte
     //<Value>  ::= Decimal | RealNumber | StringLiteral | Identifier <ValueRegister> | Char | Boolean
     private void Value() {
         if (atual().getTipo().equals("Identifier")) {
             posicaoAtual = posicaoAtual + 1;
             ValueRegister();
+
         } else if ((atual() != null) && (atual().getTipo().equals("RealNumber")
                 || atual().getTipo().equals("Decimal") || atual().getTipo().equals("StringLiteral")
-                || atual().getLexema().equals("Char") || atual().getLexema().equals("boolean"))) {
+                || atual().getTipo().equals("Char") || atual().getLexema().equals("boolean")
+                || atual().getLexema().equals("true") || atual().getLexema().equals("false"))) {
             posicaoAtual = posicaoAtual + 1;
         } else {
             addErro(atual(), "Valor incorreto para valores");
@@ -1157,6 +1169,7 @@ public class AnalisadorSintatico {
                     if (atual().getLexema().equals("{")) {
                         posicaoAtual = posicaoAtual + 1;
                         LocalStatement();
+                        //System.out.println("Saiu LocalStatement");
                         if (atual().getLexema().equals("return")) {
                             posicaoAtual = posicaoAtual + 1;
                             Value();
@@ -1179,7 +1192,7 @@ public class AnalisadorSintatico {
                 addErro(atual(), "'Identifier'");
             }
         } else {
-            addErro(atual(), "'function'");
+            //addErro(atual(), "'function'");
         }
     }
 
@@ -1206,11 +1219,14 @@ public class AnalisadorSintatico {
 
     //<AssigmentRegister> ::= '.' Identifier '=' <AssigmentOperators> ';' | '=' <AssigmentOperators> ';' | '++' ';' | '--' ';'
     private void AssigmentRegister() {
+        System.out.println("            AssigmentRegister   oooohh  ");
         if (atual().getLexema().equals(".")) {
+            System.out.println("Encontrou o   .  !!!!!!!!!!");
             posicaoAtual = posicaoAtual + 1;
             if (atual().getTipo().equals("Identifier")) {
                 posicaoAtual = posicaoAtual + 1;
-                if ((atual() != null) && atual().getLexema().equals("=")) {
+                if (atual().getLexema().equals("=")) {
+                    System.out.println(atual().getLexema()+"    (atual().getLexema().equals(\"=\"))   oia");
                     posicaoAtual = posicaoAtual + 1;
                     AssigmentOperators();
                 } else {
@@ -1219,22 +1235,22 @@ public class AnalisadorSintatico {
             } else {
                 addErro(atual(), "'Identifier'");
             }
-        } else if (atual().getLexema().equals("=")) {
+        } else if (atual().getLexema().equals("=")) {            
             posicaoAtual = posicaoAtual + 1;
             AssigmentOperators();
             if (atual().getLexema().equals(";")) {
                 posicaoAtual = posicaoAtual + 1;
             } else {
-                addErro(atual(), "';'");
+                addErro(atual(), "' ;   '");
             }
-        } else if ((atual() != null) && ((atual().getLexema().equals("++")))) {
+        } else if (atual().getLexema().equals("++")) {
             posicaoAtual = posicaoAtual + 1;
             if (atual().getLexema().equals(";")) {
                 posicaoAtual = posicaoAtual + 1;
             } else {
                 addErro(atual(), "';'");
             }
-        } else if ((atual() != null) && ((atual().getLexema().equals("--")))) {
+        } else if (atual().getLexema().equals("--")) {
             posicaoAtual = posicaoAtual + 1;
             if (atual().getLexema().equals(";")) {
                 posicaoAtual = posicaoAtual + 1;
@@ -1248,7 +1264,9 @@ public class AnalisadorSintatico {
     //<AssigmentOperators> ::= <Value> | <BinaryExpression> | <UnaryExpression>
     private void AssigmentOperators() {
         if (atual() != null) {
-            System.out.println(seguinte().getLexema() + "<========================");
+            System.out.println(atual().getLexema() + " Atual ");
+            System.out.println(atual().getTipo()+ " = Atual Tipo ");
+            System.out.println(seguinte().getLexema() + "<======================== AssigmentOperators");
             if (seguinte().getLexema().equals("+")
                     || seguinte().getLexema().equals("-")
                     || seguinte().getLexema().equals("*")
@@ -1266,8 +1284,8 @@ public class AnalisadorSintatico {
                 BinaryExpression();
             } else if ((atual().getTipo().equals("RealNumber")
                     || atual().getTipo().equals("Decimal") || atual().getTipo().equals("StringLiteral")
-                    || atual().getLexema().equals("Char") || atual().getLexema().equals("boolean")
-                    || atual().getLexema().equals("Identifier"))) {
+                    || atual().getTipo().equals("Char") || atual().getTipo().equals("boolean")
+                    || atual().getTipo().equals("Identifier"))) {
                 Value();
             } else if (atual().getLexema().equals("!")) {
                 UnaryExpression();
@@ -1291,14 +1309,17 @@ public class AnalisadorSintatico {
     //                    | <RelationalExpression>
     //                    | <LogicalExpression>
     private void BinaryExpressionContin() {
+        System.out.println(atual().getLexema() + "                                   BinaryExpressionContin    ");
         if (atual() != null) {
             if (atual().getLexema().equals("+")
                     || atual().getLexema().equals("-")
                     || atual().getLexema().equals("*")
                     || atual().getLexema().equals("/")) {
+                posicaoAtual = posicaoAtual + 1;
                 AddendOperator();
             } else if (atual().getLexema().equals("++")
                     || atual().getLexema().equals("--")) {
+                posicaoAtual = posicaoAtual + 1;
             } else if (atual().getLexema().equals("<")
                     || atual().getLexema().equals(">")
                     || atual().getLexema().equals("!=")
@@ -1323,7 +1344,9 @@ public class AnalisadorSintatico {
     //                    | '==' <AddendOperator>
     private void RelationalExpression() {
         if (atual() != null) {
+            System.out.println(atual().getTipo() + "  e  " + atual().getLexema());
             if (atual().getTipo().equals("OpRelacional")) {
+                posicaoAtual = posicaoAtual + 1;
                 AddendOperator();
             } else {
                 addErro(atual(), "'RelationalExpression'");
@@ -1348,9 +1371,14 @@ public class AnalisadorSintatico {
 
     //<AddendOperator> ::= Identifier | Decimal | RealNumber | Boolean
     private void AddendOperator() {
+        System.out.println("=>Entrou AddendOperator<=");
+        System.out.println(atual().getTipo());
+        System.out.println(atual().getLexema());
         if ((atual() != null) && (atual().getTipo().equals("Identifier")
                 || atual().getTipo().equals("RealNumber")
                 || atual().getTipo().equals("boolean")
+                || atual().getLexema().equals("true")
+                || atual().getLexema().equals("false")
                 || atual().getTipo().equals("Decimal"))) {
             posicaoAtual = posicaoAtual + 1;
         } else {
@@ -1368,11 +1396,14 @@ public class AnalisadorSintatico {
         }
     }
 
+    //Corrigir o Boolean !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     //<AddendOperatorUnary> ::= Identifier | Boolean
     private void AddendOperatorUnary() {
         if (atual().getTipo().equals("Identifier")) {
             posicaoAtual = posicaoAtual + 1;
-        } else if (atual().getLexema().equals("Boolean")) {
+        } else if (atual().getLexema().equals("boolean")
+                || (atual().getLexema().equals("true"))
+                || (atual().getLexema().equals("false"))) {
             posicaoAtual = posicaoAtual + 1;
         } else {
             addErro(atual(), "'Boolean'");
@@ -1540,6 +1571,7 @@ public class AnalisadorSintatico {
     //              | <ProcedureCall> <LocalCommands>
     //              |
     private void LocalCommands() {
+        System.out.println("---------------------------------------------- LocalCommands ---------------------");
         if ((atual() != null) && (atual().getLexema().equals("if"))) {
             IfDecs();
             LocalCommands();
@@ -1555,21 +1587,28 @@ public class AnalisadorSintatico {
 
             //Dividir os três de baixo com o seguinte()
         } else if ((atual() != null) && (atual().getTipo().equals("Identifier"))) {
-            switch (seguinte().getLexema()) {
-                case ".":
-                    Assigment();
-                    LocalCommands();
-                    break;
-                case "=":
+            System.out.println(atual().getTipo().equals("Identifier"));
+            System.out.println("Linha " + atual().getLinha());
+            System.out.println(atual().getTipo());
+            System.out.println("Atual " + atual().getLexema());
+            System.out.println(seguinte().getTipo());
+            System.out.println("Seguinte " + seguinte().getLexema());
+            System.out.println(terceiro().getTipo());
+            System.out.println("Terceiro " + terceiro().getLexema());
+            if (seguinte().getLexema().equals("(")) {
+                ProcedureCall();
+                LocalCommands();
+            } else if (seguinte().getLexema().equals(".") || seguinte().getLexema().equals("++") || seguinte().getLexema().equals("--")) {
+                Assigment();
+                LocalCommands();
+            } else if (seguinte().getLexema().equals("=")) {
+                if (terceiro().getLexema().equals("(")) {
                     FunctionCall();
                     LocalCommands();
-                    break;
-                case "(":
-                    ProcedureCall();
+                } else {
+                    Assigment();
                     LocalCommands();
-                    break;
-                default:
-                    break;
+                }
             }
         }
     }
@@ -1607,6 +1646,7 @@ public class AnalisadorSintatico {
                     if ((atual() != null) && (atual().getLexema().equals("{"))) {
                         posicaoAtual = posicaoAtual + 1;
                         LocalCommands();
+                        //System.out.println(" ---------------------Saiu LocalCommands " + atual().getLexema());
                         if ((atual() != null) && (atual().getLexema().equals("}"))) {
                             posicaoAtual = posicaoAtual + 1;
                             ElseDecs();
@@ -1644,7 +1684,7 @@ public class AnalisadorSintatico {
                 addErro(atual(), "'{'");
             }
         } else {
-            addErro(atual(), "'else'");
+            //addErro(atual(), "'else'");
         }
     }
 
