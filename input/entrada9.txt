@@ -2,77 +2,82 @@
 program Programa1;
 var
 {
-	integer cont = 0;
+    %integer cont 0;
+        integer cont ;
+}
+const
+{
+    integer MINIDADE = 18;
+    integer MAXIDADE = 69;
+    real MINPESO = 50.0;
 }
 register Pessoa
 {
-	integer idade;
-	real peso;
-	string nome;
+    integer idade;
+    real peso;
+    string nome;
 }
-
-const
-{
-	integer MINIDADE = 18;
-	integer MAXIDADE = 69;
-	real MINPESO = 50.0;
-}
-
-function PodeDoar (integer idade, real peso) : boolean
-{
-	if (idade >= MINIDADE && idade <= MAXIDADE)
-	{
-		if (peso >= MINPESO)
-		{
-			return true;
-		}
-	}
-	else
-	{
-		return false;
-	}
-}
-
 procedure Finalizar ()
 {
-	write ("Muito obrigada por usar nosso programa! Tchau!");
+var
+    {
+        integer cont;
+    }
+    write ("Muito obrigada por usar nosso programa! Tchau!");
 }
-
+function PodeDoar (integer idade, real peso) : boolean
+{var
+    {
+        integer cont;
+    }
+    if (idade >= MINIDADE && idade <= MAXIDADE)
+    {
+        if (peso >= MINPESO)
+        {
+            %return false;
+        }
+    }
+    else
+    {
+        return false;
+    }
+    return false;
+}
 
 main
 {
-	var
-	{
-		Pessoa p;
-		integer qtd = 0, id;
-		boolean resposta;
-	}
+    var
+    {
+        Pessoa p;
+        integer qtd, id;
+        boolean resposta;
+    }
 
-	write("Digite a quantidade de pessoas: ");
-	read (qtd);
+    write("Digite a quantidade de pessoas: ");
+    read (qtd);
 
-	while (cont < qtd)
-	{
-		write("Digite o nome da pessoa:");
-		read(p.nome);
-		write("Digite a idade da pessoa:");
-		read(p.idade);
-		write("Digite o peso da pessoa:");
-		read(p.peso);
-		id = p.idade;		
-		resposta = PodeDoar(id, p.peso);
-		if (resposta == true)
-		{
-			write("Pode doar sangue!");
-			qtd = qtd + 1;
-		}
-		else
-		{
-			write("Não pode doar sangue!");
-		}
-		cont++;
-	}
+    while (cont < qtd)
+    {
+        write("Digite o nome da pessoa:");
+        read(p.nome);
+        write("Digite a idade da pessoa:");
+        read(p.idade);
+        write("Digite o peso da pessoa:");
+        read(p.peso);
+        id = p.idade;       
+        resposta = PodeDoar(id, p.peso);
+        if (resposta == true)
+        {
+            write("Pode doar sangue!");
+            qtd = qtd + 1;
+        }
+        else
+        {
+            write("Nao pode doar sangue!");
+        }
+        cont++;
+    }
 
-	write ("A quantidade de pessoas que puderam doar sangue foi de ", qtd, " de um total de ", cont, " pessoas.");
-	Finalizar();
+    write ("A quantidade de pessoas que puderam doar sangue foi de ", qtd, " de um total de ", cont, " pessoas.");
+    Finalizar();
 }

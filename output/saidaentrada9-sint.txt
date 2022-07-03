@@ -1,5 +1,2 @@
-Linha: 08 Recebido: 'register' Esperado: 'const'
-Linha: 15 Recebido: 'const' Esperado: 'register'
-Linha: 15 Recebido: 'const' Esperado: 'procedure'
-Linha: 15 Recebido: 'const' Esperado: 'function'
-Linha: 15 Recebido: 'const' Esperado: 'main'
+Linha: 42 Recebido: 'return' Esperado: '}'
+Linha: 44 Recebido: 'return' Esperado: 'main'
