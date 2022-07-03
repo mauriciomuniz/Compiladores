@@ -102,7 +102,7 @@ main
 	result = calculate(a.b);
     
     write("Digite a quantidade de pessoas: ");
-    read (qtd);
+    read(qtd);
 	if ( cont && true || a < b) {
             read(p.nome);
 	}

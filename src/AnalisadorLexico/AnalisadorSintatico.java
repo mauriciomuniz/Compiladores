@@ -768,7 +768,7 @@ public class AnalisadorSintatico {
     private void VarDeclaration() {
         if (RecursiveVar <= 500) {
             if (atual() != null) {
-                if (VarType.contains(atual().getLexema())) {
+                if (VarType.contains(atual().getLexema()) || atual().getTipo().equals("Identifier")) {
                     posicaoAtual = posicaoAtual + 1;
                     if (atual().getTipo().equals("Identifier")) {
                         posicaoAtual = posicaoAtual + 1;
@@ -951,7 +951,7 @@ public class AnalisadorSintatico {
                 addErro(atual(), "'Identifier'");
             }
         } else {
-            addErro(atual(), "'.'");
+            //addErro(atual(), "'.'"); //Tem que ter o null
         }
     }
 
@@ -1522,8 +1522,14 @@ public class AnalisadorSintatico {
 
     //<Argument> ::= <Value> <ArgumentList> |
     private void Argument() {
-        Value();
-        ArgumentList();
+        if (atual().getTipo().equals("Identifier") || (atual().getTipo().equals("RealNumber")
+                || atual().getTipo().equals("Decimal") || atual().getTipo().equals("StringLiteral")
+                || atual().getTipo().equals("Char") || atual().getLexema().equals("boolean")
+                || atual().getLexema().equals("true") || atual().getLexema().equals("false"))) {
+            Value();
+            ArgumentList();
+        } else {
+        }
     }
 
     //<ArgumentList> ::= ',' <Argument> |
@@ -1532,7 +1538,7 @@ public class AnalisadorSintatico {
             posicaoAtual = posicaoAtual + 1;
             Argument();
         } else {
-            addErro(atual(), "','");
+            //addErro(atual(), "','");//Pode ser vazio
         }
     }
 
@@ -1817,7 +1823,7 @@ public class AnalisadorSintatico {
     //---------Declaração Write 
     //<WriteDecs> ::= 'write' '(' <ArgumentsWrite>
     private void WriteDecs() {
-        if ((atual() != null) && (atual().getLexema().equals("print"))) {
+        if ((atual() != null) && (atual().getLexema().equals("write"))) {
             posicaoAtual = posicaoAtual + 1;
             if ((atual() != null) && (atual().getLexema().equals("("))) {
                 posicaoAtual = posicaoAtual + 1;
@@ -1826,7 +1832,7 @@ public class AnalisadorSintatico {
                 addErro(atual(), "'('");
             }
         } else {
-            addErro(atual(), "'print'");
+            addErro(atual(), "'write'");
         }
     }
 
@@ -1862,7 +1868,7 @@ public class AnalisadorSintatico {
                 addErro(atual(), "'Identifier'");
             }
         } else {
-            addErro(atual(), "'.'");
+            //addErro(atual(), "'.'");Pode ser vazia
         }
     }
 
@@ -1920,7 +1926,7 @@ public class AnalisadorSintatico {
                 addErro(atual(), "'Identifier'");
             }
         } else {
-            addErro(atual(), "'.'");
+            //addErro(atual(), "'.'");//Pode ser nulo
         }
     }
 
