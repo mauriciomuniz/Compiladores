@@ -1,3 +1,2 @@
-Linha: 10 Recebido: 'integer' Esperado: 'register'
-Linha: 10 Recebido: 'integer' Esperado: 'procedure'
-Linha: 10 Recebido: 'integer' Esperado: 'main'
+Linha: 42 Recebido: 'return' Esperado: '}'
+Linha: 44 Recebido: 'return' Esperado: 'main'
