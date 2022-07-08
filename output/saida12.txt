@@ -111,7 +111,6 @@
 44 Delimitador }
 45 PalavraReservada procedure
 45 Identifier teste2
-45 Delimitador (
 45 Delimitador )
 46 PalavraReservada var
 46 Delimitador {

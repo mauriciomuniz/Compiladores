@@ -42,7 +42,7 @@ procedure teste1() {
     var{}	
     read(abc.ade);
 }
-procedure teste2() 
+procedure teste2) 
     var{}	
     read(abc.ade);
 }

@@ -1366,18 +1366,332 @@ public class AnalisadorSintatico {
                         ProcedureStatement1();
                     } else {
                         addErro(atual(), "'{'");
+                        if (atual().getLexema().equals("var")) {
+                            LocalStatement();
+                            ProcedureStatement1();
+                        }
                     }
                 } else {
                     addErro(atual(), "'('");
+                    if (seguinte().getLexema().equals("(")) {
+                        posicaoAtual = posicaoAtual + 1;
+                        if (atual().getLexema().equals("(")) {
+                            posicaoAtual = posicaoAtual + 1;
+                            ParameterProcedure();
+                            if ((atual() != null) && atual().getLexema().equals("{")) {
+                                posicaoAtual = posicaoAtual + 1;
+                                LocalStatement();
+                                ProcedureStatement1();
+                            } else {
+                                addErro(atual(), "'{'");
+                                if (atual().getLexema().equals("var")) {
+                                    LocalStatement();
+                                    ProcedureStatement1();
+                                }
+                            }
+                        }
+                    } else {
+                        if (VarType.contains(atual().getLexema()) || atual().getLexema().equals(")")) {
+                            ParameterProcedure();
+                            if ((atual() != null) && atual().getLexema().equals("{")) {
+                                posicaoAtual = posicaoAtual + 1;
+                                LocalStatement();
+                                ProcedureStatement1();
+                            } else {
+                                addErro(atual(), "'{'");
+                                if (atual().getLexema().equals("var")) {
+                                    LocalStatement();
+                                    ProcedureStatement1();
+                                }
+                            }
+                        }
+                    }
                 }
             } else {
                 addErro(atual(), "'Identifier'");
+                if (seguinte().getTipo().equals("Identifier")) {
+                    posicaoAtual = posicaoAtual + 1;
+                    if ((atual() != null) && atual().getTipo().equals("Identifier")) {
+                        posicaoAtual = posicaoAtual + 1;
+                        if ((atual() != null) && atual().getLexema().equals("(")) {
+                            posicaoAtual = posicaoAtual + 1;
+                            ParameterProcedure();
+                            if ((atual() != null) && atual().getLexema().equals("{")) {
+                                posicaoAtual = posicaoAtual + 1;
+                                LocalStatement();
+                                ProcedureStatement1();
+                            } else {
+                                addErro(atual(), "'{'");
+                                if (atual().getLexema().equals("var")) {
+                                    LocalStatement();
+                                    ProcedureStatement1();
+                                }
+                            }
+                        } else {
+                            addErro(atual(), "'('");
+                            if (seguinte().getLexema().equals("(")) {
+                                posicaoAtual = posicaoAtual + 1;
+                                if (atual().getLexema().equals("(")) {
+                                    posicaoAtual = posicaoAtual + 1;
+                                    ParameterProcedure();
+                                    if ((atual() != null) && atual().getLexema().equals("{")) {
+                                        posicaoAtual = posicaoAtual + 1;
+                                        LocalStatement();
+                                        ProcedureStatement1();
+                                    } else {
+                                        addErro(atual(), "'{'");
+                                        if (atual().getLexema().equals("var")) {
+                                            LocalStatement();
+                                            ProcedureStatement1();
+                                        }
+                                    }
+                                }
+                            } else {
+                                if (VarType.contains(atual().getLexema()) || atual().getLexema().equals(")")) {
+                                    ParameterProcedure();
+                                    if ((atual() != null) && atual().getLexema().equals("{")) {
+                                        posicaoAtual = posicaoAtual + 1;
+                                        LocalStatement();
+                                        ProcedureStatement1();
+                                    } else {
+                                        addErro(atual(), "'{'");
+                                        if (atual().getLexema().equals("var")) {
+                                            LocalStatement();
+                                            ProcedureStatement1();
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                } else {
+                    if (atual().getLexema().equals("(")) {
+                        posicaoAtual = posicaoAtual + 1;
+                        ParameterProcedure();
+                        if ((atual() != null) && atual().getLexema().equals("{")) {
+                            posicaoAtual = posicaoAtual + 1;
+                            LocalStatement();
+                            ProcedureStatement1();
+                        } else {
+                            addErro(atual(), "'{'");
+                            if (atual().getLexema().equals("var")) {
+                                LocalStatement();
+                                ProcedureStatement1();
+                            }
+                        }
+                    } else {
+                        addErro(atual(), "'('");
+                        if (seguinte().getLexema().equals("(")) {
+                            posicaoAtual = posicaoAtual + 1;
+                            if (atual().getLexema().equals("(")) {
+                                posicaoAtual = posicaoAtual + 1;
+                                ParameterProcedure();
+                                if ((atual() != null) && atual().getLexema().equals("{")) {
+                                    posicaoAtual = posicaoAtual + 1;
+                                    LocalStatement();
+                                    ProcedureStatement1();
+                                } else {
+                                    addErro(atual(), "'{'");
+                                    if (atual().getLexema().equals("var")) {
+                                        LocalStatement();
+                                        ProcedureStatement1();
+                                    }
+                                }
+                            }
+                        } else {
+                            if (VarType.contains(atual().getLexema()) || atual().getLexema().equals(")")) {
+                                ParameterProcedure();
+                                if ((atual() != null) && atual().getLexema().equals("{")) {
+                                    posicaoAtual = posicaoAtual + 1;
+                                    LocalStatement();
+                                    ProcedureStatement1();
+                                } else {
+                                    addErro(atual(), "'{'");
+                                    if (atual().getLexema().equals("var")) {
+                                        LocalStatement();
+                                        ProcedureStatement1();
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
             }
         } else {
             if (atual().getLexema().equals("function")) {
                 FunctionStatement();
             } else {
                 addErro(atual(), "'procedure'");
+                if (seguinte().getLexema().equals("procedure")) {
+                    posicaoAtual = posicaoAtual + 1;
+                    if ((atual() != null) && atual().getLexema().equals("procedure")) {
+                        posicaoAtual = posicaoAtual + 1;
+                        if ((atual() != null) && atual().getTipo().equals("Identifier")) {
+                            posicaoAtual = posicaoAtual + 1;
+                            if ((atual() != null) && atual().getLexema().equals("(")) {
+                                posicaoAtual = posicaoAtual + 1;
+                                ParameterProcedure();
+                                if ((atual() != null) && atual().getLexema().equals("{")) {
+                                    posicaoAtual = posicaoAtual + 1;
+                                    LocalStatement();
+                                    ProcedureStatement1();
+                                } else {
+                                    addErro(atual(), "'{'");
+                                    if (atual().getLexema().equals("var")) {
+                                        LocalStatement();
+                                        ProcedureStatement1();
+                                    }
+                                }
+                            } else {
+                                addErro(atual(), "'('");
+                                if (seguinte().getLexema().equals("(")) {
+                                    posicaoAtual = posicaoAtual + 1;
+                                    if (atual().getLexema().equals("(")) {
+                                        posicaoAtual = posicaoAtual + 1;
+                                        ParameterProcedure();
+                                        if ((atual() != null) && atual().getLexema().equals("{")) {
+                                            posicaoAtual = posicaoAtual + 1;
+                                            LocalStatement();
+                                            ProcedureStatement1();
+                                        } else {
+                                            addErro(atual(), "'{'");
+                                            if (atual().getLexema().equals("var")) {
+                                                LocalStatement();
+                                                ProcedureStatement1();
+                                            }
+                                        }
+                                    }
+                                } else {
+                                    if (VarType.contains(atual().getLexema()) || atual().getLexema().equals(")")) {
+                                        ParameterProcedure();
+                                        if ((atual() != null) && atual().getLexema().equals("{")) {
+                                            posicaoAtual = posicaoAtual + 1;
+                                            LocalStatement();
+                                            ProcedureStatement1();
+                                        } else {
+                                            addErro(atual(), "'{'");
+                                            if (atual().getLexema().equals("var")) {
+                                                LocalStatement();
+                                                ProcedureStatement1();
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        } else {
+                            addErro(atual(), "'Identifier'");
+                            if (seguinte().getTipo().equals("Identifier")) {
+                                posicaoAtual = posicaoAtual + 1;
+                                if ((atual() != null) && atual().getTipo().equals("Identifier")) {
+                                    posicaoAtual = posicaoAtual + 1;
+                                    if ((atual() != null) && atual().getLexema().equals("(")) {
+                                        posicaoAtual = posicaoAtual + 1;
+                                        ParameterProcedure();
+                                        if ((atual() != null) && atual().getLexema().equals("{")) {
+                                            posicaoAtual = posicaoAtual + 1;
+                                            LocalStatement();
+                                            ProcedureStatement1();
+                                        } else {
+                                            addErro(atual(), "'{'");
+                                            if (atual().getLexema().equals("var")) {
+                                                LocalStatement();
+                                                ProcedureStatement1();
+                                            }
+                                        }
+                                    } else {
+                                        addErro(atual(), "'('");
+                                        if (seguinte().getLexema().equals("(")) {
+                                            posicaoAtual = posicaoAtual + 1;
+                                            if (atual().getLexema().equals("(")) {
+                                                posicaoAtual = posicaoAtual + 1;
+                                                ParameterProcedure();
+                                                if ((atual() != null) && atual().getLexema().equals("{")) {
+                                                    posicaoAtual = posicaoAtual + 1;
+                                                    LocalStatement();
+                                                    ProcedureStatement1();
+                                                } else {
+                                                    addErro(atual(), "'{'");
+                                                    if (atual().getLexema().equals("var")) {
+                                                        LocalStatement();
+                                                        ProcedureStatement1();
+                                                    }
+                                                }
+                                            }
+                                        } else {
+                                            if (VarType.contains(atual().getLexema()) || atual().getLexema().equals(")")) {
+                                                ParameterProcedure();
+                                                if ((atual() != null) && atual().getLexema().equals("{")) {
+                                                    posicaoAtual = posicaoAtual + 1;
+                                                    LocalStatement();
+                                                    ProcedureStatement1();
+                                                } else {
+                                                    addErro(atual(), "'{'");
+                                                    if (atual().getLexema().equals("var")) {
+                                                        LocalStatement();
+                                                        ProcedureStatement1();
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            } else {
+                                if (atual().getLexema().equals("(")) {
+                                    posicaoAtual = posicaoAtual + 1;
+                                    ParameterProcedure();
+                                    if ((atual() != null) && atual().getLexema().equals("{")) {
+                                        posicaoAtual = posicaoAtual + 1;
+                                        LocalStatement();
+                                        ProcedureStatement1();
+                                    } else {
+                                        addErro(atual(), "'{'");
+                                        if (atual().getLexema().equals("var")) {
+                                            LocalStatement();
+                                            ProcedureStatement1();
+                                        }
+                                    }
+                                } else {
+                                    addErro(atual(), "'('");
+                                    if (seguinte().getLexema().equals("(")) {
+                                        posicaoAtual = posicaoAtual + 1;
+                                        if (atual().getLexema().equals("(")) {
+                                            posicaoAtual = posicaoAtual + 1;
+                                            ParameterProcedure();
+                                            if ((atual() != null) && atual().getLexema().equals("{")) {
+                                                posicaoAtual = posicaoAtual + 1;
+                                                LocalStatement();
+                                                ProcedureStatement1();
+                                            } else {
+                                                addErro(atual(), "'{'");
+                                                if (atual().getLexema().equals("var")) {
+                                                    LocalStatement();
+                                                    ProcedureStatement1();
+                                                }
+                                            }
+                                        }
+                                    } else {
+                                        if (VarType.contains(atual().getLexema()) || atual().getLexema().equals(")")) {
+                                            ParameterProcedure();
+                                            if ((atual() != null) && atual().getLexema().equals("{")) {
+                                                posicaoAtual = posicaoAtual + 1;
+                                                LocalStatement();
+                                                ProcedureStatement1();
+                                            } else {
+                                                addErro(atual(), "'{'");
+                                                if (atual().getLexema().equals("var")) {
+                                                    LocalStatement();
+                                                    ProcedureStatement1();
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                } else {
+                    sincronizacaoFinais();
+                }
             }
         }
     }
@@ -1389,10 +1703,23 @@ public class AnalisadorSintatico {
             ProcedureStatement();
         } else {
             addErro(atual(), "'}'");
+            if (seguinte().getLexema().equals("}")) {
+                posicaoAtual = posicaoAtual + 1;
+                if (atual().getLexema().equals("}")) {
+                    posicaoAtual = posicaoAtual + 1;
+                    ProcedureStatement();
+                }
+            } else {
+                if (atual().getLexema().equals("procedure")) {
+                    ProcedureStatement();
+                } else {
+                    sincronizacaoFinais();
+                }
+            }
         }
     }
-
     //<ParameterProcedure> ::= <VarType> Identifier <ParameterListProcedure> | ')'
+
     private void ParameterProcedure() {
         if (VarType.contains(atual().getLexema())) {
             posicaoAtual = posicaoAtual + 1;
