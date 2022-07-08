@@ -65,19 +65,23 @@ public class AnalisadorSintatico {
         return null;
     }
 
-//    //Pega o token depois do seguinte
-//    public Token terceiro() {
-//        if (posicaoAtual + 2 < posicaoFinal) {
-//            if (listarTokens.get(posicaoAtual + 2) != null) {
-//                return (Token) listarTokens.get(posicaoAtual + 2);
-//            }
-//        }
-//        return null;
-//    }
     //pega o token de sincronização ----------- A testar....
     public void sincronizacao(String sinc) {
         while (!(atual().getLexema().equals(sinc))) {
             posicaoAtual = posicaoAtual + 1;
+        }
+    }
+
+    //pega o token de sincronização ----------- A testar....
+    public void sincronizacaoFinais() {
+        while (!(atual().getLexema().equals(",")
+                || atual().getLexema().equals(";")
+                || atual().getLexema().equals("}")
+                || atual().getLexema().equals("$"))) {
+            posicaoAtual = posicaoAtual + 1;
+        }
+        if (atual().getLexema().equals("$")) {
+            addErro(atual(), "fim de programa");
         }
     }
 
@@ -699,9 +703,45 @@ public class AnalisadorSintatico {
                 VarList();
             } else {
                 addErro(atual(), "'{'");
+                if (seguinte().getLexema().equals("{")) {
+                    posicaoAtual = posicaoAtual + 1;
+                    if (atual().getLexema().equals("{")) {
+                        posicaoAtual = posicaoAtual + 1;
+                        VarList();
+                    } else {
+                        addErro(atual(), "'{'");
+                    }
+                } else {
+                    sincronizacaoFinais();
+                }
             }
         } else {
             addErro(atual(), "'var'");
+            if (seguinte().getLexema().equals("var")) {
+                posicaoAtual = posicaoAtual + 1;
+                if (atual().getLexema().equals("var")) {
+                    posicaoAtual = posicaoAtual + 1;
+                    if (atual().getLexema().equals("{")) {
+                        posicaoAtual = posicaoAtual + 1;
+                        VarList();
+                    } else {
+                        addErro(atual(), "'{'");
+                        if (seguinte().getLexema().equals("{")) {
+                            posicaoAtual = posicaoAtual + 1;
+                            if (atual().getLexema().equals("{")) {
+                                posicaoAtual = posicaoAtual + 1;
+                                VarList();
+                            } else {
+                                addErro(atual(), "'{'");
+                            }
+                        } else {
+                            sincronizacaoFinais();
+                        }
+                    }
+                }
+            } else {
+                sincronizacaoFinais();
+            }
         }
     }
 
@@ -718,52 +758,70 @@ public class AnalisadorSintatico {
     //Testando com VarList por causa de java.lang.StackOverflowError
     //<VarList1>::= <VarDeclaration> <VarList1> | '}'
     private void VarList1() {
-        if (RecursiveVar <= 500) {
-            if (atual().getLexema().equals("}")) {
-                posicaoAtual = posicaoAtual + 1;
-            } else {
+        //if (RecursiveVar <= 500) {
+        if (atual().getLexema().equals("}")) {
+            posicaoAtual = posicaoAtual + 1;
+        } else {
+            if (VarType.contains(atual().getLexema()) || atual().getTipo().equals("Identifier")) {
                 VarDeclaration();
                 VarList1();
             }
         }
-        RecursiveVar++;
+        //}
+        //RecursiveVar++;
     }
 
     //RecursiveVar
     //<VarDeclaration>::= <VarType> Identifier <VarDeclaration1>
     private void VarDeclaration() {
-        if (RecursiveVar <= 500) {
-            if (atual() != null) {
-                if (VarType.contains(atual().getLexema()) || atual().getTipo().equals("Identifier")) {
+        //if (RecursiveVar <= 500) {
+        if (atual() != null) {
+            if (VarType.contains(atual().getLexema()) || atual().getTipo().equals("Identifier")) {
+                posicaoAtual = posicaoAtual + 1;
+                if (atual().getTipo().equals("Identifier")) {
                     posicaoAtual = posicaoAtual + 1;
-                    if (atual().getTipo().equals("Identifier")) {
-                        posicaoAtual = posicaoAtual + 1;
-                        VarDeclaration1();
-                    } else {
-                        addErro(atual(), "'Identifier'");
-                    }
+                    VarDeclaration1();
                 } else {
-                    addErro(atual(), "'tipo'");
+                    addErro(atual(), "'Identifier'");
+                }
+            } else {
+                addErro(atual(), "'nem tipo nem Identifier'");
+                if (VarType.contains(seguinte().getLexema()) || seguinte().getTipo().equals("Identifier")) {
+                    posicaoAtual = posicaoAtual + 1;
                 }
             }
         }
-        RecursiveVar++;
+        //}
+        //RecursiveVar++;
     }
 
     //<VarDeclaration1>::= ',' Identifier <VarDeclaration1> | ';'
     private void VarDeclaration1() {
-        if (atual().getLexema().equals(",")) {
-            posicaoAtual = posicaoAtual + 1;
-            if (atual().getTipo().equals("Identifier")) {
+        if (atual() != null) {
+            if (atual().getLexema().equals(",")) {
                 posicaoAtual = posicaoAtual + 1;
-                VarDeclaration1();
+                if (atual().getTipo().equals("Identifier")) {
+                    posicaoAtual = posicaoAtual + 1;
+                    VarDeclaration1();
+                } else {
+                    addErro(atual(), "'Identifier'");
+                    if (atual().getLexema().equals(",")) {
+                        VarDeclaration1();
+                    } else {
+                        if (atual().getLexema().equals(";")) {
+                            posicaoAtual = posicaoAtual + 1;
+                        } else {
+                            sincronizacaoFinais();
+                        }
+
+                    }
+                }
+            } else if (atual().getLexema().equals(";")) {
+                posicaoAtual = posicaoAtual + 1;
             } else {
-                addErro(atual(), "'Identifier'");
+                addErro(atual(), "';'");
+                sincronizacaoFinais();
             }
-        } else if (atual().getLexema().equals(";")) {
-            posicaoAtual = posicaoAtual + 1;
-        } else {
-            addErro(atual(), "';'");
         }
     }
 
@@ -1600,7 +1658,7 @@ public class AnalisadorSintatico {
             } else if (atual().getTipo().equals("OpLogico")) {
                 LogicalExpression();
             } else {
-                addErro(atual(), "Não achou o OpLogico");
+                addErro(atual(), "Não achou o OpLogico nem o OpRelacional");
             }
         }
     }
