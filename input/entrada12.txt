@@ -46,14 +46,14 @@ procedure teste2)
     var{}	
     read(abc.ade);
 }
-function teste1(): integer {
+function teste1 ): integer {
     var
     {
         integer cont;
     }
 	
     read(abc.ade);
-    return 1.23;
+    return ;
 }
 function teste1(integer idade): boolean {
     var {}

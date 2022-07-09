@@ -1,49 +1,49 @@
-03 Identificador float
-03 Identificador f
+03 Identifier float
+03 Identifier f
 03 OpRelacional =
-03 NumeroREAL -3.5
+03 RealNumber -3.5
 03 Delimitador ;
 05 PalavraReservada integer
-05 Identificador f
+05 Identifier f
 05 OpRelacional =
-05 NumeroREAL 9.5
+05 RealNumber 9.5
 05 Delimitador ;
 07 PalavraReservada string
-07 Identificador msg
+07 Identifier msg
 07 OpRelacional =
 09 PalavraReservada if
 09 Delimitador (
-09 Identificador f
+09 Identifier f
 09 OpRelacional >=
-09 NumeroINT -10
+09 Decimal -10
 09 Delimitador )
 09 OpLogico &&
 09 Delimitador (
-09 Identificador f
+09 Identifier f
 09 OpRelacional <
 09 Delimitador )
 10 PalavraReservada write
 10 Delimitador (
 12 PalavraReservada if
 12 Delimitador (
-12 Identificador f
+12 Identifier f
 12 OpRelacional <=
-12 NumeroINT 7
+12 Decimal 7
 12 Delimitador )
 12 OpLogico ||
 12 Delimitador (
-12 Identificador f
+12 Identifier f
 12 OpRelacional >
-12 NumeroINT -3
+12 Decimal -3
 12 Delimitador )
 13 PalavraReservada write
 13 Delimitador (
 15 Simbolo @
 
  Existem estes erros lexicos a seguir: 
-07 CadeiaDeCharMF "teste  
-10 CadeiaDeCharMF "mensagem );  
-13 CadeiaDeCharMF "msg );  
+07 StringLiteralMF "teste  
+10 StringLiteralMF "mensagem );  
+13 StringLiteralMF "msg );  
 16 SimboloIncorreto ∈ 
 16 SimboloIncorreto ∋ 
 17 SimboloIncorreto ℕ 

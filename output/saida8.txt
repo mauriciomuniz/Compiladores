@@ -1,4 +1,4 @@
-01 Identificador delimitadores
+01 Identifier delimitadores
 01 Delimitador ;
 01 Delimitador ,
 01 Delimitador (

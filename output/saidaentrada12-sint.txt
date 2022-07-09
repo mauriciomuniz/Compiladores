@@ -8,3 +8,5 @@ Linha: 25 Recebido: 'register' Esperado: '}'
 Linha: 30 Recebido: '}' Esperado: ';'
 Linha: 45 Recebido: ')' Esperado: '('
 Linha: 46 Recebido: 'var' Esperado: '{'
+Linha: 49 Recebido: ')' Esperado: '('
+Linha: 56 Recebido: ';' Esperado: Valor incorreto para valores

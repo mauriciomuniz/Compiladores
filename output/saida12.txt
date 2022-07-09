@@ -125,7 +125,6 @@
 48 Delimitador }
 49 PalavraReservada function
 49 Identifier teste1
-49 Delimitador (
 49 Delimitador )
 49 Delimitador :
 49 PalavraReservada integer
@@ -144,7 +143,6 @@
 55 Delimitador )
 55 Delimitador ;
 56 PalavraReservada return
-56 RealNumber 1.23
 56 Delimitador ;
 57 Delimitador }
 58 PalavraReservada function
