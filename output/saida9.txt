@@ -95,9 +95,6 @@
 39 Delimitador }
 40 PalavraReservada else
 41 Delimitador {
-42 PalavraReservada return
-42 PalavraReservada false
-42 Delimitador ;
 43 Delimitador }
 44 PalavraReservada return
 44 PalavraReservada false

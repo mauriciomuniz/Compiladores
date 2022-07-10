@@ -1,2 +1,2 @@
-Linha: 42 Recebido: 'return' Esperado: '}'
-Linha: 44 Recebido: 'return' Esperado: 'main'
+
+ Nao existem erros Sintaticos

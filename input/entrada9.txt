@@ -39,7 +39,7 @@ function PodeDoar (integer idade, real peso) : boolean
     }
     else
     {
-        return false;
+        %return false;
     }
     return false;
 }
