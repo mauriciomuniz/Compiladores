@@ -1,5 +1,5 @@
 //Meta criar o analisador de program, register, var, const.
-package AnalisadorLexico;
+package AnalisadorSintatico;
 
 import java.util.ArrayList;
 
