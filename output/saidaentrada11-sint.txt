@@ -1,2 +1,10 @@
-
- Nao existem erros Sintaticos
+Linha: 03 Recebido: '$' Esperado: 'var'
+Linha: 03 Recebido: '$' Esperado: Chegou no fim de programa
+Linha: 03 Recebido: '$' Esperado: 'const'
+Linha: 03 Recebido: '$' Esperado: Chegou no fim de programa
+Linha: 03 Recebido: '$' Esperado: 'register'
+Linha: 03 Recebido: '$' Esperado: Chegou no fim de programa
+Linha: 03 Recebido: '$' Esperado: 'procedure'
+Linha: 03 Recebido: '$' Esperado: Chegou no fim de programa
+Linha: 03 Recebido: '$' Esperado: 'main'
+Linha: 03 Recebido: '$' Esperado: '{'

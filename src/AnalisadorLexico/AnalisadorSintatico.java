@@ -78,7 +78,7 @@ public class AnalisadorSintatico {
             posicaoAtual = posicaoAtual + 1;
         }
         if (atual().getLexema().equals("$")) {
-            addErro(atual(), "fim de programa");
+            addErro(atual(), "Chegou no fim de programa");
         }
     }
 
@@ -681,7 +681,7 @@ public class AnalisadorSintatico {
                 VarList();
             } else {
                 addErro(atual(), "'{'");
-                if (seguinte().getLexema().equals("{")) {
+                if ((seguinte() != null) && seguinte().getLexema().equals("{")) {
                     posicaoAtual = posicaoAtual + 1;
                     if (atual().getLexema().equals("{")) {
                         posicaoAtual = posicaoAtual + 1;
@@ -695,7 +695,7 @@ public class AnalisadorSintatico {
             }
         } else {
             addErro(atual(), "'var'");
-            if (seguinte().getLexema().equals("var")) {
+            if ((seguinte() != null) && seguinte().getLexema().equals("var")) {
                 posicaoAtual = posicaoAtual + 1;
                 if (atual().getLexema().equals("var")) {
                     posicaoAtual = posicaoAtual + 1;
@@ -847,7 +847,7 @@ public class AnalisadorSintatico {
             }
         } else {
             addErro(atual(), "'const'");
-            if (seguinte().getLexema().equals("const")) {
+            if ((seguinte() != null) && seguinte().getLexema().equals("const")) {
                 posicaoAtual = posicaoAtual + 1;
                 if (atual().getLexema().equals("const")) {
                     posicaoAtual = posicaoAtual + 1;
@@ -1202,7 +1202,7 @@ public class AnalisadorSintatico {
             }
         } else {
             addErro(atual(), "'register'");
-            if ((atual() != null) && seguinte().getLexema().equals("register")) {
+            if ((seguinte() != null) && seguinte().getLexema().equals("register")) {
                 posicaoAtual = posicaoAtual + 1;
                 if ((atual() != null) && atual().getLexema().equals("register")) {
                     posicaoAtual = posicaoAtual + 1;
@@ -1542,7 +1542,7 @@ public class AnalisadorSintatico {
                 FunctionStatement();
             } else {
                 addErro(atual(), "'procedure'");
-                if (seguinte().getLexema().equals("procedure")) {
+                if ((seguinte() != null) && seguinte().getLexema().equals("procedure")) {
                     posicaoAtual = posicaoAtual + 1;
                     if ((atual() != null) && atual().getLexema().equals("procedure")) {
                         posicaoAtual = posicaoAtual + 1;
@@ -4912,7 +4912,7 @@ public class AnalisadorSintatico {
             }
         } else {
             addErro(atual(), "'main'");
-            if (seguinte().getLexema().equals("main")) {
+            if ((seguinte() != null) && seguinte().getLexema().equals("main")) {
                 posicaoAtual = posicaoAtual + 1;
                 if (atual().getLexema().equals("main")) {
                     posicaoAtual = posicaoAtual + 1;
@@ -4989,7 +4989,7 @@ public class AnalisadorSintatico {
                 }
             } else {
                 addErro(atual(), "'{'");
-                if (seguinte().getLexema().equals("{")) {
+                if ((seguinte() != null) && seguinte().getLexema().equals("{")) {
                     posicaoAtual = posicaoAtual + 1;
                     if (atual().getLexema().equals("{")) {
                         posicaoAtual = posicaoAtual + 1;
