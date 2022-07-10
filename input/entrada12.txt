@@ -75,6 +75,7 @@ function teste1(integer algo, boolean ab): string {
     e = 3 + c;
     e = c + c;
     e = c++;
+    e = c--;
     e = 3 - c;
     e = 3 * 6;
     e = 3 / 3;

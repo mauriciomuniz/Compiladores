@@ -53,6 +53,7 @@ main
         boolean resposta;
     }
 
+    resposta = qtd < 4;
     write("Digite a quantidade de pessoas: ");
     read (qtd);
 

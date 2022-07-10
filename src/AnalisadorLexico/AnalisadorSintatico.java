@@ -5091,6 +5091,8 @@ public class AnalisadorSintatico {
             } else {
                 addErro(atual(), "';'");
             }
+        } else {
+            addErro(atual(), "'--'");
         }
     }
 
@@ -5117,6 +5119,10 @@ public class AnalisadorSintatico {
     private void FAcall1() {
         if (atual().getLexema().equals("(")) {
             FunctionCall();
+        } else if (atual().getTipo().equals("OpAritmetico")
+                || atual().getTipo().equals("OpRelacional")
+                || atual().getTipo().equals("OpLogico")) {
+            BinaryExpressionContin();
         } else if (atual().getLexema().equals(".")) {
             posicaoAtual = posicaoAtual + 1;
             if (atual().getTipo().equals("Identifier")) {
@@ -5125,12 +5131,112 @@ public class AnalisadorSintatico {
                     posicaoAtual = posicaoAtual + 1;
                 } else {
                     addErro(atual(), "';'");
+                    if (seguinte().getLexema().equals(";")) {
+                        posicaoAtual = posicaoAtual + 1;
+                        if (atual().getLexema().equals(";")) {
+                            posicaoAtual = posicaoAtual + 1;
+                        }
+                    }
                 }
             } else {
                 addErro(atual(), "'Identifier'");
+                if (seguinte().getTipo().equals("Identifier")) {
+                    posicaoAtual = posicaoAtual + 1;
+                    if (atual().getTipo().equals("Identifier")) {
+                        posicaoAtual = posicaoAtual + 1;
+                        if (atual().getLexema().equals(";")) {
+                            posicaoAtual = posicaoAtual + 1;
+                        } else {
+                            addErro(atual(), "';'");
+                            if (seguinte().getLexema().equals(";")) {
+                                posicaoAtual = posicaoAtual + 1;
+                                if (atual().getLexema().equals(";")) {
+                                    posicaoAtual = posicaoAtual + 1;
+                                }
+                            }
+                        }
+                    }
+                } else if (atual().getLexema().equals(";")) {
+                    posicaoAtual = posicaoAtual + 1;
+                }
             }
         } else {
-            BinaryExpressionContin();
+            addErro(atual(), "'.'");
+            if (seguinte().getLexema().equals(".")) {
+                posicaoAtual = posicaoAtual + 1;
+                if (atual().getLexema().equals(".")) {
+                    posicaoAtual = posicaoAtual + 1;
+                    if (atual().getTipo().equals("Identifier")) {
+                        posicaoAtual = posicaoAtual + 1;
+                        if (atual().getLexema().equals(";")) {
+                            posicaoAtual = posicaoAtual + 1;
+                        } else {
+                            addErro(atual(), "';'");
+                            if (seguinte().getLexema().equals(";")) {
+                                posicaoAtual = posicaoAtual + 1;
+                                if (atual().getLexema().equals(";")) {
+                                    posicaoAtual = posicaoAtual + 1;
+                                }
+                            }
+                        }
+                    } else {
+                        addErro(atual(), "'Identifier'");
+                        if (seguinte().getTipo().equals("Identifier")) {
+                            posicaoAtual = posicaoAtual + 1;
+                            if (atual().getTipo().equals("Identifier")) {
+                                posicaoAtual = posicaoAtual + 1;
+                                if (atual().getLexema().equals(";")) {
+                                    posicaoAtual = posicaoAtual + 1;
+                                } else {
+                                    addErro(atual(), "';'");
+                                    if (seguinte().getLexema().equals(";")) {
+                                        posicaoAtual = posicaoAtual + 1;
+                                        if (atual().getLexema().equals(";")) {
+                                            posicaoAtual = posicaoAtual + 1;
+                                        }
+                                    }
+                                }
+                            }
+                        } else if (atual().getLexema().equals(";")) {
+                            posicaoAtual = posicaoAtual + 1;
+                        }
+                    }
+                }
+            } else if (atual().getTipo().equals("Identifier")) {
+                posicaoAtual = posicaoAtual + 1;
+                if (atual().getLexema().equals(";")) {
+                    posicaoAtual = posicaoAtual + 1;
+                } else {
+                    addErro(atual(), "';'");
+                    if (seguinte().getLexema().equals(";")) {
+                        posicaoAtual = posicaoAtual + 1;
+                        if (atual().getLexema().equals(";")) {
+                            posicaoAtual = posicaoAtual + 1;
+                        }
+                    }
+                }
+            } else {
+                addErro(atual(), "'Identifier'");
+                if (seguinte().getTipo().equals("Identifier")) {
+                    posicaoAtual = posicaoAtual + 1;
+                    if (atual().getTipo().equals("Identifier")) {
+                        posicaoAtual = posicaoAtual + 1;
+                        if (atual().getLexema().equals(";")) {
+                            posicaoAtual = posicaoAtual + 1;
+                        } else {
+                            addErro(atual(), "';'");
+                            if (seguinte().getLexema().equals(";")) {
+                                posicaoAtual = posicaoAtual + 1;
+                                if (atual().getLexema().equals(";")) {
+                                    posicaoAtual = posicaoAtual + 1;
+                                }
+                            }
+                        }
+                    }
+                } else if (atual().getLexema().equals(";")) {
+                    posicaoAtual = posicaoAtual + 1;
+                }
+            }
         }
     }
 
@@ -5142,6 +5248,12 @@ public class AnalisadorSintatico {
                 posicaoAtual = posicaoAtual + 1;
             } else {
                 addErro(atual(), "';'");
+                if (seguinte().getLexema().equals(";")) {
+                    posicaoAtual = posicaoAtual + 1;
+                    if (atual().getLexema().equals(";")) {
+                        posicaoAtual = posicaoAtual + 1;
+                    }
+                }
             }
         } else if (atual().getTipo().equals("Char")) {
             posicaoAtual = posicaoAtual + 1;
@@ -5149,6 +5261,12 @@ public class AnalisadorSintatico {
                 posicaoAtual = posicaoAtual + 1;
             } else {
                 addErro(atual(), "';'");
+                if (seguinte().getLexema().equals(";")) {
+                    posicaoAtual = posicaoAtual + 1;
+                    if (atual().getLexema().equals(";")) {
+                        posicaoAtual = posicaoAtual + 1;
+                    }
+                }
             }
         } else {
             AddendOperator();
@@ -5272,9 +5390,56 @@ public class AnalisadorSintatico {
                 ArgumentsWrite();
             } else {
                 addErro(atual(), "'('");
+                if (seguinte().getLexema().equals("(")) {
+                    posicaoAtual = posicaoAtual + 1;
+                    if (atual().getLexema().equals("(")) {
+                        posicaoAtual = posicaoAtual + 1;
+                        ArgumentsWrite();
+                    }
+                } else if (atual().getTipo().equals("Identifier") || atual().getTipo().equals("Decimal")
+                        || atual().getTipo().equals("RealNumber") || atual().getTipo().equals("StringLiteral")) {
+                    ArgumentsWrite();
+                }
             }
         } else {
             addErro(atual(), "'write'");
+            if (seguinte().getLexema().equals("write")) {
+                posicaoAtual = posicaoAtual + 1;
+                if (atual().getLexema().equals("write")) {
+                    posicaoAtual = posicaoAtual + 1;
+                    if (atual().getLexema().equals("(")) {
+                        posicaoAtual = posicaoAtual + 1;
+                        ArgumentsWrite();
+                    } else {
+                        addErro(atual(), "'('");
+                        if (seguinte().getLexema().equals("(")) {
+                            posicaoAtual = posicaoAtual + 1;
+                            if (atual().getLexema().equals("(")) {
+                                posicaoAtual = posicaoAtual + 1;
+                                ArgumentsWrite();
+                            }
+                        } else if (atual().getTipo().equals("Identifier") || atual().getTipo().equals("Decimal")
+                                || atual().getTipo().equals("RealNumber") || atual().getTipo().equals("StringLiteral")) {
+                            ArgumentsWrite();
+                        }
+                    }
+                }
+            } else if (atual().getLexema().equals("(")) {
+                posicaoAtual = posicaoAtual + 1;
+                ArgumentsWrite();
+            } else {
+                addErro(atual(), "'('");
+                if (seguinte().getLexema().equals("(")) {
+                    posicaoAtual = posicaoAtual + 1;
+                    if (atual().getLexema().equals("(")) {
+                        posicaoAtual = posicaoAtual + 1;
+                        ArgumentsWrite();
+                    }
+                } else if (atual().getTipo().equals("Identifier") || atual().getTipo().equals("Decimal")
+                        || atual().getTipo().equals("RealNumber") || atual().getTipo().equals("StringLiteral")) {
+                    ArgumentsWrite();
+                }
+            }
         }
     }
 
@@ -5314,6 +5479,7 @@ public class AnalisadorSintatico {
         }
     }
 
+    //PODE MELHORAR AQUI??????????????????????????????????????????????????????????????
     //<ListArgumentsWrite> ::= ',' <ArgumentsWrite> | ')' ';'
     private void ListArgumentsWrite() {
         if ((atual() != null) && (atual().getLexema().equals(","))) {
@@ -5325,9 +5491,18 @@ public class AnalisadorSintatico {
                 posicaoAtual = posicaoAtual + 1;
             } else {
                 addErro(atual(), "';'");
+                if (seguinte().getLexema().equals(";")) {
+                    posicaoAtual = posicaoAtual + 1;
+                    if (atual().getLexema().equals(";")) {
+                        posicaoAtual = posicaoAtual + 1;
+                    }
+                }
             }
         } else {
             addErro(atual(), "')'");
+            if (atual().getLexema().equals(";")) {
+                posicaoAtual = posicaoAtual + 1;
+            }
         }
     }
 
@@ -5341,9 +5516,53 @@ public class AnalisadorSintatico {
                 ArgumentsRead();
             } else {
                 addErro(atual(), "'('");
+                if (seguinte().getLexema().equals("(")) {
+                    posicaoAtual = posicaoAtual + 1;
+                    if (atual().getLexema().equals("(")) {
+                        posicaoAtual = posicaoAtual + 1;
+                        ArgumentsRead();
+                    }
+                } else if (atual().getTipo().equals("Identifier")) {
+                    ArgumentsRead();
+                }
             }
         } else {
             addErro(atual(), "'read'");
+            if (seguinte().getLexema().equals("read")) {
+                posicaoAtual = posicaoAtual + 1;
+                if (atual().getLexema().equals("read")) {
+                    posicaoAtual = posicaoAtual + 1;
+                    if ((atual() != null) && (atual().getLexema().equals("("))) {
+                        posicaoAtual = posicaoAtual + 1;
+                        ArgumentsRead();
+                    } else {
+                        addErro(atual(), "'('");
+                        if (seguinte().getLexema().equals("(")) {
+                            posicaoAtual = posicaoAtual + 1;
+                            if (atual().getLexema().equals("(")) {
+                                posicaoAtual = posicaoAtual + 1;
+                                ArgumentsRead();
+                            }
+                        } else if (atual().getTipo().equals("Identifier")) {
+                            ArgumentsRead();
+                        }
+                    }
+                }
+            } else if (atual().getLexema().equals("(")) {
+                posicaoAtual = posicaoAtual + 1;
+                ArgumentsRead();
+            } else {
+                addErro(atual(), "'('");
+                if (seguinte().getLexema().equals("(")) {
+                    posicaoAtual = posicaoAtual + 1;
+                    if (atual().getLexema().equals("(")) {
+                        posicaoAtual = posicaoAtual + 1;
+                        ArgumentsRead();
+                    }
+                } else if (atual().getTipo().equals("Identifier")) {
+                    ArgumentsRead();
+                }
+            }
         }
     }
 
@@ -5355,6 +5574,19 @@ public class AnalisadorSintatico {
             ListArgumentsRead();
         } else {
             addErro(atual(), "'Identifier'");
+            if (seguinte().getTipo().equals("Identifier")) {
+                posicaoAtual = posicaoAtual + 1;
+                if (atual().getTipo().equals("Identifier")) {
+                    posicaoAtual = posicaoAtual + 1;
+                    RegisterRead();
+                    ListArgumentsRead();
+                }
+            } else if (atual().getLexema().equals(".")
+                    || atual().getLexema().equals(",")
+                    || atual().getLexema().equals(")")) {
+                RegisterRead();
+                ListArgumentsRead();
+            }
         }
     }
 
@@ -5366,6 +5598,12 @@ public class AnalisadorSintatico {
                 posicaoAtual = posicaoAtual + 1;
             } else {
                 addErro(atual(), "'Identifier'");
+                if (seguinte().getTipo().equals("Identifier")) {
+                    posicaoAtual = posicaoAtual + 1;
+                    if (atual().getTipo().equals("Identifier")) {
+                        posicaoAtual = posicaoAtual + 1;
+                    }
+                }
             }
         } else {
             //addErro(atual(), "'.'");//Pode ser nulo
