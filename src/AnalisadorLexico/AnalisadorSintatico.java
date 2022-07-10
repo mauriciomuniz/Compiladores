@@ -5083,6 +5083,12 @@ public class AnalisadorSintatico {
                 posicaoAtual = posicaoAtual + 1;
             } else {
                 addErro(atual(), "';'");
+                if (seguinte().getLexema().equals(";")) {
+                    posicaoAtual = posicaoAtual + 1;
+                    if (atual().getLexema().equals(";")) {
+                        posicaoAtual = posicaoAtual + 1;
+                    }
+                }
             }
         } else if (atual().getLexema().equals("--")) {
             posicaoAtual = posicaoAtual + 1;
@@ -5090,6 +5096,12 @@ public class AnalisadorSintatico {
                 posicaoAtual = posicaoAtual + 1;
             } else {
                 addErro(atual(), "';'");
+                if (seguinte().getLexema().equals(";")) {
+                    posicaoAtual = posicaoAtual + 1;
+                    if (atual().getLexema().equals(";")) {
+                        posicaoAtual = posicaoAtual + 1;
+                    }
+                }
             }
         } else {
             addErro(atual(), "'--'");
@@ -5312,18 +5324,1878 @@ public class AnalisadorSintatico {
                             ElseDecs();
                         } else {
                             addErro(atual(), "'}'");
+                            if (seguinte().getLexema().equals("}")) {
+                                posicaoAtual = posicaoAtual + 1;
+                                if (atual().getLexema().equals("}")) {
+                                    posicaoAtual = posicaoAtual + 1;
+                                    ElseDecs();
+                                }
+                            } else if (atual().getLexema().equals("else")) {
+                                ElseDecs();
+                            }
                         }
                     } else {
                         addErro(atual(), "'{'");
+                        if (seguinte().getLexema().equals("{")) {
+                            posicaoAtual = posicaoAtual + 1;
+                            if ((atual() != null) && (atual().getLexema().equals("{"))) {
+                                posicaoAtual = posicaoAtual + 1;
+                                LocalCommands();
+                                if ((atual() != null) && (atual().getLexema().equals("}"))) {
+                                    posicaoAtual = posicaoAtual + 1;
+                                    ElseDecs();
+                                } else {
+                                    addErro(atual(), "'}'");
+                                    if (seguinte().getLexema().equals("}")) {
+                                        posicaoAtual = posicaoAtual + 1;
+                                        if (atual().getLexema().equals("}")) {
+                                            posicaoAtual = posicaoAtual + 1;
+                                            ElseDecs();
+                                        }
+                                    } else if (atual().getLexema().equals("else")) {
+                                        ElseDecs();
+                                    }
+                                }
+                            }
+                        } else if (atual().getLexema().equals("if")
+                                || (atual().getLexema().equals("write"))
+                                || (atual().getLexema().equals("read"))
+                                || (atual().getLexema().equals("while"))
+                                || (atual().getTipo().equals("Identifier"))) {
+                            LocalCommands();
+                            if ((atual() != null) && (atual().getLexema().equals("}"))) {
+                                posicaoAtual = posicaoAtual + 1;
+                                ElseDecs();
+                            } else {
+                                addErro(atual(), "'}'");
+                                if (seguinte().getLexema().equals("}")) {
+                                    posicaoAtual = posicaoAtual + 1;
+                                    if (atual().getLexema().equals("}")) {
+                                        posicaoAtual = posicaoAtual + 1;
+                                        ElseDecs();
+                                    }
+                                } else if (atual().getLexema().equals("else")) {
+                                    ElseDecs();
+                                }
+                            }
+                        }
                     }
                 } else {
                     addErro(atual(), "')'");
+                    if (seguinte().getLexema().equals(")")) {
+                        posicaoAtual = posicaoAtual + 1;
+                        if ((atual() != null) && (atual().getLexema().equals(")"))) {
+                            posicaoAtual = posicaoAtual + 1;
+                            if ((atual() != null) && (atual().getLexema().equals("{"))) {
+                                posicaoAtual = posicaoAtual + 1;
+                                LocalCommands();
+                                if ((atual() != null) && (atual().getLexema().equals("}"))) {
+                                    posicaoAtual = posicaoAtual + 1;
+                                    ElseDecs();
+                                } else {
+                                    addErro(atual(), "'}'");
+                                    if (seguinte().getLexema().equals("}")) {
+                                        posicaoAtual = posicaoAtual + 1;
+                                        if (atual().getLexema().equals("}")) {
+                                            posicaoAtual = posicaoAtual + 1;
+                                            ElseDecs();
+                                        }
+                                    } else if (atual().getLexema().equals("else")) {
+                                        ElseDecs();
+                                    }
+                                }
+                            } else {
+                                addErro(atual(), "'{'");
+                                if (seguinte().getLexema().equals("{")) {
+                                    posicaoAtual = posicaoAtual + 1;
+                                    if ((atual() != null) && (atual().getLexema().equals("{"))) {
+                                        posicaoAtual = posicaoAtual + 1;
+                                        LocalCommands();
+                                        if ((atual() != null) && (atual().getLexema().equals("}"))) {
+                                            posicaoAtual = posicaoAtual + 1;
+                                            ElseDecs();
+                                        } else {
+                                            addErro(atual(), "'}'");
+                                            if (seguinte().getLexema().equals("}")) {
+                                                posicaoAtual = posicaoAtual + 1;
+                                                if (atual().getLexema().equals("}")) {
+                                                    posicaoAtual = posicaoAtual + 1;
+                                                    ElseDecs();
+                                                }
+                                            } else if (atual().getLexema().equals("else")) {
+                                                ElseDecs();
+                                            }
+                                        }
+                                    }
+                                } else if (atual().getLexema().equals("if")
+                                        || (atual().getLexema().equals("write"))
+                                        || (atual().getLexema().equals("read"))
+                                        || (atual().getLexema().equals("while"))
+                                        || (atual().getTipo().equals("Identifier"))) {
+                                    LocalCommands();
+                                    if ((atual() != null) && (atual().getLexema().equals("}"))) {
+                                        posicaoAtual = posicaoAtual + 1;
+                                        ElseDecs();
+                                    } else {
+                                        addErro(atual(), "'}'");
+                                        if (seguinte().getLexema().equals("}")) {
+                                            posicaoAtual = posicaoAtual + 1;
+                                            if (atual().getLexema().equals("}")) {
+                                                posicaoAtual = posicaoAtual + 1;
+                                                ElseDecs();
+                                            }
+                                        } else if (atual().getLexema().equals("else")) {
+                                            ElseDecs();
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    } else if (atual().getLexema().equals("{")) {
+                        posicaoAtual = posicaoAtual + 1;
+                        LocalCommands();
+                        if (atual().getLexema().equals("}")) {
+                            posicaoAtual = posicaoAtual + 1;
+                            ElseDecs();
+                        } else {
+                            addErro(atual(), "'}'");
+                            if (seguinte().getLexema().equals("}")) {
+                                posicaoAtual = posicaoAtual + 1;
+                                if (atual().getLexema().equals("}")) {
+                                    posicaoAtual = posicaoAtual + 1;
+                                    ElseDecs();
+                                }
+                            } else if (atual().getLexema().equals("else")) {
+                                ElseDecs();
+                            }
+                        }
+                    } else {
+                        addErro(atual(), "'{'");
+                        if (seguinte().getLexema().equals("{")) {
+                            posicaoAtual = posicaoAtual + 1;
+                            if ((atual() != null) && (atual().getLexema().equals("{"))) {
+                                posicaoAtual = posicaoAtual + 1;
+                                LocalCommands();
+                                if ((atual() != null) && (atual().getLexema().equals("}"))) {
+                                    posicaoAtual = posicaoAtual + 1;
+                                    ElseDecs();
+                                } else {
+                                    addErro(atual(), "'}'");
+                                    if (seguinte().getLexema().equals("}")) {
+                                        posicaoAtual = posicaoAtual + 1;
+                                        if (atual().getLexema().equals("}")) {
+                                            posicaoAtual = posicaoAtual + 1;
+                                            ElseDecs();
+                                        }
+                                    } else if (atual().getLexema().equals("else")) {
+                                        ElseDecs();
+                                    }
+                                }
+                            }
+                        } else if (atual().getLexema().equals("if")
+                                || (atual().getLexema().equals("write"))
+                                || (atual().getLexema().equals("read"))
+                                || (atual().getLexema().equals("while"))
+                                || (atual().getTipo().equals("Identifier"))) {
+                            LocalCommands();
+                            if ((atual() != null) && (atual().getLexema().equals("}"))) {
+                                posicaoAtual = posicaoAtual + 1;
+                                ElseDecs();
+                            } else {
+                                addErro(atual(), "'}'");
+                                if (seguinte().getLexema().equals("}")) {
+                                    posicaoAtual = posicaoAtual + 1;
+                                    if (atual().getLexema().equals("}")) {
+                                        posicaoAtual = posicaoAtual + 1;
+                                        ElseDecs();
+                                    }
+                                } else if (atual().getLexema().equals("else")) {
+                                    ElseDecs();
+                                }
+                            }
+                        }
+                    }
                 }
             } else {
                 addErro(atual(), "'('");
+                if (seguinte().getLexema().equals("(")) {
+                    posicaoAtual = posicaoAtual + 1;
+                    if (atual().getLexema().equals("(")) {
+                        posicaoAtual = posicaoAtual + 1;
+                        AssignExpr();
+                        if (atual().getLexema().equals(")")) {
+                            posicaoAtual = posicaoAtual + 1;
+                            if (atual().getLexema().equals("{")) {
+                                posicaoAtual = posicaoAtual + 1;
+                                LocalCommands();
+                                if (atual().getLexema().equals("}")) {
+                                    posicaoAtual = posicaoAtual + 1;
+                                    ElseDecs();
+                                } else {
+                                    addErro(atual(), "'}'");
+                                    if (seguinte().getLexema().equals("}")) {
+                                        posicaoAtual = posicaoAtual + 1;
+                                        if (atual().getLexema().equals("}")) {
+                                            posicaoAtual = posicaoAtual + 1;
+                                            ElseDecs();
+                                        }
+                                    } else if (atual().getLexema().equals("else")) {
+                                        ElseDecs();
+                                    }
+                                }
+                            } else {
+                                addErro(atual(), "'{'");
+                                if (seguinte().getLexema().equals("{")) {
+                                    posicaoAtual = posicaoAtual + 1;
+                                    if ((atual() != null) && (atual().getLexema().equals("{"))) {
+                                        posicaoAtual = posicaoAtual + 1;
+                                        LocalCommands();
+                                        if ((atual() != null) && (atual().getLexema().equals("}"))) {
+                                            posicaoAtual = posicaoAtual + 1;
+                                            ElseDecs();
+                                        } else {
+                                            addErro(atual(), "'}'");
+                                            if (seguinte().getLexema().equals("}")) {
+                                                posicaoAtual = posicaoAtual + 1;
+                                                if (atual().getLexema().equals("}")) {
+                                                    posicaoAtual = posicaoAtual + 1;
+                                                    ElseDecs();
+                                                }
+                                            } else if (atual().getLexema().equals("else")) {
+                                                ElseDecs();
+                                            }
+                                        }
+                                    }
+                                } else if (atual().getLexema().equals("if")
+                                        || (atual().getLexema().equals("write"))
+                                        || (atual().getLexema().equals("read"))
+                                        || (atual().getLexema().equals("while"))
+                                        || (atual().getTipo().equals("Identifier"))) {
+                                    LocalCommands();
+                                    if ((atual() != null) && (atual().getLexema().equals("}"))) {
+                                        posicaoAtual = posicaoAtual + 1;
+                                        ElseDecs();
+                                    } else {
+                                        addErro(atual(), "'}'");
+                                        if (seguinte().getLexema().equals("}")) {
+                                            posicaoAtual = posicaoAtual + 1;
+                                            if (atual().getLexema().equals("}")) {
+                                                posicaoAtual = posicaoAtual + 1;
+                                                ElseDecs();
+                                            }
+                                        } else if (atual().getLexema().equals("else")) {
+                                            ElseDecs();
+                                        }
+                                    }
+                                }
+                            }
+                        } else {
+                            addErro(atual(), "')'");
+                            if (seguinte().getLexema().equals(")")) {
+                                posicaoAtual = posicaoAtual + 1;
+                                if ((atual() != null) && (atual().getLexema().equals(")"))) {
+                                    posicaoAtual = posicaoAtual + 1;
+                                    if ((atual() != null) && (atual().getLexema().equals("{"))) {
+                                        posicaoAtual = posicaoAtual + 1;
+                                        LocalCommands();
+                                        if ((atual() != null) && (atual().getLexema().equals("}"))) {
+                                            posicaoAtual = posicaoAtual + 1;
+                                            ElseDecs();
+                                        } else {
+                                            addErro(atual(), "'}'");
+                                            if (seguinte().getLexema().equals("}")) {
+                                                posicaoAtual = posicaoAtual + 1;
+                                                if (atual().getLexema().equals("}")) {
+                                                    posicaoAtual = posicaoAtual + 1;
+                                                    ElseDecs();
+                                                }
+                                            } else if (atual().getLexema().equals("else")) {
+                                                ElseDecs();
+                                            }
+                                        }
+                                    } else {
+                                        addErro(atual(), "'{'");
+                                        if (seguinte().getLexema().equals("{")) {
+                                            posicaoAtual = posicaoAtual + 1;
+                                            if ((atual() != null) && (atual().getLexema().equals("{"))) {
+                                                posicaoAtual = posicaoAtual + 1;
+                                                LocalCommands();
+                                                if ((atual() != null) && (atual().getLexema().equals("}"))) {
+                                                    posicaoAtual = posicaoAtual + 1;
+                                                    ElseDecs();
+                                                } else {
+                                                    addErro(atual(), "'}'");
+                                                    if (seguinte().getLexema().equals("}")) {
+                                                        posicaoAtual = posicaoAtual + 1;
+                                                        if (atual().getLexema().equals("}")) {
+                                                            posicaoAtual = posicaoAtual + 1;
+                                                            ElseDecs();
+                                                        }
+                                                    } else if (atual().getLexema().equals("else")) {
+                                                        ElseDecs();
+                                                    }
+                                                }
+                                            }
+                                        } else if (atual().getLexema().equals("if")
+                                                || (atual().getLexema().equals("write"))
+                                                || (atual().getLexema().equals("read"))
+                                                || (atual().getLexema().equals("while"))
+                                                || (atual().getTipo().equals("Identifier"))) {
+                                            LocalCommands();
+                                            if ((atual() != null) && (atual().getLexema().equals("}"))) {
+                                                posicaoAtual = posicaoAtual + 1;
+                                                ElseDecs();
+                                            } else {
+                                                addErro(atual(), "'}'");
+                                                if (seguinte().getLexema().equals("}")) {
+                                                    posicaoAtual = posicaoAtual + 1;
+                                                    if (atual().getLexema().equals("}")) {
+                                                        posicaoAtual = posicaoAtual + 1;
+                                                        ElseDecs();
+                                                    }
+                                                } else if (atual().getLexema().equals("else")) {
+                                                    ElseDecs();
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            } else if (atual().getLexema().equals("{")) {
+                                posicaoAtual = posicaoAtual + 1;
+                                LocalCommands();
+                                if (atual().getLexema().equals("}")) {
+                                    posicaoAtual = posicaoAtual + 1;
+                                    ElseDecs();
+                                } else {
+                                    addErro(atual(), "'}'");
+                                    if (seguinte().getLexema().equals("}")) {
+                                        posicaoAtual = posicaoAtual + 1;
+                                        if (atual().getLexema().equals("}")) {
+                                            posicaoAtual = posicaoAtual + 1;
+                                            ElseDecs();
+                                        }
+                                    } else if (atual().getLexema().equals("else")) {
+                                        ElseDecs();
+                                    }
+                                }
+                            } else {
+                                addErro(atual(), "'{'");
+                                if (seguinte().getLexema().equals("{")) {
+                                    posicaoAtual = posicaoAtual + 1;
+                                    if ((atual() != null) && (atual().getLexema().equals("{"))) {
+                                        posicaoAtual = posicaoAtual + 1;
+                                        LocalCommands();
+                                        if ((atual() != null) && (atual().getLexema().equals("}"))) {
+                                            posicaoAtual = posicaoAtual + 1;
+                                            ElseDecs();
+                                        } else {
+                                            addErro(atual(), "'}'");
+                                            if (seguinte().getLexema().equals("}")) {
+                                                posicaoAtual = posicaoAtual + 1;
+                                                if (atual().getLexema().equals("}")) {
+                                                    posicaoAtual = posicaoAtual + 1;
+                                                    ElseDecs();
+                                                }
+                                            } else if (atual().getLexema().equals("else")) {
+                                                ElseDecs();
+                                            }
+                                        }
+                                    }
+                                } else if (atual().getLexema().equals("if")
+                                        || (atual().getLexema().equals("write"))
+                                        || (atual().getLexema().equals("read"))
+                                        || (atual().getLexema().equals("while"))
+                                        || (atual().getTipo().equals("Identifier"))) {
+                                    LocalCommands();
+                                    if ((atual() != null) && (atual().getLexema().equals("}"))) {
+                                        posicaoAtual = posicaoAtual + 1;
+                                        ElseDecs();
+                                    } else {
+                                        addErro(atual(), "'}'");
+                                        if (seguinte().getLexema().equals("}")) {
+                                            posicaoAtual = posicaoAtual + 1;
+                                            if (atual().getLexema().equals("}")) {
+                                                posicaoAtual = posicaoAtual + 1;
+                                                ElseDecs();
+                                            }
+                                        } else if (atual().getLexema().equals("else")) {
+                                            ElseDecs();
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                } else if (atual().getTipo().equals("Identifier")
+                        || (atual().getTipo().equals("RealNumber")
+                        || atual().getTipo().equals("boolean")
+                        || atual().getLexema().equals("true")
+                        || atual().getLexema().equals("false")
+                        || atual().getTipo().equals("Decimal"))) {
+                    AssignExpr();
+                    if (atual().getLexema().equals(")")) {
+                        posicaoAtual = posicaoAtual + 1;
+                        if (atual().getLexema().equals("{")) {
+                            posicaoAtual = posicaoAtual + 1;
+                            LocalCommands();
+                            if (atual().getLexema().equals("}")) {
+                                posicaoAtual = posicaoAtual + 1;
+                                ElseDecs();
+                            } else {
+                                addErro(atual(), "'}'");
+                                if (seguinte().getLexema().equals("}")) {
+                                    posicaoAtual = posicaoAtual + 1;
+                                    if (atual().getLexema().equals("}")) {
+                                        posicaoAtual = posicaoAtual + 1;
+                                        ElseDecs();
+                                    }
+                                } else if (atual().getLexema().equals("else")) {
+                                    ElseDecs();
+                                }
+                            }
+                        } else {
+                            addErro(atual(), "'{'");
+                            if (seguinte().getLexema().equals("{")) {
+                                posicaoAtual = posicaoAtual + 1;
+                                if ((atual() != null) && (atual().getLexema().equals("{"))) {
+                                    posicaoAtual = posicaoAtual + 1;
+                                    LocalCommands();
+                                    if ((atual() != null) && (atual().getLexema().equals("}"))) {
+                                        posicaoAtual = posicaoAtual + 1;
+                                        ElseDecs();
+                                    } else {
+                                        addErro(atual(), "'}'");
+                                        if (seguinte().getLexema().equals("}")) {
+                                            posicaoAtual = posicaoAtual + 1;
+                                            if (atual().getLexema().equals("}")) {
+                                                posicaoAtual = posicaoAtual + 1;
+                                                ElseDecs();
+                                            }
+                                        } else if (atual().getLexema().equals("else")) {
+                                            ElseDecs();
+                                        }
+                                    }
+                                }
+                            } else if (atual().getLexema().equals("if")
+                                    || (atual().getLexema().equals("write"))
+                                    || (atual().getLexema().equals("read"))
+                                    || (atual().getLexema().equals("while"))
+                                    || (atual().getTipo().equals("Identifier"))) {
+                                LocalCommands();
+                                if ((atual() != null) && (atual().getLexema().equals("}"))) {
+                                    posicaoAtual = posicaoAtual + 1;
+                                    ElseDecs();
+                                } else {
+                                    addErro(atual(), "'}'");
+                                    if (seguinte().getLexema().equals("}")) {
+                                        posicaoAtual = posicaoAtual + 1;
+                                        if (atual().getLexema().equals("}")) {
+                                            posicaoAtual = posicaoAtual + 1;
+                                            ElseDecs();
+                                        }
+                                    } else if (atual().getLexema().equals("else")) {
+                                        ElseDecs();
+                                    }
+                                }
+                            }
+                        }
+                    } else {
+                        addErro(atual(), "')'");
+                        if (seguinte().getLexema().equals(")")) {
+                            posicaoAtual = posicaoAtual + 1;
+                            if ((atual() != null) && (atual().getLexema().equals(")"))) {
+                                posicaoAtual = posicaoAtual + 1;
+                                if ((atual() != null) && (atual().getLexema().equals("{"))) {
+                                    posicaoAtual = posicaoAtual + 1;
+                                    LocalCommands();
+                                    if ((atual() != null) && (atual().getLexema().equals("}"))) {
+                                        posicaoAtual = posicaoAtual + 1;
+                                        ElseDecs();
+                                    } else {
+                                        addErro(atual(), "'}'");
+                                        if (seguinte().getLexema().equals("}")) {
+                                            posicaoAtual = posicaoAtual + 1;
+                                            if (atual().getLexema().equals("}")) {
+                                                posicaoAtual = posicaoAtual + 1;
+                                                ElseDecs();
+                                            }
+                                        } else if (atual().getLexema().equals("else")) {
+                                            ElseDecs();
+                                        }
+                                    }
+                                } else {
+                                    addErro(atual(), "'{'");
+                                    if (seguinte().getLexema().equals("{")) {
+                                        posicaoAtual = posicaoAtual + 1;
+                                        if ((atual() != null) && (atual().getLexema().equals("{"))) {
+                                            posicaoAtual = posicaoAtual + 1;
+                                            LocalCommands();
+                                            if ((atual() != null) && (atual().getLexema().equals("}"))) {
+                                                posicaoAtual = posicaoAtual + 1;
+                                                ElseDecs();
+                                            } else {
+                                                addErro(atual(), "'}'");
+                                                if (seguinte().getLexema().equals("}")) {
+                                                    posicaoAtual = posicaoAtual + 1;
+                                                    if (atual().getLexema().equals("}")) {
+                                                        posicaoAtual = posicaoAtual + 1;
+                                                        ElseDecs();
+                                                    }
+                                                } else if (atual().getLexema().equals("else")) {
+                                                    ElseDecs();
+                                                }
+                                            }
+                                        }
+                                    } else if (atual().getLexema().equals("if")
+                                            || (atual().getLexema().equals("write"))
+                                            || (atual().getLexema().equals("read"))
+                                            || (atual().getLexema().equals("while"))
+                                            || (atual().getTipo().equals("Identifier"))) {
+                                        LocalCommands();
+                                        if ((atual() != null) && (atual().getLexema().equals("}"))) {
+                                            posicaoAtual = posicaoAtual + 1;
+                                            ElseDecs();
+                                        } else {
+                                            addErro(atual(), "'}'");
+                                            if (seguinte().getLexema().equals("}")) {
+                                                posicaoAtual = posicaoAtual + 1;
+                                                if (atual().getLexema().equals("}")) {
+                                                    posicaoAtual = posicaoAtual + 1;
+                                                    ElseDecs();
+                                                }
+                                            } else if (atual().getLexema().equals("else")) {
+                                                ElseDecs();
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        } else if (atual().getLexema().equals("{")) {
+                            posicaoAtual = posicaoAtual + 1;
+                            LocalCommands();
+                            if (atual().getLexema().equals("}")) {
+                                posicaoAtual = posicaoAtual + 1;
+                                ElseDecs();
+                            } else {
+                                addErro(atual(), "'}'");
+                                if (seguinte().getLexema().equals("}")) {
+                                    posicaoAtual = posicaoAtual + 1;
+                                    if (atual().getLexema().equals("}")) {
+                                        posicaoAtual = posicaoAtual + 1;
+                                        ElseDecs();
+                                    }
+                                } else if (atual().getLexema().equals("else")) {
+                                    ElseDecs();
+                                }
+                            }
+                        } else {
+                            addErro(atual(), "'{'");
+                            if (seguinte().getLexema().equals("{")) {
+                                posicaoAtual = posicaoAtual + 1;
+                                if ((atual() != null) && (atual().getLexema().equals("{"))) {
+                                    posicaoAtual = posicaoAtual + 1;
+                                    LocalCommands();
+                                    if ((atual() != null) && (atual().getLexema().equals("}"))) {
+                                        posicaoAtual = posicaoAtual + 1;
+                                        ElseDecs();
+                                    } else {
+                                        addErro(atual(), "'}'");
+                                        if (seguinte().getLexema().equals("}")) {
+                                            posicaoAtual = posicaoAtual + 1;
+                                            if (atual().getLexema().equals("}")) {
+                                                posicaoAtual = posicaoAtual + 1;
+                                                ElseDecs();
+                                            }
+                                        } else if (atual().getLexema().equals("else")) {
+                                            ElseDecs();
+                                        }
+                                    }
+                                }
+                            } else if (atual().getLexema().equals("if")
+                                    || (atual().getLexema().equals("write"))
+                                    || (atual().getLexema().equals("read"))
+                                    || (atual().getLexema().equals("while"))
+                                    || (atual().getTipo().equals("Identifier"))) {
+                                LocalCommands();
+                                if ((atual() != null) && (atual().getLexema().equals("}"))) {
+                                    posicaoAtual = posicaoAtual + 1;
+                                    ElseDecs();
+                                } else {
+                                    addErro(atual(), "'}'");
+                                    if (seguinte().getLexema().equals("}")) {
+                                        posicaoAtual = posicaoAtual + 1;
+                                        if (atual().getLexema().equals("}")) {
+                                            posicaoAtual = posicaoAtual + 1;
+                                            ElseDecs();
+                                        }
+                                    } else if (atual().getLexema().equals("else")) {
+                                        ElseDecs();
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
             }
         } else {
             addErro(atual(), "'if'");
+            if (seguinte().getLexema().equals("if")) {
+                posicaoAtual = posicaoAtual + 1;
+                if (atual().getLexema().equals("if")) {
+                    posicaoAtual = posicaoAtual + 1;
+                    if (atual().getLexema().equals("(")) {
+                        posicaoAtual = posicaoAtual + 1;
+                        AssignExpr();
+                        if (atual().getLexema().equals(")")) {
+                            posicaoAtual = posicaoAtual + 1;
+                            if (atual().getLexema().equals("{")) {
+                                posicaoAtual = posicaoAtual + 1;
+                                LocalCommands();
+                                if (atual().getLexema().equals("}")) {
+                                    posicaoAtual = posicaoAtual + 1;
+                                    ElseDecs();
+                                } else {
+                                    addErro(atual(), "'}'");
+                                    if (seguinte().getLexema().equals("}")) {
+                                        posicaoAtual = posicaoAtual + 1;
+                                        if (atual().getLexema().equals("}")) {
+                                            posicaoAtual = posicaoAtual + 1;
+                                            ElseDecs();
+                                        }
+                                    } else if (atual().getLexema().equals("else")) {
+                                        ElseDecs();
+                                    }
+                                }
+                            } else {
+                                addErro(atual(), "'{'");
+                                if (seguinte().getLexema().equals("{")) {
+                                    posicaoAtual = posicaoAtual + 1;
+                                    if ((atual() != null) && (atual().getLexema().equals("{"))) {
+                                        posicaoAtual = posicaoAtual + 1;
+                                        LocalCommands();
+                                        if ((atual() != null) && (atual().getLexema().equals("}"))) {
+                                            posicaoAtual = posicaoAtual + 1;
+                                            ElseDecs();
+                                        } else {
+                                            addErro(atual(), "'}'");
+                                            if (seguinte().getLexema().equals("}")) {
+                                                posicaoAtual = posicaoAtual + 1;
+                                                if (atual().getLexema().equals("}")) {
+                                                    posicaoAtual = posicaoAtual + 1;
+                                                    ElseDecs();
+                                                }
+                                            } else if (atual().getLexema().equals("else")) {
+                                                ElseDecs();
+                                            }
+                                        }
+                                    }
+                                } else if (atual().getLexema().equals("if")
+                                        || (atual().getLexema().equals("write"))
+                                        || (atual().getLexema().equals("read"))
+                                        || (atual().getLexema().equals("while"))
+                                        || (atual().getTipo().equals("Identifier"))) {
+                                    LocalCommands();
+                                    if ((atual() != null) && (atual().getLexema().equals("}"))) {
+                                        posicaoAtual = posicaoAtual + 1;
+                                        ElseDecs();
+                                    } else {
+                                        addErro(atual(), "'}'");
+                                        if (seguinte().getLexema().equals("}")) {
+                                            posicaoAtual = posicaoAtual + 1;
+                                            if (atual().getLexema().equals("}")) {
+                                                posicaoAtual = posicaoAtual + 1;
+                                                ElseDecs();
+                                            }
+                                        } else if (atual().getLexema().equals("else")) {
+                                            ElseDecs();
+                                        }
+                                    }
+                                }
+                            }
+                        } else {
+                            addErro(atual(), "')'");
+                            if (seguinte().getLexema().equals(")")) {
+                                posicaoAtual = posicaoAtual + 1;
+                                if ((atual() != null) && (atual().getLexema().equals(")"))) {
+                                    posicaoAtual = posicaoAtual + 1;
+                                    if ((atual() != null) && (atual().getLexema().equals("{"))) {
+                                        posicaoAtual = posicaoAtual + 1;
+                                        LocalCommands();
+                                        if ((atual() != null) && (atual().getLexema().equals("}"))) {
+                                            posicaoAtual = posicaoAtual + 1;
+                                            ElseDecs();
+                                        } else {
+                                            addErro(atual(), "'}'");
+                                            if (seguinte().getLexema().equals("}")) {
+                                                posicaoAtual = posicaoAtual + 1;
+                                                if (atual().getLexema().equals("}")) {
+                                                    posicaoAtual = posicaoAtual + 1;
+                                                    ElseDecs();
+                                                }
+                                            } else if (atual().getLexema().equals("else")) {
+                                                ElseDecs();
+                                            }
+                                        }
+                                    } else {
+                                        addErro(atual(), "'{'");
+                                        if (seguinte().getLexema().equals("{")) {
+                                            posicaoAtual = posicaoAtual + 1;
+                                            if ((atual() != null) && (atual().getLexema().equals("{"))) {
+                                                posicaoAtual = posicaoAtual + 1;
+                                                LocalCommands();
+                                                if ((atual() != null) && (atual().getLexema().equals("}"))) {
+                                                    posicaoAtual = posicaoAtual + 1;
+                                                    ElseDecs();
+                                                } else {
+                                                    addErro(atual(), "'}'");
+                                                    if (seguinte().getLexema().equals("}")) {
+                                                        posicaoAtual = posicaoAtual + 1;
+                                                        if (atual().getLexema().equals("}")) {
+                                                            posicaoAtual = posicaoAtual + 1;
+                                                            ElseDecs();
+                                                        }
+                                                    } else if (atual().getLexema().equals("else")) {
+                                                        ElseDecs();
+                                                    }
+                                                }
+                                            }
+                                        } else if (atual().getLexema().equals("if")
+                                                || (atual().getLexema().equals("write"))
+                                                || (atual().getLexema().equals("read"))
+                                                || (atual().getLexema().equals("while"))
+                                                || (atual().getTipo().equals("Identifier"))) {
+                                            LocalCommands();
+                                            if ((atual() != null) && (atual().getLexema().equals("}"))) {
+                                                posicaoAtual = posicaoAtual + 1;
+                                                ElseDecs();
+                                            } else {
+                                                addErro(atual(), "'}'");
+                                                if (seguinte().getLexema().equals("}")) {
+                                                    posicaoAtual = posicaoAtual + 1;
+                                                    if (atual().getLexema().equals("}")) {
+                                                        posicaoAtual = posicaoAtual + 1;
+                                                        ElseDecs();
+                                                    }
+                                                } else if (atual().getLexema().equals("else")) {
+                                                    ElseDecs();
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            } else if (atual().getLexema().equals("{")) {
+                                posicaoAtual = posicaoAtual + 1;
+                                LocalCommands();
+                                if (atual().getLexema().equals("}")) {
+                                    posicaoAtual = posicaoAtual + 1;
+                                    ElseDecs();
+                                } else {
+                                    addErro(atual(), "'}'");
+                                    if (seguinte().getLexema().equals("}")) {
+                                        posicaoAtual = posicaoAtual + 1;
+                                        if (atual().getLexema().equals("}")) {
+                                            posicaoAtual = posicaoAtual + 1;
+                                            ElseDecs();
+                                        }
+                                    } else if (atual().getLexema().equals("else")) {
+                                        ElseDecs();
+                                    }
+                                }
+                            } else {
+                                addErro(atual(), "'{'");
+                                if (seguinte().getLexema().equals("{")) {
+                                    posicaoAtual = posicaoAtual + 1;
+                                    if ((atual() != null) && (atual().getLexema().equals("{"))) {
+                                        posicaoAtual = posicaoAtual + 1;
+                                        LocalCommands();
+                                        if ((atual() != null) && (atual().getLexema().equals("}"))) {
+                                            posicaoAtual = posicaoAtual + 1;
+                                            ElseDecs();
+                                        } else {
+                                            addErro(atual(), "'}'");
+                                            if (seguinte().getLexema().equals("}")) {
+                                                posicaoAtual = posicaoAtual + 1;
+                                                if (atual().getLexema().equals("}")) {
+                                                    posicaoAtual = posicaoAtual + 1;
+                                                    ElseDecs();
+                                                }
+                                            } else if (atual().getLexema().equals("else")) {
+                                                ElseDecs();
+                                            }
+                                        }
+                                    }
+                                } else if (atual().getLexema().equals("if")
+                                        || (atual().getLexema().equals("write"))
+                                        || (atual().getLexema().equals("read"))
+                                        || (atual().getLexema().equals("while"))
+                                        || (atual().getTipo().equals("Identifier"))) {
+                                    LocalCommands();
+                                    if ((atual() != null) && (atual().getLexema().equals("}"))) {
+                                        posicaoAtual = posicaoAtual + 1;
+                                        ElseDecs();
+                                    } else {
+                                        addErro(atual(), "'}'");
+                                        if (seguinte().getLexema().equals("}")) {
+                                            posicaoAtual = posicaoAtual + 1;
+                                            if (atual().getLexema().equals("}")) {
+                                                posicaoAtual = posicaoAtual + 1;
+                                                ElseDecs();
+                                            }
+                                        } else if (atual().getLexema().equals("else")) {
+                                            ElseDecs();
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    } else {
+                        addErro(atual(), "'('");
+                        if (seguinte().getLexema().equals("(")) {
+                            posicaoAtual = posicaoAtual + 1;
+                            if (atual().getLexema().equals("(")) {
+                                posicaoAtual = posicaoAtual + 1;
+                                AssignExpr();
+                                if (atual().getLexema().equals(")")) {
+                                    posicaoAtual = posicaoAtual + 1;
+                                    if (atual().getLexema().equals("{")) {
+                                        posicaoAtual = posicaoAtual + 1;
+                                        LocalCommands();
+                                        if (atual().getLexema().equals("}")) {
+                                            posicaoAtual = posicaoAtual + 1;
+                                            ElseDecs();
+                                        } else {
+                                            addErro(atual(), "'}'");
+                                            if (seguinte().getLexema().equals("}")) {
+                                                posicaoAtual = posicaoAtual + 1;
+                                                if (atual().getLexema().equals("}")) {
+                                                    posicaoAtual = posicaoAtual + 1;
+                                                    ElseDecs();
+                                                }
+                                            } else if (atual().getLexema().equals("else")) {
+                                                ElseDecs();
+                                            }
+                                        }
+                                    } else {
+                                        addErro(atual(), "'{'");
+                                        if (seguinte().getLexema().equals("{")) {
+                                            posicaoAtual = posicaoAtual + 1;
+                                            if ((atual() != null) && (atual().getLexema().equals("{"))) {
+                                                posicaoAtual = posicaoAtual + 1;
+                                                LocalCommands();
+                                                if ((atual() != null) && (atual().getLexema().equals("}"))) {
+                                                    posicaoAtual = posicaoAtual + 1;
+                                                    ElseDecs();
+                                                } else {
+                                                    addErro(atual(), "'}'");
+                                                    if (seguinte().getLexema().equals("}")) {
+                                                        posicaoAtual = posicaoAtual + 1;
+                                                        if (atual().getLexema().equals("}")) {
+                                                            posicaoAtual = posicaoAtual + 1;
+                                                            ElseDecs();
+                                                        }
+                                                    } else if (atual().getLexema().equals("else")) {
+                                                        ElseDecs();
+                                                    }
+                                                }
+                                            }
+                                        } else if (atual().getLexema().equals("if")
+                                                || (atual().getLexema().equals("write"))
+                                                || (atual().getLexema().equals("read"))
+                                                || (atual().getLexema().equals("while"))
+                                                || (atual().getTipo().equals("Identifier"))) {
+                                            LocalCommands();
+                                            if ((atual() != null) && (atual().getLexema().equals("}"))) {
+                                                posicaoAtual = posicaoAtual + 1;
+                                                ElseDecs();
+                                            } else {
+                                                addErro(atual(), "'}'");
+                                                if (seguinte().getLexema().equals("}")) {
+                                                    posicaoAtual = posicaoAtual + 1;
+                                                    if (atual().getLexema().equals("}")) {
+                                                        posicaoAtual = posicaoAtual + 1;
+                                                        ElseDecs();
+                                                    }
+                                                } else if (atual().getLexema().equals("else")) {
+                                                    ElseDecs();
+                                                }
+                                            }
+                                        }
+                                    }
+                                } else {
+                                    addErro(atual(), "')'");
+                                    if (seguinte().getLexema().equals(")")) {
+                                        posicaoAtual = posicaoAtual + 1;
+                                        if ((atual() != null) && (atual().getLexema().equals(")"))) {
+                                            posicaoAtual = posicaoAtual + 1;
+                                            if ((atual() != null) && (atual().getLexema().equals("{"))) {
+                                                posicaoAtual = posicaoAtual + 1;
+                                                LocalCommands();
+                                                if ((atual() != null) && (atual().getLexema().equals("}"))) {
+                                                    posicaoAtual = posicaoAtual + 1;
+                                                    ElseDecs();
+                                                } else {
+                                                    addErro(atual(), "'}'");
+                                                    if (seguinte().getLexema().equals("}")) {
+                                                        posicaoAtual = posicaoAtual + 1;
+                                                        if (atual().getLexema().equals("}")) {
+                                                            posicaoAtual = posicaoAtual + 1;
+                                                            ElseDecs();
+                                                        }
+                                                    } else if (atual().getLexema().equals("else")) {
+                                                        ElseDecs();
+                                                    }
+                                                }
+                                            } else {
+                                                addErro(atual(), "'{'");
+                                                if (seguinte().getLexema().equals("{")) {
+                                                    posicaoAtual = posicaoAtual + 1;
+                                                    if ((atual() != null) && (atual().getLexema().equals("{"))) {
+                                                        posicaoAtual = posicaoAtual + 1;
+                                                        LocalCommands();
+                                                        if ((atual() != null) && (atual().getLexema().equals("}"))) {
+                                                            posicaoAtual = posicaoAtual + 1;
+                                                            ElseDecs();
+                                                        } else {
+                                                            addErro(atual(), "'}'");
+                                                            if (seguinte().getLexema().equals("}")) {
+                                                                posicaoAtual = posicaoAtual + 1;
+                                                                if (atual().getLexema().equals("}")) {
+                                                                    posicaoAtual = posicaoAtual + 1;
+                                                                    ElseDecs();
+                                                                }
+                                                            } else if (atual().getLexema().equals("else")) {
+                                                                ElseDecs();
+                                                            }
+                                                        }
+                                                    }
+                                                } else if (atual().getLexema().equals("if")
+                                                        || (atual().getLexema().equals("write"))
+                                                        || (atual().getLexema().equals("read"))
+                                                        || (atual().getLexema().equals("while"))
+                                                        || (atual().getTipo().equals("Identifier"))) {
+                                                    LocalCommands();
+                                                    if ((atual() != null) && (atual().getLexema().equals("}"))) {
+                                                        posicaoAtual = posicaoAtual + 1;
+                                                        ElseDecs();
+                                                    } else {
+                                                        addErro(atual(), "'}'");
+                                                        if (seguinte().getLexema().equals("}")) {
+                                                            posicaoAtual = posicaoAtual + 1;
+                                                            if (atual().getLexema().equals("}")) {
+                                                                posicaoAtual = posicaoAtual + 1;
+                                                                ElseDecs();
+                                                            }
+                                                        } else if (atual().getLexema().equals("else")) {
+                                                            ElseDecs();
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    } else if (atual().getLexema().equals("{")) {
+                                        posicaoAtual = posicaoAtual + 1;
+                                        LocalCommands();
+                                        if (atual().getLexema().equals("}")) {
+                                            posicaoAtual = posicaoAtual + 1;
+                                            ElseDecs();
+                                        } else {
+                                            addErro(atual(), "'}'");
+                                            if (seguinte().getLexema().equals("}")) {
+                                                posicaoAtual = posicaoAtual + 1;
+                                                if (atual().getLexema().equals("}")) {
+                                                    posicaoAtual = posicaoAtual + 1;
+                                                    ElseDecs();
+                                                }
+                                            } else if (atual().getLexema().equals("else")) {
+                                                ElseDecs();
+                                            }
+                                        }
+                                    } else {
+                                        addErro(atual(), "'{'");
+                                        if (seguinte().getLexema().equals("{")) {
+                                            posicaoAtual = posicaoAtual + 1;
+                                            if ((atual() != null) && (atual().getLexema().equals("{"))) {
+                                                posicaoAtual = posicaoAtual + 1;
+                                                LocalCommands();
+                                                if ((atual() != null) && (atual().getLexema().equals("}"))) {
+                                                    posicaoAtual = posicaoAtual + 1;
+                                                    ElseDecs();
+                                                } else {
+                                                    addErro(atual(), "'}'");
+                                                    if (seguinte().getLexema().equals("}")) {
+                                                        posicaoAtual = posicaoAtual + 1;
+                                                        if (atual().getLexema().equals("}")) {
+                                                            posicaoAtual = posicaoAtual + 1;
+                                                            ElseDecs();
+                                                        }
+                                                    } else if (atual().getLexema().equals("else")) {
+                                                        ElseDecs();
+                                                    }
+                                                }
+                                            }
+                                        } else if (atual().getLexema().equals("if")
+                                                || (atual().getLexema().equals("write"))
+                                                || (atual().getLexema().equals("read"))
+                                                || (atual().getLexema().equals("while"))
+                                                || (atual().getTipo().equals("Identifier"))) {
+                                            LocalCommands();
+                                            if ((atual() != null) && (atual().getLexema().equals("}"))) {
+                                                posicaoAtual = posicaoAtual + 1;
+                                                ElseDecs();
+                                            } else {
+                                                addErro(atual(), "'}'");
+                                                if (seguinte().getLexema().equals("}")) {
+                                                    posicaoAtual = posicaoAtual + 1;
+                                                    if (atual().getLexema().equals("}")) {
+                                                        posicaoAtual = posicaoAtual + 1;
+                                                        ElseDecs();
+                                                    }
+                                                } else if (atual().getLexema().equals("else")) {
+                                                    ElseDecs();
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        } else if (atual().getTipo().equals("Identifier")
+                                || (atual().getTipo().equals("RealNumber")
+                                || atual().getTipo().equals("boolean")
+                                || atual().getLexema().equals("true")
+                                || atual().getLexema().equals("false")
+                                || atual().getTipo().equals("Decimal"))) {
+                            AssignExpr();
+                            if (atual().getLexema().equals(")")) {
+                                posicaoAtual = posicaoAtual + 1;
+                                if (atual().getLexema().equals("{")) {
+                                    posicaoAtual = posicaoAtual + 1;
+                                    LocalCommands();
+                                    if (atual().getLexema().equals("}")) {
+                                        posicaoAtual = posicaoAtual + 1;
+                                        ElseDecs();
+                                    } else {
+                                        addErro(atual(), "'}'");
+                                        if (seguinte().getLexema().equals("}")) {
+                                            posicaoAtual = posicaoAtual + 1;
+                                            if (atual().getLexema().equals("}")) {
+                                                posicaoAtual = posicaoAtual + 1;
+                                                ElseDecs();
+                                            }
+                                        } else if (atual().getLexema().equals("else")) {
+                                            ElseDecs();
+                                        }
+                                    }
+                                } else {
+                                    addErro(atual(), "'{'");
+                                    if (seguinte().getLexema().equals("{")) {
+                                        posicaoAtual = posicaoAtual + 1;
+                                        if ((atual() != null) && (atual().getLexema().equals("{"))) {
+                                            posicaoAtual = posicaoAtual + 1;
+                                            LocalCommands();
+                                            if ((atual() != null) && (atual().getLexema().equals("}"))) {
+                                                posicaoAtual = posicaoAtual + 1;
+                                                ElseDecs();
+                                            } else {
+                                                addErro(atual(), "'}'");
+                                                if (seguinte().getLexema().equals("}")) {
+                                                    posicaoAtual = posicaoAtual + 1;
+                                                    if (atual().getLexema().equals("}")) {
+                                                        posicaoAtual = posicaoAtual + 1;
+                                                        ElseDecs();
+                                                    }
+                                                } else if (atual().getLexema().equals("else")) {
+                                                    ElseDecs();
+                                                }
+                                            }
+                                        }
+                                    } else if (atual().getLexema().equals("if")
+                                            || (atual().getLexema().equals("write"))
+                                            || (atual().getLexema().equals("read"))
+                                            || (atual().getLexema().equals("while"))
+                                            || (atual().getTipo().equals("Identifier"))) {
+                                        LocalCommands();
+                                        if ((atual() != null) && (atual().getLexema().equals("}"))) {
+                                            posicaoAtual = posicaoAtual + 1;
+                                            ElseDecs();
+                                        } else {
+                                            addErro(atual(), "'}'");
+                                            if (seguinte().getLexema().equals("}")) {
+                                                posicaoAtual = posicaoAtual + 1;
+                                                if (atual().getLexema().equals("}")) {
+                                                    posicaoAtual = posicaoAtual + 1;
+                                                    ElseDecs();
+                                                }
+                                            } else if (atual().getLexema().equals("else")) {
+                                                ElseDecs();
+                                            }
+                                        }
+                                    }
+                                }
+                            } else {
+                                addErro(atual(), "')'");
+                                if (seguinte().getLexema().equals(")")) {
+                                    posicaoAtual = posicaoAtual + 1;
+                                    if ((atual() != null) && (atual().getLexema().equals(")"))) {
+                                        posicaoAtual = posicaoAtual + 1;
+                                        if ((atual() != null) && (atual().getLexema().equals("{"))) {
+                                            posicaoAtual = posicaoAtual + 1;
+                                            LocalCommands();
+                                            if ((atual() != null) && (atual().getLexema().equals("}"))) {
+                                                posicaoAtual = posicaoAtual + 1;
+                                                ElseDecs();
+                                            } else {
+                                                addErro(atual(), "'}'");
+                                                if (seguinte().getLexema().equals("}")) {
+                                                    posicaoAtual = posicaoAtual + 1;
+                                                    if (atual().getLexema().equals("}")) {
+                                                        posicaoAtual = posicaoAtual + 1;
+                                                        ElseDecs();
+                                                    }
+                                                } else if (atual().getLexema().equals("else")) {
+                                                    ElseDecs();
+                                                }
+                                            }
+                                        } else {
+                                            addErro(atual(), "'{'");
+                                            if (seguinte().getLexema().equals("{")) {
+                                                posicaoAtual = posicaoAtual + 1;
+                                                if ((atual() != null) && (atual().getLexema().equals("{"))) {
+                                                    posicaoAtual = posicaoAtual + 1;
+                                                    LocalCommands();
+                                                    if ((atual() != null) && (atual().getLexema().equals("}"))) {
+                                                        posicaoAtual = posicaoAtual + 1;
+                                                        ElseDecs();
+                                                    } else {
+                                                        addErro(atual(), "'}'");
+                                                        if (seguinte().getLexema().equals("}")) {
+                                                            posicaoAtual = posicaoAtual + 1;
+                                                            if (atual().getLexema().equals("}")) {
+                                                                posicaoAtual = posicaoAtual + 1;
+                                                                ElseDecs();
+                                                            }
+                                                        } else if (atual().getLexema().equals("else")) {
+                                                            ElseDecs();
+                                                        }
+                                                    }
+                                                }
+                                            } else if (atual().getLexema().equals("if")
+                                                    || (atual().getLexema().equals("write"))
+                                                    || (atual().getLexema().equals("read"))
+                                                    || (atual().getLexema().equals("while"))
+                                                    || (atual().getTipo().equals("Identifier"))) {
+                                                LocalCommands();
+                                                if ((atual() != null) && (atual().getLexema().equals("}"))) {
+                                                    posicaoAtual = posicaoAtual + 1;
+                                                    ElseDecs();
+                                                } else {
+                                                    addErro(atual(), "'}'");
+                                                    if (seguinte().getLexema().equals("}")) {
+                                                        posicaoAtual = posicaoAtual + 1;
+                                                        if (atual().getLexema().equals("}")) {
+                                                            posicaoAtual = posicaoAtual + 1;
+                                                            ElseDecs();
+                                                        }
+                                                    } else if (atual().getLexema().equals("else")) {
+                                                        ElseDecs();
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                } else if (atual().getLexema().equals("{")) {
+                                    posicaoAtual = posicaoAtual + 1;
+                                    LocalCommands();
+                                    if (atual().getLexema().equals("}")) {
+                                        posicaoAtual = posicaoAtual + 1;
+                                        ElseDecs();
+                                    } else {
+                                        addErro(atual(), "'}'");
+                                        if (seguinte().getLexema().equals("}")) {
+                                            posicaoAtual = posicaoAtual + 1;
+                                            if (atual().getLexema().equals("}")) {
+                                                posicaoAtual = posicaoAtual + 1;
+                                                ElseDecs();
+                                            }
+                                        } else if (atual().getLexema().equals("else")) {
+                                            ElseDecs();
+                                        }
+                                    }
+                                } else {
+                                    addErro(atual(), "'{'");
+                                    if (seguinte().getLexema().equals("{")) {
+                                        posicaoAtual = posicaoAtual + 1;
+                                        if ((atual() != null) && (atual().getLexema().equals("{"))) {
+                                            posicaoAtual = posicaoAtual + 1;
+                                            LocalCommands();
+                                            if ((atual() != null) && (atual().getLexema().equals("}"))) {
+                                                posicaoAtual = posicaoAtual + 1;
+                                                ElseDecs();
+                                            } else {
+                                                addErro(atual(), "'}'");
+                                                if (seguinte().getLexema().equals("}")) {
+                                                    posicaoAtual = posicaoAtual + 1;
+                                                    if (atual().getLexema().equals("}")) {
+                                                        posicaoAtual = posicaoAtual + 1;
+                                                        ElseDecs();
+                                                    }
+                                                } else if (atual().getLexema().equals("else")) {
+                                                    ElseDecs();
+                                                }
+                                            }
+                                        }
+                                    } else if (atual().getLexema().equals("if")
+                                            || (atual().getLexema().equals("write"))
+                                            || (atual().getLexema().equals("read"))
+                                            || (atual().getLexema().equals("while"))
+                                            || (atual().getTipo().equals("Identifier"))) {
+                                        LocalCommands();
+                                        if ((atual() != null) && (atual().getLexema().equals("}"))) {
+                                            posicaoAtual = posicaoAtual + 1;
+                                            ElseDecs();
+                                        } else {
+                                            addErro(atual(), "'}'");
+                                            if (seguinte().getLexema().equals("}")) {
+                                                posicaoAtual = posicaoAtual + 1;
+                                                if (atual().getLexema().equals("}")) {
+                                                    posicaoAtual = posicaoAtual + 1;
+                                                    ElseDecs();
+                                                }
+                                            } else if (atual().getLexema().equals("else")) {
+                                                ElseDecs();
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            } else if (atual().getLexema().equals("(")) {
+                posicaoAtual = posicaoAtual + 1;
+                AssignExpr();
+                if (atual().getLexema().equals(")")) {
+                    posicaoAtual = posicaoAtual + 1;
+                    if (atual().getLexema().equals("{")) {
+                        posicaoAtual = posicaoAtual + 1;
+                        LocalCommands();
+                        if (atual().getLexema().equals("}")) {
+                            posicaoAtual = posicaoAtual + 1;
+                            ElseDecs();
+                        } else {
+                            addErro(atual(), "'}'");
+                            if (seguinte().getLexema().equals("}")) {
+                                posicaoAtual = posicaoAtual + 1;
+                                if (atual().getLexema().equals("}")) {
+                                    posicaoAtual = posicaoAtual + 1;
+                                    ElseDecs();
+                                }
+                            } else if (atual().getLexema().equals("else")) {
+                                ElseDecs();
+                            }
+                        }
+                    } else {
+                        addErro(atual(), "'{'");
+                        if (seguinte().getLexema().equals("{")) {
+                            posicaoAtual = posicaoAtual + 1;
+                            if ((atual() != null) && (atual().getLexema().equals("{"))) {
+                                posicaoAtual = posicaoAtual + 1;
+                                LocalCommands();
+                                if ((atual() != null) && (atual().getLexema().equals("}"))) {
+                                    posicaoAtual = posicaoAtual + 1;
+                                    ElseDecs();
+                                } else {
+                                    addErro(atual(), "'}'");
+                                    if (seguinte().getLexema().equals("}")) {
+                                        posicaoAtual = posicaoAtual + 1;
+                                        if (atual().getLexema().equals("}")) {
+                                            posicaoAtual = posicaoAtual + 1;
+                                            ElseDecs();
+                                        }
+                                    } else if (atual().getLexema().equals("else")) {
+                                        ElseDecs();
+                                    }
+                                }
+                            }
+                        } else if (atual().getLexema().equals("if")
+                                || (atual().getLexema().equals("write"))
+                                || (atual().getLexema().equals("read"))
+                                || (atual().getLexema().equals("while"))
+                                || (atual().getTipo().equals("Identifier"))) {
+                            LocalCommands();
+                            if ((atual() != null) && (atual().getLexema().equals("}"))) {
+                                posicaoAtual = posicaoAtual + 1;
+                                ElseDecs();
+                            } else {
+                                addErro(atual(), "'}'");
+                                if (seguinte().getLexema().equals("}")) {
+                                    posicaoAtual = posicaoAtual + 1;
+                                    if (atual().getLexema().equals("}")) {
+                                        posicaoAtual = posicaoAtual + 1;
+                                        ElseDecs();
+                                    }
+                                } else if (atual().getLexema().equals("else")) {
+                                    ElseDecs();
+                                }
+                            }
+                        }
+                    }
+                } else {
+                    addErro(atual(), "')'");
+                    if (seguinte().getLexema().equals(")")) {
+                        posicaoAtual = posicaoAtual + 1;
+                        if ((atual() != null) && (atual().getLexema().equals(")"))) {
+                            posicaoAtual = posicaoAtual + 1;
+                            if ((atual() != null) && (atual().getLexema().equals("{"))) {
+                                posicaoAtual = posicaoAtual + 1;
+                                LocalCommands();
+                                if ((atual() != null) && (atual().getLexema().equals("}"))) {
+                                    posicaoAtual = posicaoAtual + 1;
+                                    ElseDecs();
+                                } else {
+                                    addErro(atual(), "'}'");
+                                    if (seguinte().getLexema().equals("}")) {
+                                        posicaoAtual = posicaoAtual + 1;
+                                        if (atual().getLexema().equals("}")) {
+                                            posicaoAtual = posicaoAtual + 1;
+                                            ElseDecs();
+                                        }
+                                    } else if (atual().getLexema().equals("else")) {
+                                        ElseDecs();
+                                    }
+                                }
+                            } else {
+                                addErro(atual(), "'{'");
+                                if (seguinte().getLexema().equals("{")) {
+                                    posicaoAtual = posicaoAtual + 1;
+                                    if ((atual() != null) && (atual().getLexema().equals("{"))) {
+                                        posicaoAtual = posicaoAtual + 1;
+                                        LocalCommands();
+                                        if ((atual() != null) && (atual().getLexema().equals("}"))) {
+                                            posicaoAtual = posicaoAtual + 1;
+                                            ElseDecs();
+                                        } else {
+                                            addErro(atual(), "'}'");
+                                            if (seguinte().getLexema().equals("}")) {
+                                                posicaoAtual = posicaoAtual + 1;
+                                                if (atual().getLexema().equals("}")) {
+                                                    posicaoAtual = posicaoAtual + 1;
+                                                    ElseDecs();
+                                                }
+                                            } else if (atual().getLexema().equals("else")) {
+                                                ElseDecs();
+                                            }
+                                        }
+                                    }
+                                } else if (atual().getLexema().equals("if")
+                                        || (atual().getLexema().equals("write"))
+                                        || (atual().getLexema().equals("read"))
+                                        || (atual().getLexema().equals("while"))
+                                        || (atual().getTipo().equals("Identifier"))) {
+                                    LocalCommands();
+                                    if ((atual() != null) && (atual().getLexema().equals("}"))) {
+                                        posicaoAtual = posicaoAtual + 1;
+                                        ElseDecs();
+                                    } else {
+                                        addErro(atual(), "'}'");
+                                        if (seguinte().getLexema().equals("}")) {
+                                            posicaoAtual = posicaoAtual + 1;
+                                            if (atual().getLexema().equals("}")) {
+                                                posicaoAtual = posicaoAtual + 1;
+                                                ElseDecs();
+                                            }
+                                        } else if (atual().getLexema().equals("else")) {
+                                            ElseDecs();
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    } else if (atual().getLexema().equals("{")) {
+                        posicaoAtual = posicaoAtual + 1;
+                        LocalCommands();
+                        if (atual().getLexema().equals("}")) {
+                            posicaoAtual = posicaoAtual + 1;
+                            ElseDecs();
+                        } else {
+                            addErro(atual(), "'}'");
+                            if (seguinte().getLexema().equals("}")) {
+                                posicaoAtual = posicaoAtual + 1;
+                                if (atual().getLexema().equals("}")) {
+                                    posicaoAtual = posicaoAtual + 1;
+                                    ElseDecs();
+                                }
+                            } else if (atual().getLexema().equals("else")) {
+                                ElseDecs();
+                            }
+                        }
+                    } else {
+                        addErro(atual(), "'{'");
+                        if (seguinte().getLexema().equals("{")) {
+                            posicaoAtual = posicaoAtual + 1;
+                            if ((atual() != null) && (atual().getLexema().equals("{"))) {
+                                posicaoAtual = posicaoAtual + 1;
+                                LocalCommands();
+                                if ((atual() != null) && (atual().getLexema().equals("}"))) {
+                                    posicaoAtual = posicaoAtual + 1;
+                                    ElseDecs();
+                                } else {
+                                    addErro(atual(), "'}'");
+                                    if (seguinte().getLexema().equals("}")) {
+                                        posicaoAtual = posicaoAtual + 1;
+                                        if (atual().getLexema().equals("}")) {
+                                            posicaoAtual = posicaoAtual + 1;
+                                            ElseDecs();
+                                        }
+                                    } else if (atual().getLexema().equals("else")) {
+                                        ElseDecs();
+                                    }
+                                }
+                            }
+                        } else if (atual().getLexema().equals("if")
+                                || (atual().getLexema().equals("write"))
+                                || (atual().getLexema().equals("read"))
+                                || (atual().getLexema().equals("while"))
+                                || (atual().getTipo().equals("Identifier"))) {
+                            LocalCommands();
+                            if ((atual() != null) && (atual().getLexema().equals("}"))) {
+                                posicaoAtual = posicaoAtual + 1;
+                                ElseDecs();
+                            } else {
+                                addErro(atual(), "'}'");
+                                if (seguinte().getLexema().equals("}")) {
+                                    posicaoAtual = posicaoAtual + 1;
+                                    if (atual().getLexema().equals("}")) {
+                                        posicaoAtual = posicaoAtual + 1;
+                                        ElseDecs();
+                                    }
+                                } else if (atual().getLexema().equals("else")) {
+                                    ElseDecs();
+                                }
+                            }
+                        }
+                    }
+                }
+            } else {
+                addErro(atual(), "'('");
+                if (seguinte().getLexema().equals("(")) {
+                    posicaoAtual = posicaoAtual + 1;
+                    if (atual().getLexema().equals("(")) {
+                        posicaoAtual = posicaoAtual + 1;
+                        AssignExpr();
+                        if (atual().getLexema().equals(")")) {
+                            posicaoAtual = posicaoAtual + 1;
+                            if (atual().getLexema().equals("{")) {
+                                posicaoAtual = posicaoAtual + 1;
+                                LocalCommands();
+                                if (atual().getLexema().equals("}")) {
+                                    posicaoAtual = posicaoAtual + 1;
+                                    ElseDecs();
+                                } else {
+                                    addErro(atual(), "'}'");
+                                    if (seguinte().getLexema().equals("}")) {
+                                        posicaoAtual = posicaoAtual + 1;
+                                        if (atual().getLexema().equals("}")) {
+                                            posicaoAtual = posicaoAtual + 1;
+                                            ElseDecs();
+                                        }
+                                    } else if (atual().getLexema().equals("else")) {
+                                        ElseDecs();
+                                    }
+                                }
+                            } else {
+                                addErro(atual(), "'{'");
+                                if (seguinte().getLexema().equals("{")) {
+                                    posicaoAtual = posicaoAtual + 1;
+                                    if ((atual() != null) && (atual().getLexema().equals("{"))) {
+                                        posicaoAtual = posicaoAtual + 1;
+                                        LocalCommands();
+                                        if ((atual() != null) && (atual().getLexema().equals("}"))) {
+                                            posicaoAtual = posicaoAtual + 1;
+                                            ElseDecs();
+                                        } else {
+                                            addErro(atual(), "'}'");
+                                            if (seguinte().getLexema().equals("}")) {
+                                                posicaoAtual = posicaoAtual + 1;
+                                                if (atual().getLexema().equals("}")) {
+                                                    posicaoAtual = posicaoAtual + 1;
+                                                    ElseDecs();
+                                                }
+                                            } else if (atual().getLexema().equals("else")) {
+                                                ElseDecs();
+                                            }
+                                        }
+                                    }
+                                } else if (atual().getLexema().equals("if")
+                                        || (atual().getLexema().equals("write"))
+                                        || (atual().getLexema().equals("read"))
+                                        || (atual().getLexema().equals("while"))
+                                        || (atual().getTipo().equals("Identifier"))) {
+                                    LocalCommands();
+                                    if ((atual() != null) && (atual().getLexema().equals("}"))) {
+                                        posicaoAtual = posicaoAtual + 1;
+                                        ElseDecs();
+                                    } else {
+                                        addErro(atual(), "'}'");
+                                        if (seguinte().getLexema().equals("}")) {
+                                            posicaoAtual = posicaoAtual + 1;
+                                            if (atual().getLexema().equals("}")) {
+                                                posicaoAtual = posicaoAtual + 1;
+                                                ElseDecs();
+                                            }
+                                        } else if (atual().getLexema().equals("else")) {
+                                            ElseDecs();
+                                        }
+                                    }
+                                }
+                            }
+                        } else {
+                            addErro(atual(), "')'");
+                            if (seguinte().getLexema().equals(")")) {
+                                posicaoAtual = posicaoAtual + 1;
+                                if ((atual() != null) && (atual().getLexema().equals(")"))) {
+                                    posicaoAtual = posicaoAtual + 1;
+                                    if ((atual() != null) && (atual().getLexema().equals("{"))) {
+                                        posicaoAtual = posicaoAtual + 1;
+                                        LocalCommands();
+                                        if ((atual() != null) && (atual().getLexema().equals("}"))) {
+                                            posicaoAtual = posicaoAtual + 1;
+                                            ElseDecs();
+                                        } else {
+                                            addErro(atual(), "'}'");
+                                            if (seguinte().getLexema().equals("}")) {
+                                                posicaoAtual = posicaoAtual + 1;
+                                                if (atual().getLexema().equals("}")) {
+                                                    posicaoAtual = posicaoAtual + 1;
+                                                    ElseDecs();
+                                                }
+                                            } else if (atual().getLexema().equals("else")) {
+                                                ElseDecs();
+                                            }
+                                        }
+                                    } else {
+                                        addErro(atual(), "'{'");
+                                        if (seguinte().getLexema().equals("{")) {
+                                            posicaoAtual = posicaoAtual + 1;
+                                            if ((atual() != null) && (atual().getLexema().equals("{"))) {
+                                                posicaoAtual = posicaoAtual + 1;
+                                                LocalCommands();
+                                                if ((atual() != null) && (atual().getLexema().equals("}"))) {
+                                                    posicaoAtual = posicaoAtual + 1;
+                                                    ElseDecs();
+                                                } else {
+                                                    addErro(atual(), "'}'");
+                                                    if (seguinte().getLexema().equals("}")) {
+                                                        posicaoAtual = posicaoAtual + 1;
+                                                        if (atual().getLexema().equals("}")) {
+                                                            posicaoAtual = posicaoAtual + 1;
+                                                            ElseDecs();
+                                                        }
+                                                    } else if (atual().getLexema().equals("else")) {
+                                                        ElseDecs();
+                                                    }
+                                                }
+                                            }
+                                        } else if (atual().getLexema().equals("if")
+                                                || (atual().getLexema().equals("write"))
+                                                || (atual().getLexema().equals("read"))
+                                                || (atual().getLexema().equals("while"))
+                                                || (atual().getTipo().equals("Identifier"))) {
+                                            LocalCommands();
+                                            if ((atual() != null) && (atual().getLexema().equals("}"))) {
+                                                posicaoAtual = posicaoAtual + 1;
+                                                ElseDecs();
+                                            } else {
+                                                addErro(atual(), "'}'");
+                                                if (seguinte().getLexema().equals("}")) {
+                                                    posicaoAtual = posicaoAtual + 1;
+                                                    if (atual().getLexema().equals("}")) {
+                                                        posicaoAtual = posicaoAtual + 1;
+                                                        ElseDecs();
+                                                    }
+                                                } else if (atual().getLexema().equals("else")) {
+                                                    ElseDecs();
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            } else if (atual().getLexema().equals("{")) {
+                                posicaoAtual = posicaoAtual + 1;
+                                LocalCommands();
+                                if (atual().getLexema().equals("}")) {
+                                    posicaoAtual = posicaoAtual + 1;
+                                    ElseDecs();
+                                } else {
+                                    addErro(atual(), "'}'");
+                                    if (seguinte().getLexema().equals("}")) {
+                                        posicaoAtual = posicaoAtual + 1;
+                                        if (atual().getLexema().equals("}")) {
+                                            posicaoAtual = posicaoAtual + 1;
+                                            ElseDecs();
+                                        }
+                                    } else if (atual().getLexema().equals("else")) {
+                                        ElseDecs();
+                                    }
+                                }
+                            } else {
+                                addErro(atual(), "'{'");
+                                if (seguinte().getLexema().equals("{")) {
+                                    posicaoAtual = posicaoAtual + 1;
+                                    if ((atual() != null) && (atual().getLexema().equals("{"))) {
+                                        posicaoAtual = posicaoAtual + 1;
+                                        LocalCommands();
+                                        if ((atual() != null) && (atual().getLexema().equals("}"))) {
+                                            posicaoAtual = posicaoAtual + 1;
+                                            ElseDecs();
+                                        } else {
+                                            addErro(atual(), "'}'");
+                                            if (seguinte().getLexema().equals("}")) {
+                                                posicaoAtual = posicaoAtual + 1;
+                                                if (atual().getLexema().equals("}")) {
+                                                    posicaoAtual = posicaoAtual + 1;
+                                                    ElseDecs();
+                                                }
+                                            } else if (atual().getLexema().equals("else")) {
+                                                ElseDecs();
+                                            }
+                                        }
+                                    }
+                                } else if (atual().getLexema().equals("if")
+                                        || (atual().getLexema().equals("write"))
+                                        || (atual().getLexema().equals("read"))
+                                        || (atual().getLexema().equals("while"))
+                                        || (atual().getTipo().equals("Identifier"))) {
+                                    LocalCommands();
+                                    if ((atual() != null) && (atual().getLexema().equals("}"))) {
+                                        posicaoAtual = posicaoAtual + 1;
+                                        ElseDecs();
+                                    } else {
+                                        addErro(atual(), "'}'");
+                                        if (seguinte().getLexema().equals("}")) {
+                                            posicaoAtual = posicaoAtual + 1;
+                                            if (atual().getLexema().equals("}")) {
+                                                posicaoAtual = posicaoAtual + 1;
+                                                ElseDecs();
+                                            }
+                                        } else if (atual().getLexema().equals("else")) {
+                                            ElseDecs();
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                } else if (atual().getTipo().equals("Identifier")
+                        || (atual().getTipo().equals("RealNumber")
+                        || atual().getTipo().equals("boolean")
+                        || atual().getLexema().equals("true")
+                        || atual().getLexema().equals("false")
+                        || atual().getTipo().equals("Decimal"))) {
+                    AssignExpr();
+                    if (atual().getLexema().equals(")")) {
+                        posicaoAtual = posicaoAtual + 1;
+                        if (atual().getLexema().equals("{")) {
+                            posicaoAtual = posicaoAtual + 1;
+                            LocalCommands();
+                            if (atual().getLexema().equals("}")) {
+                                posicaoAtual = posicaoAtual + 1;
+                                ElseDecs();
+                            } else {
+                                addErro(atual(), "'}'");
+                                if (seguinte().getLexema().equals("}")) {
+                                    posicaoAtual = posicaoAtual + 1;
+                                    if (atual().getLexema().equals("}")) {
+                                        posicaoAtual = posicaoAtual + 1;
+                                        ElseDecs();
+                                    }
+                                } else if (atual().getLexema().equals("else")) {
+                                    ElseDecs();
+                                }
+                            }
+                        } else {
+                            addErro(atual(), "'{'");
+                            if (seguinte().getLexema().equals("{")) {
+                                posicaoAtual = posicaoAtual + 1;
+                                if ((atual() != null) && (atual().getLexema().equals("{"))) {
+                                    posicaoAtual = posicaoAtual + 1;
+                                    LocalCommands();
+                                    if ((atual() != null) && (atual().getLexema().equals("}"))) {
+                                        posicaoAtual = posicaoAtual + 1;
+                                        ElseDecs();
+                                    } else {
+                                        addErro(atual(), "'}'");
+                                        if (seguinte().getLexema().equals("}")) {
+                                            posicaoAtual = posicaoAtual + 1;
+                                            if (atual().getLexema().equals("}")) {
+                                                posicaoAtual = posicaoAtual + 1;
+                                                ElseDecs();
+                                            }
+                                        } else if (atual().getLexema().equals("else")) {
+                                            ElseDecs();
+                                        }
+                                    }
+                                }
+                            } else if (atual().getLexema().equals("if")
+                                    || (atual().getLexema().equals("write"))
+                                    || (atual().getLexema().equals("read"))
+                                    || (atual().getLexema().equals("while"))
+                                    || (atual().getTipo().equals("Identifier"))) {
+                                LocalCommands();
+                                if ((atual() != null) && (atual().getLexema().equals("}"))) {
+                                    posicaoAtual = posicaoAtual + 1;
+                                    ElseDecs();
+                                } else {
+                                    addErro(atual(), "'}'");
+                                    if (seguinte().getLexema().equals("}")) {
+                                        posicaoAtual = posicaoAtual + 1;
+                                        if (atual().getLexema().equals("}")) {
+                                            posicaoAtual = posicaoAtual + 1;
+                                            ElseDecs();
+                                        }
+                                    } else if (atual().getLexema().equals("else")) {
+                                        ElseDecs();
+                                    }
+                                }
+                            }
+                        }
+                    } else {
+                        addErro(atual(), "')'");
+                        if (seguinte().getLexema().equals(")")) {
+                            posicaoAtual = posicaoAtual + 1;
+                            if ((atual() != null) && (atual().getLexema().equals(")"))) {
+                                posicaoAtual = posicaoAtual + 1;
+                                if ((atual() != null) && (atual().getLexema().equals("{"))) {
+                                    posicaoAtual = posicaoAtual + 1;
+                                    LocalCommands();
+                                    if ((atual() != null) && (atual().getLexema().equals("}"))) {
+                                        posicaoAtual = posicaoAtual + 1;
+                                        ElseDecs();
+                                    } else {
+                                        addErro(atual(), "'}'");
+                                        if (seguinte().getLexema().equals("}")) {
+                                            posicaoAtual = posicaoAtual + 1;
+                                            if (atual().getLexema().equals("}")) {
+                                                posicaoAtual = posicaoAtual + 1;
+                                                ElseDecs();
+                                            }
+                                        } else if (atual().getLexema().equals("else")) {
+                                            ElseDecs();
+                                        }
+                                    }
+                                } else {
+                                    addErro(atual(), "'{'");
+                                    if (seguinte().getLexema().equals("{")) {
+                                        posicaoAtual = posicaoAtual + 1;
+                                        if ((atual() != null) && (atual().getLexema().equals("{"))) {
+                                            posicaoAtual = posicaoAtual + 1;
+                                            LocalCommands();
+                                            if ((atual() != null) && (atual().getLexema().equals("}"))) {
+                                                posicaoAtual = posicaoAtual + 1;
+                                                ElseDecs();
+                                            } else {
+                                                addErro(atual(), "'}'");
+                                                if (seguinte().getLexema().equals("}")) {
+                                                    posicaoAtual = posicaoAtual + 1;
+                                                    if (atual().getLexema().equals("}")) {
+                                                        posicaoAtual = posicaoAtual + 1;
+                                                        ElseDecs();
+                                                    }
+                                                } else if (atual().getLexema().equals("else")) {
+                                                    ElseDecs();
+                                                }
+                                            }
+                                        }
+                                    } else if (atual().getLexema().equals("if")
+                                            || (atual().getLexema().equals("write"))
+                                            || (atual().getLexema().equals("read"))
+                                            || (atual().getLexema().equals("while"))
+                                            || (atual().getTipo().equals("Identifier"))) {
+                                        LocalCommands();
+                                        if ((atual() != null) && (atual().getLexema().equals("}"))) {
+                                            posicaoAtual = posicaoAtual + 1;
+                                            ElseDecs();
+                                        } else {
+                                            addErro(atual(), "'}'");
+                                            if (seguinte().getLexema().equals("}")) {
+                                                posicaoAtual = posicaoAtual + 1;
+                                                if (atual().getLexema().equals("}")) {
+                                                    posicaoAtual = posicaoAtual + 1;
+                                                    ElseDecs();
+                                                }
+                                            } else if (atual().getLexema().equals("else")) {
+                                                ElseDecs();
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        } else if (atual().getLexema().equals("{")) {
+                            posicaoAtual = posicaoAtual + 1;
+                            LocalCommands();
+                            if (atual().getLexema().equals("}")) {
+                                posicaoAtual = posicaoAtual + 1;
+                                ElseDecs();
+                            } else {
+                                addErro(atual(), "'}'");
+                                if (seguinte().getLexema().equals("}")) {
+                                    posicaoAtual = posicaoAtual + 1;
+                                    if (atual().getLexema().equals("}")) {
+                                        posicaoAtual = posicaoAtual + 1;
+                                        ElseDecs();
+                                    }
+                                } else if (atual().getLexema().equals("else")) {
+                                    ElseDecs();
+                                }
+                            }
+                        } else {
+                            addErro(atual(), "'{'");
+                            if (seguinte().getLexema().equals("{")) {
+                                posicaoAtual = posicaoAtual + 1;
+                                if ((atual() != null) && (atual().getLexema().equals("{"))) {
+                                    posicaoAtual = posicaoAtual + 1;
+                                    LocalCommands();
+                                    if ((atual() != null) && (atual().getLexema().equals("}"))) {
+                                        posicaoAtual = posicaoAtual + 1;
+                                        ElseDecs();
+                                    } else {
+                                        addErro(atual(), "'}'");
+                                        if (seguinte().getLexema().equals("}")) {
+                                            posicaoAtual = posicaoAtual + 1;
+                                            if (atual().getLexema().equals("}")) {
+                                                posicaoAtual = posicaoAtual + 1;
+                                                ElseDecs();
+                                            }
+                                        } else if (atual().getLexema().equals("else")) {
+                                            ElseDecs();
+                                        }
+                                    }
+                                }
+                            } else if (atual().getLexema().equals("if")
+                                    || (atual().getLexema().equals("write"))
+                                    || (atual().getLexema().equals("read"))
+                                    || (atual().getLexema().equals("while"))
+                                    || (atual().getTipo().equals("Identifier"))) {
+                                LocalCommands();
+                                if ((atual() != null) && (atual().getLexema().equals("}"))) {
+                                    posicaoAtual = posicaoAtual + 1;
+                                    ElseDecs();
+                                } else {
+                                    addErro(atual(), "'}'");
+                                    if (seguinte().getLexema().equals("}")) {
+                                        posicaoAtual = posicaoAtual + 1;
+                                        if (atual().getLexema().equals("}")) {
+                                            posicaoAtual = posicaoAtual + 1;
+                                            ElseDecs();
+                                        }
+                                    } else if (atual().getLexema().equals("else")) {
+                                        ElseDecs();
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 
@@ -5336,12 +7208,52 @@ public class AnalisadorSintatico {
                 LocalCommands();
                 if ((atual() != null) && (atual().getLexema().equals("}"))) {
                     posicaoAtual = posicaoAtual + 1;
-                    ElseDecs();
                 } else {
                     addErro(atual(), "'}'");
+                    if (seguinte().getLexema().equals("}")) {
+                        posicaoAtual = posicaoAtual + 1;
+                        if (atual().getLexema().equals("}")) {
+                            posicaoAtual = posicaoAtual + 1;
+                        }
+                    }
                 }
             } else {
                 addErro(atual(), "'{'");
+                if (seguinte().getLexema().equals("{")) {
+                    posicaoAtual = posicaoAtual + 1;
+                    if (atual().getLexema().equals("{")) {
+                        posicaoAtual = posicaoAtual + 1;
+                        LocalCommands();
+                        if ((atual() != null) && (atual().getLexema().equals("}"))) {
+                            posicaoAtual = posicaoAtual + 1;
+                        } else {
+                            addErro(atual(), "'}'");
+                            if (seguinte().getLexema().equals("}")) {
+                                posicaoAtual = posicaoAtual + 1;
+                                if (atual().getLexema().equals("}")) {
+                                    posicaoAtual = posicaoAtual + 1;
+                                }
+                            }
+                        }
+                    }
+                } else if (atual().getLexema().equals("if")
+                        || (atual().getLexema().equals("write"))
+                        || (atual().getLexema().equals("read"))
+                        || (atual().getLexema().equals("while"))
+                        || (atual().getTipo().equals("Identifier"))) {
+                    LocalCommands();
+                    if ((atual() != null) && (atual().getLexema().equals("}"))) {
+                        posicaoAtual = posicaoAtual + 1;
+                    } else {
+                        addErro(atual(), "'}'");
+                        if (seguinte().getLexema().equals("}")) {
+                            posicaoAtual = posicaoAtual + 1;
+                            if (atual().getLexema().equals("}")) {
+                                posicaoAtual = posicaoAtual + 1;
+                            }
+                        }
+                    }
+                }
             }
         } else {
             //addErro(atual(), "'else'");
@@ -5365,18 +7277,1555 @@ public class AnalisadorSintatico {
                             posicaoAtual = posicaoAtual + 1;
                         } else {
                             addErro(atual(), "'}'");
+                            if (seguinte().getLexema().equals("}")) {
+                                posicaoAtual = posicaoAtual + 1;
+                                if (atual().getLexema().equals("}")) {
+                                    posicaoAtual = posicaoAtual + 1;
+                                }
+                            }
                         }
                     } else {
                         addErro(atual(), "'{'");
+                        if (seguinte().getLexema().equals("{")) {
+                            posicaoAtual = posicaoAtual + 1;
+                            if (atual().getLexema().equals("{")) {
+                                posicaoAtual = posicaoAtual + 1;
+                                LocalCommands();
+                                if (atual().getLexema().equals("}")) {
+                                    posicaoAtual = posicaoAtual + 1;
+                                } else {
+                                    addErro(atual(), "'}'");
+                                    if (seguinte().getLexema().equals("}")) {
+                                        posicaoAtual = posicaoAtual + 1;
+                                        if (atual().getLexema().equals("}")) {
+                                            posicaoAtual = posicaoAtual + 1;
+                                        }
+                                    }
+                                }
+                            }
+                        } else if (atual().getLexema().equals("if")
+                                || (atual().getLexema().equals("write"))
+                                || (atual().getLexema().equals("read"))
+                                || (atual().getLexema().equals("while"))
+                                || (atual().getTipo().equals("Identifier"))) {
+                            LocalCommands();
+                            if (atual().getLexema().equals("}")) {
+                                posicaoAtual = posicaoAtual + 1;
+                            } else {
+                                addErro(atual(), "'}'");
+                                if (seguinte().getLexema().equals("}")) {
+                                    posicaoAtual = posicaoAtual + 1;
+                                    if (atual().getLexema().equals("}")) {
+                                        posicaoAtual = posicaoAtual + 1;
+                                    }
+                                }
+                            }
+                        }
                     }
                 } else {
                     addErro(atual(), "')'");
+                    if (seguinte().getLexema().equals(")")) {
+                        posicaoAtual = posicaoAtual + 1;
+                        if ((atual() != null) && (atual().getLexema().equals(")"))) {
+                            posicaoAtual = posicaoAtual + 1;
+                            if ((atual() != null) && (atual().getLexema().equals("{"))) {
+                                posicaoAtual = posicaoAtual + 1;
+                                LocalCommands();
+                                if ((atual() != null) && (atual().getLexema().equals("}"))) {
+                                    posicaoAtual = posicaoAtual + 1;
+                                } else {
+                                    addErro(atual(), "'}'");
+                                    if (seguinte().getLexema().equals("}")) {
+                                        posicaoAtual = posicaoAtual + 1;
+                                        if (atual().getLexema().equals("}")) {
+                                            posicaoAtual = posicaoAtual + 1;
+                                        }
+                                    }
+                                }
+                            } else {
+                                addErro(atual(), "'{'");
+                                if (seguinte().getLexema().equals("{")) {
+                                    posicaoAtual = posicaoAtual + 1;
+                                    if (atual().getLexema().equals("{")) {
+                                        posicaoAtual = posicaoAtual + 1;
+                                        LocalCommands();
+                                        if (atual().getLexema().equals("}")) {
+                                            posicaoAtual = posicaoAtual + 1;
+                                        } else {
+                                            addErro(atual(), "'}'");
+                                            if (seguinte().getLexema().equals("}")) {
+                                                posicaoAtual = posicaoAtual + 1;
+                                                if (atual().getLexema().equals("}")) {
+                                                    posicaoAtual = posicaoAtual + 1;
+                                                }
+                                            }
+                                        }
+                                    }
+                                } else if (atual().getLexema().equals("if")
+                                        || (atual().getLexema().equals("write"))
+                                        || (atual().getLexema().equals("read"))
+                                        || (atual().getLexema().equals("while"))
+                                        || (atual().getTipo().equals("Identifier"))) {
+                                    LocalCommands();
+                                    if (atual().getLexema().equals("}")) {
+                                        posicaoAtual = posicaoAtual + 1;
+                                    } else {
+                                        addErro(atual(), "'}'");
+                                        if (seguinte().getLexema().equals("}")) {
+                                            posicaoAtual = posicaoAtual + 1;
+                                            if (atual().getLexema().equals("}")) {
+                                                posicaoAtual = posicaoAtual + 1;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    } else if (atual().getLexema().equals("{")) {
+                        posicaoAtual = posicaoAtual + 1;
+                        LocalCommands();
+                        if ((atual() != null) && (atual().getLexema().equals("}"))) {
+                            posicaoAtual = posicaoAtual + 1;
+                        } else {
+                            addErro(atual(), "'}'");
+                            if (seguinte().getLexema().equals("}")) {
+                                posicaoAtual = posicaoAtual + 1;
+                                if (atual().getLexema().equals("}")) {
+                                    posicaoAtual = posicaoAtual + 1;
+                                }
+                            }
+                        }
+                    } else {
+                        addErro(atual(), "'{'");
+                        if (seguinte().getLexema().equals("{")) {
+                            posicaoAtual = posicaoAtual + 1;
+                            if (atual().getLexema().equals("{")) {
+                                posicaoAtual = posicaoAtual + 1;
+                                LocalCommands();
+                                if (atual().getLexema().equals("}")) {
+                                    posicaoAtual = posicaoAtual + 1;
+                                } else {
+                                    addErro(atual(), "'}'");
+                                    if (seguinte().getLexema().equals("}")) {
+                                        posicaoAtual = posicaoAtual + 1;
+                                        if (atual().getLexema().equals("}")) {
+                                            posicaoAtual = posicaoAtual + 1;
+                                        }
+                                    }
+                                }
+                            }
+                        } else if (atual().getLexema().equals("if")
+                                || (atual().getLexema().equals("write"))
+                                || (atual().getLexema().equals("read"))
+                                || (atual().getLexema().equals("while"))
+                                || (atual().getTipo().equals("Identifier"))) {
+                            LocalCommands();
+                            if (atual().getLexema().equals("}")) {
+                                posicaoAtual = posicaoAtual + 1;
+                            } else {
+                                addErro(atual(), "'}'");
+                                if (seguinte().getLexema().equals("}")) {
+                                    posicaoAtual = posicaoAtual + 1;
+                                    if (atual().getLexema().equals("}")) {
+                                        posicaoAtual = posicaoAtual + 1;
+                                    }
+                                }
+                            }
+                        }
+                    }
                 }
             } else {
                 addErro(atual(), "'('");
+                if (seguinte().getLexema().equals("(")) {
+                    posicaoAtual = posicaoAtual + 1;
+                    if (atual().getLexema().equals("(")) {
+                        posicaoAtual = posicaoAtual + 1;
+                        AssignExpr();
+                        if ((atual() != null) && (atual().getLexema().equals(")"))) {
+                            posicaoAtual = posicaoAtual + 1;
+                            if ((atual() != null) && (atual().getLexema().equals("{"))) {
+                                posicaoAtual = posicaoAtual + 1;
+                                LocalCommands();
+                                if ((atual() != null) && (atual().getLexema().equals("}"))) {
+                                    posicaoAtual = posicaoAtual + 1;
+                                } else {
+                                    addErro(atual(), "'}'");
+                                    if (seguinte().getLexema().equals("}")) {
+                                        posicaoAtual = posicaoAtual + 1;
+                                        if (atual().getLexema().equals("}")) {
+                                            posicaoAtual = posicaoAtual + 1;
+                                        }
+                                    }
+                                }
+                            } else {
+                                addErro(atual(), "'{'");
+                                if (seguinte().getLexema().equals("{")) {
+                                    posicaoAtual = posicaoAtual + 1;
+                                    if (atual().getLexema().equals("{")) {
+                                        posicaoAtual = posicaoAtual + 1;
+                                        LocalCommands();
+                                        if (atual().getLexema().equals("}")) {
+                                            posicaoAtual = posicaoAtual + 1;
+                                        } else {
+                                            addErro(atual(), "'}'");
+                                            if (seguinte().getLexema().equals("}")) {
+                                                posicaoAtual = posicaoAtual + 1;
+                                                if (atual().getLexema().equals("}")) {
+                                                    posicaoAtual = posicaoAtual + 1;
+                                                }
+                                            }
+                                        }
+                                    }
+                                } else if (atual().getLexema().equals("if")
+                                        || (atual().getLexema().equals("write"))
+                                        || (atual().getLexema().equals("read"))
+                                        || (atual().getLexema().equals("while"))
+                                        || (atual().getTipo().equals("Identifier"))) {
+                                    LocalCommands();
+                                    if (atual().getLexema().equals("}")) {
+                                        posicaoAtual = posicaoAtual + 1;
+                                    } else {
+                                        addErro(atual(), "'}'");
+                                        if (seguinte().getLexema().equals("}")) {
+                                            posicaoAtual = posicaoAtual + 1;
+                                            if (atual().getLexema().equals("}")) {
+                                                posicaoAtual = posicaoAtual + 1;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        } else {
+                            addErro(atual(), "')'");
+                            if (seguinte().getLexema().equals(")")) {
+                                posicaoAtual = posicaoAtual + 1;
+                                if ((atual() != null) && (atual().getLexema().equals(")"))) {
+                                    posicaoAtual = posicaoAtual + 1;
+                                    if ((atual() != null) && (atual().getLexema().equals("{"))) {
+                                        posicaoAtual = posicaoAtual + 1;
+                                        LocalCommands();
+                                        if ((atual() != null) && (atual().getLexema().equals("}"))) {
+                                            posicaoAtual = posicaoAtual + 1;
+                                        } else {
+                                            addErro(atual(), "'}'");
+                                            if (seguinte().getLexema().equals("}")) {
+                                                posicaoAtual = posicaoAtual + 1;
+                                                if (atual().getLexema().equals("}")) {
+                                                    posicaoAtual = posicaoAtual + 1;
+                                                }
+                                            }
+                                        }
+                                    } else {
+                                        addErro(atual(), "'{'");
+                                        if (seguinte().getLexema().equals("{")) {
+                                            posicaoAtual = posicaoAtual + 1;
+                                            if (atual().getLexema().equals("{")) {
+                                                posicaoAtual = posicaoAtual + 1;
+                                                LocalCommands();
+                                                if (atual().getLexema().equals("}")) {
+                                                    posicaoAtual = posicaoAtual + 1;
+                                                } else {
+                                                    addErro(atual(), "'}'");
+                                                    if (seguinte().getLexema().equals("}")) {
+                                                        posicaoAtual = posicaoAtual + 1;
+                                                        if (atual().getLexema().equals("}")) {
+                                                            posicaoAtual = posicaoAtual + 1;
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        } else if (atual().getLexema().equals("if")
+                                                || (atual().getLexema().equals("write"))
+                                                || (atual().getLexema().equals("read"))
+                                                || (atual().getLexema().equals("while"))
+                                                || (atual().getTipo().equals("Identifier"))) {
+                                            LocalCommands();
+                                            if (atual().getLexema().equals("}")) {
+                                                posicaoAtual = posicaoAtual + 1;
+                                            } else {
+                                                addErro(atual(), "'}'");
+                                                if (seguinte().getLexema().equals("}")) {
+                                                    posicaoAtual = posicaoAtual + 1;
+                                                    if (atual().getLexema().equals("}")) {
+                                                        posicaoAtual = posicaoAtual + 1;
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            } else if (atual().getLexema().equals("{")) {
+                                posicaoAtual = posicaoAtual + 1;
+                                LocalCommands();
+                                if ((atual() != null) && (atual().getLexema().equals("}"))) {
+                                    posicaoAtual = posicaoAtual + 1;
+                                } else {
+                                    addErro(atual(), "'}'");
+                                    if (seguinte().getLexema().equals("}")) {
+                                        posicaoAtual = posicaoAtual + 1;
+                                        if (atual().getLexema().equals("}")) {
+                                            posicaoAtual = posicaoAtual + 1;
+                                        }
+                                    }
+                                }
+                            } else {
+                                addErro(atual(), "'{'");
+                                if (seguinte().getLexema().equals("{")) {
+                                    posicaoAtual = posicaoAtual + 1;
+                                    if (atual().getLexema().equals("{")) {
+                                        posicaoAtual = posicaoAtual + 1;
+                                        LocalCommands();
+                                        if (atual().getLexema().equals("}")) {
+                                            posicaoAtual = posicaoAtual + 1;
+                                        } else {
+                                            addErro(atual(), "'}'");
+                                            if (seguinte().getLexema().equals("}")) {
+                                                posicaoAtual = posicaoAtual + 1;
+                                                if (atual().getLexema().equals("}")) {
+                                                    posicaoAtual = posicaoAtual + 1;
+                                                }
+                                            }
+                                        }
+                                    }
+                                } else if (atual().getLexema().equals("if")
+                                        || (atual().getLexema().equals("write"))
+                                        || (atual().getLexema().equals("read"))
+                                        || (atual().getLexema().equals("while"))
+                                        || (atual().getTipo().equals("Identifier"))) {
+                                    LocalCommands();
+                                    if (atual().getLexema().equals("}")) {
+                                        posicaoAtual = posicaoAtual + 1;
+                                    } else {
+                                        addErro(atual(), "'}'");
+                                        if (seguinte().getLexema().equals("}")) {
+                                            posicaoAtual = posicaoAtual + 1;
+                                            if (atual().getLexema().equals("}")) {
+                                                posicaoAtual = posicaoAtual + 1;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                } else if (atual().getTipo().equals("Identifier")
+                        || (atual().getTipo().equals("RealNumber")
+                        || atual().getTipo().equals("boolean")
+                        || atual().getLexema().equals("true")
+                        || atual().getLexema().equals("false")
+                        || atual().getTipo().equals("Decimal"))) {
+                    AssignExpr();
+                    if ((atual() != null) && (atual().getLexema().equals(")"))) {
+                        posicaoAtual = posicaoAtual + 1;
+                        if ((atual() != null) && (atual().getLexema().equals("{"))) {
+                            posicaoAtual = posicaoAtual + 1;
+                            LocalCommands();
+                            if ((atual() != null) && (atual().getLexema().equals("}"))) {
+                                posicaoAtual = posicaoAtual + 1;
+                            } else {
+                                addErro(atual(), "'}'");
+                                if (seguinte().getLexema().equals("}")) {
+                                    posicaoAtual = posicaoAtual + 1;
+                                    if (atual().getLexema().equals("}")) {
+                                        posicaoAtual = posicaoAtual + 1;
+                                    }
+                                }
+                            }
+                        } else {
+                            addErro(atual(), "'{'");
+                            if (seguinte().getLexema().equals("{")) {
+                                posicaoAtual = posicaoAtual + 1;
+                                if (atual().getLexema().equals("{")) {
+                                    posicaoAtual = posicaoAtual + 1;
+                                    LocalCommands();
+                                    if (atual().getLexema().equals("}")) {
+                                        posicaoAtual = posicaoAtual + 1;
+                                    } else {
+                                        addErro(atual(), "'}'");
+                                        if (seguinte().getLexema().equals("}")) {
+                                            posicaoAtual = posicaoAtual + 1;
+                                            if (atual().getLexema().equals("}")) {
+                                                posicaoAtual = posicaoAtual + 1;
+                                            }
+                                        }
+                                    }
+                                }
+                            } else if (atual().getLexema().equals("if")
+                                    || (atual().getLexema().equals("write"))
+                                    || (atual().getLexema().equals("read"))
+                                    || (atual().getLexema().equals("while"))
+                                    || (atual().getTipo().equals("Identifier"))) {
+                                LocalCommands();
+                                if (atual().getLexema().equals("}")) {
+                                    posicaoAtual = posicaoAtual + 1;
+                                } else {
+                                    addErro(atual(), "'}'");
+                                    if (seguinte().getLexema().equals("}")) {
+                                        posicaoAtual = posicaoAtual + 1;
+                                        if (atual().getLexema().equals("}")) {
+                                            posicaoAtual = posicaoAtual + 1;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    } else {
+                        addErro(atual(), "')'");
+                        if (seguinte().getLexema().equals(")")) {
+                            posicaoAtual = posicaoAtual + 1;
+                            if ((atual() != null) && (atual().getLexema().equals(")"))) {
+                                posicaoAtual = posicaoAtual + 1;
+                                if ((atual() != null) && (atual().getLexema().equals("{"))) {
+                                    posicaoAtual = posicaoAtual + 1;
+                                    LocalCommands();
+                                    if ((atual() != null) && (atual().getLexema().equals("}"))) {
+                                        posicaoAtual = posicaoAtual + 1;
+                                    } else {
+                                        addErro(atual(), "'}'");
+                                        if (seguinte().getLexema().equals("}")) {
+                                            posicaoAtual = posicaoAtual + 1;
+                                            if (atual().getLexema().equals("}")) {
+                                                posicaoAtual = posicaoAtual + 1;
+                                            }
+                                        }
+                                    }
+                                } else {
+                                    addErro(atual(), "'{'");
+                                    if (seguinte().getLexema().equals("{")) {
+                                        posicaoAtual = posicaoAtual + 1;
+                                        if (atual().getLexema().equals("{")) {
+                                            posicaoAtual = posicaoAtual + 1;
+                                            LocalCommands();
+                                            if (atual().getLexema().equals("}")) {
+                                                posicaoAtual = posicaoAtual + 1;
+                                            } else {
+                                                addErro(atual(), "'}'");
+                                                if (seguinte().getLexema().equals("}")) {
+                                                    posicaoAtual = posicaoAtual + 1;
+                                                    if (atual().getLexema().equals("}")) {
+                                                        posicaoAtual = posicaoAtual + 1;
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    } else if (atual().getLexema().equals("if")
+                                            || (atual().getLexema().equals("write"))
+                                            || (atual().getLexema().equals("read"))
+                                            || (atual().getLexema().equals("while"))
+                                            || (atual().getTipo().equals("Identifier"))) {
+                                        LocalCommands();
+                                        if (atual().getLexema().equals("}")) {
+                                            posicaoAtual = posicaoAtual + 1;
+                                        } else {
+                                            addErro(atual(), "'}'");
+                                            if (seguinte().getLexema().equals("}")) {
+                                                posicaoAtual = posicaoAtual + 1;
+                                                if (atual().getLexema().equals("}")) {
+                                                    posicaoAtual = posicaoAtual + 1;
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        } else if (atual().getLexema().equals("{")) {
+                            posicaoAtual = posicaoAtual + 1;
+                            LocalCommands();
+                            if ((atual() != null) && (atual().getLexema().equals("}"))) {
+                                posicaoAtual = posicaoAtual + 1;
+                            } else {
+                                addErro(atual(), "'}'");
+                                if (seguinte().getLexema().equals("}")) {
+                                    posicaoAtual = posicaoAtual + 1;
+                                    if (atual().getLexema().equals("}")) {
+                                        posicaoAtual = posicaoAtual + 1;
+                                    }
+                                }
+                            }
+                        } else {
+                            addErro(atual(), "'{'");
+                            if (seguinte().getLexema().equals("{")) {
+                                posicaoAtual = posicaoAtual + 1;
+                                if (atual().getLexema().equals("{")) {
+                                    posicaoAtual = posicaoAtual + 1;
+                                    LocalCommands();
+                                    if (atual().getLexema().equals("}")) {
+                                        posicaoAtual = posicaoAtual + 1;
+                                    } else {
+                                        addErro(atual(), "'}'");
+                                        if (seguinte().getLexema().equals("}")) {
+                                            posicaoAtual = posicaoAtual + 1;
+                                            if (atual().getLexema().equals("}")) {
+                                                posicaoAtual = posicaoAtual + 1;
+                                            }
+                                        }
+                                    }
+                                }
+                            } else if (atual().getLexema().equals("if")
+                                    || (atual().getLexema().equals("write"))
+                                    || (atual().getLexema().equals("read"))
+                                    || (atual().getLexema().equals("while"))
+                                    || (atual().getTipo().equals("Identifier"))) {
+                                LocalCommands();
+                                if (atual().getLexema().equals("}")) {
+                                    posicaoAtual = posicaoAtual + 1;
+                                } else {
+                                    addErro(atual(), "'}'");
+                                    if (seguinte().getLexema().equals("}")) {
+                                        posicaoAtual = posicaoAtual + 1;
+                                        if (atual().getLexema().equals("}")) {
+                                            posicaoAtual = posicaoAtual + 1;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
             }
         } else {
             addErro(atual(), "'while'");
+            if (seguinte().getLexema().equals("while")) {
+                posicaoAtual = posicaoAtual + 1;
+                if ((atual() != null) && (atual().getLexema().equals("while"))) {
+                    posicaoAtual = posicaoAtual + 1;
+                    if ((atual() != null) && (atual().getLexema().equals("("))) {
+                        posicaoAtual = posicaoAtual + 1;
+                        AssignExpr();
+                        if ((atual() != null) && (atual().getLexema().equals(")"))) {
+                            posicaoAtual = posicaoAtual + 1;
+                            if ((atual() != null) && (atual().getLexema().equals("{"))) {
+                                posicaoAtual = posicaoAtual + 1;
+                                LocalCommands();
+                                if ((atual() != null) && (atual().getLexema().equals("}"))) {
+                                    posicaoAtual = posicaoAtual + 1;
+                                } else {
+                                    addErro(atual(), "'}'");
+                                    if (seguinte().getLexema().equals("}")) {
+                                        posicaoAtual = posicaoAtual + 1;
+                                        if (atual().getLexema().equals("}")) {
+                                            posicaoAtual = posicaoAtual + 1;
+                                        }
+                                    }
+                                }
+                            } else {
+                                addErro(atual(), "'{'");
+                                if (seguinte().getLexema().equals("{")) {
+                                    posicaoAtual = posicaoAtual + 1;
+                                    if (atual().getLexema().equals("{")) {
+                                        posicaoAtual = posicaoAtual + 1;
+                                        LocalCommands();
+                                        if (atual().getLexema().equals("}")) {
+                                            posicaoAtual = posicaoAtual + 1;
+                                        } else {
+                                            addErro(atual(), "'}'");
+                                            if (seguinte().getLexema().equals("}")) {
+                                                posicaoAtual = posicaoAtual + 1;
+                                                if (atual().getLexema().equals("}")) {
+                                                    posicaoAtual = posicaoAtual + 1;
+                                                }
+                                            }
+                                        }
+                                    }
+                                } else if (atual().getLexema().equals("if")
+                                        || (atual().getLexema().equals("write"))
+                                        || (atual().getLexema().equals("read"))
+                                        || (atual().getLexema().equals("while"))
+                                        || (atual().getTipo().equals("Identifier"))) {
+                                    LocalCommands();
+                                    if (atual().getLexema().equals("}")) {
+                                        posicaoAtual = posicaoAtual + 1;
+                                    } else {
+                                        addErro(atual(), "'}'");
+                                        if (seguinte().getLexema().equals("}")) {
+                                            posicaoAtual = posicaoAtual + 1;
+                                            if (atual().getLexema().equals("}")) {
+                                                posicaoAtual = posicaoAtual + 1;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        } else {
+                            addErro(atual(), "')'");
+                            if (seguinte().getLexema().equals(")")) {
+                                posicaoAtual = posicaoAtual + 1;
+                                if ((atual() != null) && (atual().getLexema().equals(")"))) {
+                                    posicaoAtual = posicaoAtual + 1;
+                                    if ((atual() != null) && (atual().getLexema().equals("{"))) {
+                                        posicaoAtual = posicaoAtual + 1;
+                                        LocalCommands();
+                                        if ((atual() != null) && (atual().getLexema().equals("}"))) {
+                                            posicaoAtual = posicaoAtual + 1;
+                                        } else {
+                                            addErro(atual(), "'}'");
+                                            if (seguinte().getLexema().equals("}")) {
+                                                posicaoAtual = posicaoAtual + 1;
+                                                if (atual().getLexema().equals("}")) {
+                                                    posicaoAtual = posicaoAtual + 1;
+                                                }
+                                            }
+                                        }
+                                    } else {
+                                        addErro(atual(), "'{'");
+                                        if (seguinte().getLexema().equals("{")) {
+                                            posicaoAtual = posicaoAtual + 1;
+                                            if (atual().getLexema().equals("{")) {
+                                                posicaoAtual = posicaoAtual + 1;
+                                                LocalCommands();
+                                                if (atual().getLexema().equals("}")) {
+                                                    posicaoAtual = posicaoAtual + 1;
+                                                } else {
+                                                    addErro(atual(), "'}'");
+                                                    if (seguinte().getLexema().equals("}")) {
+                                                        posicaoAtual = posicaoAtual + 1;
+                                                        if (atual().getLexema().equals("}")) {
+                                                            posicaoAtual = posicaoAtual + 1;
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        } else if (atual().getLexema().equals("if")
+                                                || (atual().getLexema().equals("write"))
+                                                || (atual().getLexema().equals("read"))
+                                                || (atual().getLexema().equals("while"))
+                                                || (atual().getTipo().equals("Identifier"))) {
+                                            LocalCommands();
+                                            if (atual().getLexema().equals("}")) {
+                                                posicaoAtual = posicaoAtual + 1;
+                                            } else {
+                                                addErro(atual(), "'}'");
+                                                if (seguinte().getLexema().equals("}")) {
+                                                    posicaoAtual = posicaoAtual + 1;
+                                                    if (atual().getLexema().equals("}")) {
+                                                        posicaoAtual = posicaoAtual + 1;
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            } else if (atual().getLexema().equals("{")) {
+                                posicaoAtual = posicaoAtual + 1;
+                                LocalCommands();
+                                if ((atual() != null) && (atual().getLexema().equals("}"))) {
+                                    posicaoAtual = posicaoAtual + 1;
+                                } else {
+                                    addErro(atual(), "'}'");
+                                    if (seguinte().getLexema().equals("}")) {
+                                        posicaoAtual = posicaoAtual + 1;
+                                        if (atual().getLexema().equals("}")) {
+                                            posicaoAtual = posicaoAtual + 1;
+                                        }
+                                    }
+                                }
+                            } else {
+                                addErro(atual(), "'{'");
+                                if (seguinte().getLexema().equals("{")) {
+                                    posicaoAtual = posicaoAtual + 1;
+                                    if (atual().getLexema().equals("{")) {
+                                        posicaoAtual = posicaoAtual + 1;
+                                        LocalCommands();
+                                        if (atual().getLexema().equals("}")) {
+                                            posicaoAtual = posicaoAtual + 1;
+                                        } else {
+                                            addErro(atual(), "'}'");
+                                            if (seguinte().getLexema().equals("}")) {
+                                                posicaoAtual = posicaoAtual + 1;
+                                                if (atual().getLexema().equals("}")) {
+                                                    posicaoAtual = posicaoAtual + 1;
+                                                }
+                                            }
+                                        }
+                                    }
+                                } else if (atual().getLexema().equals("if")
+                                        || (atual().getLexema().equals("write"))
+                                        || (atual().getLexema().equals("read"))
+                                        || (atual().getLexema().equals("while"))
+                                        || (atual().getTipo().equals("Identifier"))) {
+                                    LocalCommands();
+                                    if (atual().getLexema().equals("}")) {
+                                        posicaoAtual = posicaoAtual + 1;
+                                    } else {
+                                        addErro(atual(), "'}'");
+                                        if (seguinte().getLexema().equals("}")) {
+                                            posicaoAtual = posicaoAtual + 1;
+                                            if (atual().getLexema().equals("}")) {
+                                                posicaoAtual = posicaoAtual + 1;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    } else {
+                        addErro(atual(), "'('");
+                        if (seguinte().getLexema().equals("(")) {
+                            posicaoAtual = posicaoAtual + 1;
+                            if (atual().getLexema().equals("(")) {
+                                posicaoAtual = posicaoAtual + 1;
+                                AssignExpr();
+                                if ((atual() != null) && (atual().getLexema().equals(")"))) {
+                                    posicaoAtual = posicaoAtual + 1;
+                                    if ((atual() != null) && (atual().getLexema().equals("{"))) {
+                                        posicaoAtual = posicaoAtual + 1;
+                                        LocalCommands();
+                                        if ((atual() != null) && (atual().getLexema().equals("}"))) {
+                                            posicaoAtual = posicaoAtual + 1;
+                                        } else {
+                                            addErro(atual(), "'}'");
+                                            if (seguinte().getLexema().equals("}")) {
+                                                posicaoAtual = posicaoAtual + 1;
+                                                if (atual().getLexema().equals("}")) {
+                                                    posicaoAtual = posicaoAtual + 1;
+                                                }
+                                            }
+                                        }
+                                    } else {
+                                        addErro(atual(), "'{'");
+                                        if (seguinte().getLexema().equals("{")) {
+                                            posicaoAtual = posicaoAtual + 1;
+                                            if (atual().getLexema().equals("{")) {
+                                                posicaoAtual = posicaoAtual + 1;
+                                                LocalCommands();
+                                                if (atual().getLexema().equals("}")) {
+                                                    posicaoAtual = posicaoAtual + 1;
+                                                } else {
+                                                    addErro(atual(), "'}'");
+                                                    if (seguinte().getLexema().equals("}")) {
+                                                        posicaoAtual = posicaoAtual + 1;
+                                                        if (atual().getLexema().equals("}")) {
+                                                            posicaoAtual = posicaoAtual + 1;
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        } else if (atual().getLexema().equals("if")
+                                                || (atual().getLexema().equals("write"))
+                                                || (atual().getLexema().equals("read"))
+                                                || (atual().getLexema().equals("while"))
+                                                || (atual().getTipo().equals("Identifier"))) {
+                                            LocalCommands();
+                                            if (atual().getLexema().equals("}")) {
+                                                posicaoAtual = posicaoAtual + 1;
+                                            } else {
+                                                addErro(atual(), "'}'");
+                                                if (seguinte().getLexema().equals("}")) {
+                                                    posicaoAtual = posicaoAtual + 1;
+                                                    if (atual().getLexema().equals("}")) {
+                                                        posicaoAtual = posicaoAtual + 1;
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                } else {
+                                    addErro(atual(), "')'");
+                                    if (seguinte().getLexema().equals(")")) {
+                                        posicaoAtual = posicaoAtual + 1;
+                                        if ((atual() != null) && (atual().getLexema().equals(")"))) {
+                                            posicaoAtual = posicaoAtual + 1;
+                                            if ((atual() != null) && (atual().getLexema().equals("{"))) {
+                                                posicaoAtual = posicaoAtual + 1;
+                                                LocalCommands();
+                                                if ((atual() != null) && (atual().getLexema().equals("}"))) {
+                                                    posicaoAtual = posicaoAtual + 1;
+                                                } else {
+                                                    addErro(atual(), "'}'");
+                                                    if (seguinte().getLexema().equals("}")) {
+                                                        posicaoAtual = posicaoAtual + 1;
+                                                        if (atual().getLexema().equals("}")) {
+                                                            posicaoAtual = posicaoAtual + 1;
+                                                        }
+                                                    }
+                                                }
+                                            } else {
+                                                addErro(atual(), "'{'");
+                                                if (seguinte().getLexema().equals("{")) {
+                                                    posicaoAtual = posicaoAtual + 1;
+                                                    if (atual().getLexema().equals("{")) {
+                                                        posicaoAtual = posicaoAtual + 1;
+                                                        LocalCommands();
+                                                        if (atual().getLexema().equals("}")) {
+                                                            posicaoAtual = posicaoAtual + 1;
+                                                        } else {
+                                                            addErro(atual(), "'}'");
+                                                            if (seguinte().getLexema().equals("}")) {
+                                                                posicaoAtual = posicaoAtual + 1;
+                                                                if (atual().getLexema().equals("}")) {
+                                                                    posicaoAtual = posicaoAtual + 1;
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                } else if (atual().getLexema().equals("if")
+                                                        || (atual().getLexema().equals("write"))
+                                                        || (atual().getLexema().equals("read"))
+                                                        || (atual().getLexema().equals("while"))
+                                                        || (atual().getTipo().equals("Identifier"))) {
+                                                    LocalCommands();
+                                                    if (atual().getLexema().equals("}")) {
+                                                        posicaoAtual = posicaoAtual + 1;
+                                                    } else {
+                                                        addErro(atual(), "'}'");
+                                                        if (seguinte().getLexema().equals("}")) {
+                                                            posicaoAtual = posicaoAtual + 1;
+                                                            if (atual().getLexema().equals("}")) {
+                                                                posicaoAtual = posicaoAtual + 1;
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    } else if (atual().getLexema().equals("{")) {
+                                        posicaoAtual = posicaoAtual + 1;
+                                        LocalCommands();
+                                        if ((atual() != null) && (atual().getLexema().equals("}"))) {
+                                            posicaoAtual = posicaoAtual + 1;
+                                        } else {
+                                            addErro(atual(), "'}'");
+                                            if (seguinte().getLexema().equals("}")) {
+                                                posicaoAtual = posicaoAtual + 1;
+                                                if (atual().getLexema().equals("}")) {
+                                                    posicaoAtual = posicaoAtual + 1;
+                                                }
+                                            }
+                                        }
+                                    } else {
+                                        addErro(atual(), "'{'");
+                                        if (seguinte().getLexema().equals("{")) {
+                                            posicaoAtual = posicaoAtual + 1;
+                                            if (atual().getLexema().equals("{")) {
+                                                posicaoAtual = posicaoAtual + 1;
+                                                LocalCommands();
+                                                if (atual().getLexema().equals("}")) {
+                                                    posicaoAtual = posicaoAtual + 1;
+                                                } else {
+                                                    addErro(atual(), "'}'");
+                                                    if (seguinte().getLexema().equals("}")) {
+                                                        posicaoAtual = posicaoAtual + 1;
+                                                        if (atual().getLexema().equals("}")) {
+                                                            posicaoAtual = posicaoAtual + 1;
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        } else if (atual().getLexema().equals("if")
+                                                || (atual().getLexema().equals("write"))
+                                                || (atual().getLexema().equals("read"))
+                                                || (atual().getLexema().equals("while"))
+                                                || (atual().getTipo().equals("Identifier"))) {
+                                            LocalCommands();
+                                            if (atual().getLexema().equals("}")) {
+                                                posicaoAtual = posicaoAtual + 1;
+                                            } else {
+                                                addErro(atual(), "'}'");
+                                                if (seguinte().getLexema().equals("}")) {
+                                                    posicaoAtual = posicaoAtual + 1;
+                                                    if (atual().getLexema().equals("}")) {
+                                                        posicaoAtual = posicaoAtual + 1;
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        } else if (atual().getTipo().equals("Identifier")
+                                || (atual().getTipo().equals("RealNumber")
+                                || atual().getTipo().equals("boolean")
+                                || atual().getLexema().equals("true")
+                                || atual().getLexema().equals("false")
+                                || atual().getTipo().equals("Decimal"))) {
+                            AssignExpr();
+                            if ((atual() != null) && (atual().getLexema().equals(")"))) {
+                                posicaoAtual = posicaoAtual + 1;
+                                if ((atual() != null) && (atual().getLexema().equals("{"))) {
+                                    posicaoAtual = posicaoAtual + 1;
+                                    LocalCommands();
+                                    if ((atual() != null) && (atual().getLexema().equals("}"))) {
+                                        posicaoAtual = posicaoAtual + 1;
+                                    } else {
+                                        addErro(atual(), "'}'");
+                                        if (seguinte().getLexema().equals("}")) {
+                                            posicaoAtual = posicaoAtual + 1;
+                                            if (atual().getLexema().equals("}")) {
+                                                posicaoAtual = posicaoAtual + 1;
+                                            }
+                                        }
+                                    }
+                                } else {
+                                    addErro(atual(), "'{'");
+                                    if (seguinte().getLexema().equals("{")) {
+                                        posicaoAtual = posicaoAtual + 1;
+                                        if (atual().getLexema().equals("{")) {
+                                            posicaoAtual = posicaoAtual + 1;
+                                            LocalCommands();
+                                            if (atual().getLexema().equals("}")) {
+                                                posicaoAtual = posicaoAtual + 1;
+                                            } else {
+                                                addErro(atual(), "'}'");
+                                                if (seguinte().getLexema().equals("}")) {
+                                                    posicaoAtual = posicaoAtual + 1;
+                                                    if (atual().getLexema().equals("}")) {
+                                                        posicaoAtual = posicaoAtual + 1;
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    } else if (atual().getLexema().equals("if")
+                                            || (atual().getLexema().equals("write"))
+                                            || (atual().getLexema().equals("read"))
+                                            || (atual().getLexema().equals("while"))
+                                            || (atual().getTipo().equals("Identifier"))) {
+                                        LocalCommands();
+                                        if (atual().getLexema().equals("}")) {
+                                            posicaoAtual = posicaoAtual + 1;
+                                        } else {
+                                            addErro(atual(), "'}'");
+                                            if (seguinte().getLexema().equals("}")) {
+                                                posicaoAtual = posicaoAtual + 1;
+                                                if (atual().getLexema().equals("}")) {
+                                                    posicaoAtual = posicaoAtual + 1;
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            } else {
+                                addErro(atual(), "')'");
+                                if (seguinte().getLexema().equals(")")) {
+                                    posicaoAtual = posicaoAtual + 1;
+                                    if ((atual() != null) && (atual().getLexema().equals(")"))) {
+                                        posicaoAtual = posicaoAtual + 1;
+                                        if ((atual() != null) && (atual().getLexema().equals("{"))) {
+                                            posicaoAtual = posicaoAtual + 1;
+                                            LocalCommands();
+                                            if ((atual() != null) && (atual().getLexema().equals("}"))) {
+                                                posicaoAtual = posicaoAtual + 1;
+                                            } else {
+                                                addErro(atual(), "'}'");
+                                                if (seguinte().getLexema().equals("}")) {
+                                                    posicaoAtual = posicaoAtual + 1;
+                                                    if (atual().getLexema().equals("}")) {
+                                                        posicaoAtual = posicaoAtual + 1;
+                                                    }
+                                                }
+                                            }
+                                        } else {
+                                            addErro(atual(), "'{'");
+                                            if (seguinte().getLexema().equals("{")) {
+                                                posicaoAtual = posicaoAtual + 1;
+                                                if (atual().getLexema().equals("{")) {
+                                                    posicaoAtual = posicaoAtual + 1;
+                                                    LocalCommands();
+                                                    if (atual().getLexema().equals("}")) {
+                                                        posicaoAtual = posicaoAtual + 1;
+                                                    } else {
+                                                        addErro(atual(), "'}'");
+                                                        if (seguinte().getLexema().equals("}")) {
+                                                            posicaoAtual = posicaoAtual + 1;
+                                                            if (atual().getLexema().equals("}")) {
+                                                                posicaoAtual = posicaoAtual + 1;
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            } else if (atual().getLexema().equals("if")
+                                                    || (atual().getLexema().equals("write"))
+                                                    || (atual().getLexema().equals("read"))
+                                                    || (atual().getLexema().equals("while"))
+                                                    || (atual().getTipo().equals("Identifier"))) {
+                                                LocalCommands();
+                                                if (atual().getLexema().equals("}")) {
+                                                    posicaoAtual = posicaoAtual + 1;
+                                                } else {
+                                                    addErro(atual(), "'}'");
+                                                    if (seguinte().getLexema().equals("}")) {
+                                                        posicaoAtual = posicaoAtual + 1;
+                                                        if (atual().getLexema().equals("}")) {
+                                                            posicaoAtual = posicaoAtual + 1;
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                } else if (atual().getLexema().equals("{")) {
+                                    posicaoAtual = posicaoAtual + 1;
+                                    LocalCommands();
+                                    if ((atual() != null) && (atual().getLexema().equals("}"))) {
+                                        posicaoAtual = posicaoAtual + 1;
+                                    } else {
+                                        addErro(atual(), "'}'");
+                                        if (seguinte().getLexema().equals("}")) {
+                                            posicaoAtual = posicaoAtual + 1;
+                                            if (atual().getLexema().equals("}")) {
+                                                posicaoAtual = posicaoAtual + 1;
+                                            }
+                                        }
+                                    }
+                                } else {
+                                    addErro(atual(), "'{'");
+                                    if (seguinte().getLexema().equals("{")) {
+                                        posicaoAtual = posicaoAtual + 1;
+                                        if (atual().getLexema().equals("{")) {
+                                            posicaoAtual = posicaoAtual + 1;
+                                            LocalCommands();
+                                            if (atual().getLexema().equals("}")) {
+                                                posicaoAtual = posicaoAtual + 1;
+                                            } else {
+                                                addErro(atual(), "'}'");
+                                                if (seguinte().getLexema().equals("}")) {
+                                                    posicaoAtual = posicaoAtual + 1;
+                                                    if (atual().getLexema().equals("}")) {
+                                                        posicaoAtual = posicaoAtual + 1;
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    } else if (atual().getLexema().equals("if")
+                                            || (atual().getLexema().equals("write"))
+                                            || (atual().getLexema().equals("read"))
+                                            || (atual().getLexema().equals("while"))
+                                            || (atual().getTipo().equals("Identifier"))) {
+                                        LocalCommands();
+                                        if (atual().getLexema().equals("}")) {
+                                            posicaoAtual = posicaoAtual + 1;
+                                        } else {
+                                            addErro(atual(), "'}'");
+                                            if (seguinte().getLexema().equals("}")) {
+                                                posicaoAtual = posicaoAtual + 1;
+                                                if (atual().getLexema().equals("}")) {
+                                                    posicaoAtual = posicaoAtual + 1;
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            } else if ((atual() != null) && (atual().getLexema().equals("("))) {
+                posicaoAtual = posicaoAtual + 1;
+                AssignExpr();
+                if ((atual() != null) && (atual().getLexema().equals(")"))) {
+                    posicaoAtual = posicaoAtual + 1;
+                    if ((atual() != null) && (atual().getLexema().equals("{"))) {
+                        posicaoAtual = posicaoAtual + 1;
+                        LocalCommands();
+                        if ((atual() != null) && (atual().getLexema().equals("}"))) {
+                            posicaoAtual = posicaoAtual + 1;
+                        } else {
+                            addErro(atual(), "'}'");
+                            if (seguinte().getLexema().equals("}")) {
+                                posicaoAtual = posicaoAtual + 1;
+                                if (atual().getLexema().equals("}")) {
+                                    posicaoAtual = posicaoAtual + 1;
+                                }
+                            }
+                        }
+                    } else {
+                        addErro(atual(), "'{'");
+                        if (seguinte().getLexema().equals("{")) {
+                            posicaoAtual = posicaoAtual + 1;
+                            if (atual().getLexema().equals("{")) {
+                                posicaoAtual = posicaoAtual + 1;
+                                LocalCommands();
+                                if (atual().getLexema().equals("}")) {
+                                    posicaoAtual = posicaoAtual + 1;
+                                } else {
+                                    addErro(atual(), "'}'");
+                                    if (seguinte().getLexema().equals("}")) {
+                                        posicaoAtual = posicaoAtual + 1;
+                                        if (atual().getLexema().equals("}")) {
+                                            posicaoAtual = posicaoAtual + 1;
+                                        }
+                                    }
+                                }
+                            }
+                        } else if (atual().getLexema().equals("if")
+                                || (atual().getLexema().equals("write"))
+                                || (atual().getLexema().equals("read"))
+                                || (atual().getLexema().equals("while"))
+                                || (atual().getTipo().equals("Identifier"))) {
+                            LocalCommands();
+                            if (atual().getLexema().equals("}")) {
+                                posicaoAtual = posicaoAtual + 1;
+                            } else {
+                                addErro(atual(), "'}'");
+                                if (seguinte().getLexema().equals("}")) {
+                                    posicaoAtual = posicaoAtual + 1;
+                                    if (atual().getLexema().equals("}")) {
+                                        posicaoAtual = posicaoAtual + 1;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                } else {
+                    addErro(atual(), "')'");
+                    if (seguinte().getLexema().equals(")")) {
+                        posicaoAtual = posicaoAtual + 1;
+                        if ((atual() != null) && (atual().getLexema().equals(")"))) {
+                            posicaoAtual = posicaoAtual + 1;
+                            if ((atual() != null) && (atual().getLexema().equals("{"))) {
+                                posicaoAtual = posicaoAtual + 1;
+                                LocalCommands();
+                                if ((atual() != null) && (atual().getLexema().equals("}"))) {
+                                    posicaoAtual = posicaoAtual + 1;
+                                } else {
+                                    addErro(atual(), "'}'");
+                                    if (seguinte().getLexema().equals("}")) {
+                                        posicaoAtual = posicaoAtual + 1;
+                                        if (atual().getLexema().equals("}")) {
+                                            posicaoAtual = posicaoAtual + 1;
+                                        }
+                                    }
+                                }
+                            } else {
+                                addErro(atual(), "'{'");
+                                if (seguinte().getLexema().equals("{")) {
+                                    posicaoAtual = posicaoAtual + 1;
+                                    if (atual().getLexema().equals("{")) {
+                                        posicaoAtual = posicaoAtual + 1;
+                                        LocalCommands();
+                                        if (atual().getLexema().equals("}")) {
+                                            posicaoAtual = posicaoAtual + 1;
+                                        } else {
+                                            addErro(atual(), "'}'");
+                                            if (seguinte().getLexema().equals("}")) {
+                                                posicaoAtual = posicaoAtual + 1;
+                                                if (atual().getLexema().equals("}")) {
+                                                    posicaoAtual = posicaoAtual + 1;
+                                                }
+                                            }
+                                        }
+                                    }
+                                } else if (atual().getLexema().equals("if")
+                                        || (atual().getLexema().equals("write"))
+                                        || (atual().getLexema().equals("read"))
+                                        || (atual().getLexema().equals("while"))
+                                        || (atual().getTipo().equals("Identifier"))) {
+                                    LocalCommands();
+                                    if (atual().getLexema().equals("}")) {
+                                        posicaoAtual = posicaoAtual + 1;
+                                    } else {
+                                        addErro(atual(), "'}'");
+                                        if (seguinte().getLexema().equals("}")) {
+                                            posicaoAtual = posicaoAtual + 1;
+                                            if (atual().getLexema().equals("}")) {
+                                                posicaoAtual = posicaoAtual + 1;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    } else if (atual().getLexema().equals("{")) {
+                        posicaoAtual = posicaoAtual + 1;
+                        LocalCommands();
+                        if ((atual() != null) && (atual().getLexema().equals("}"))) {
+                            posicaoAtual = posicaoAtual + 1;
+                        } else {
+                            addErro(atual(), "'}'");
+                            if (seguinte().getLexema().equals("}")) {
+                                posicaoAtual = posicaoAtual + 1;
+                                if (atual().getLexema().equals("}")) {
+                                    posicaoAtual = posicaoAtual + 1;
+                                }
+                            }
+                        }
+                    } else {
+                        addErro(atual(), "'{'");
+                        if (seguinte().getLexema().equals("{")) {
+                            posicaoAtual = posicaoAtual + 1;
+                            if (atual().getLexema().equals("{")) {
+                                posicaoAtual = posicaoAtual + 1;
+                                LocalCommands();
+                                if (atual().getLexema().equals("}")) {
+                                    posicaoAtual = posicaoAtual + 1;
+                                } else {
+                                    addErro(atual(), "'}'");
+                                    if (seguinte().getLexema().equals("}")) {
+                                        posicaoAtual = posicaoAtual + 1;
+                                        if (atual().getLexema().equals("}")) {
+                                            posicaoAtual = posicaoAtual + 1;
+                                        }
+                                    }
+                                }
+                            }
+                        } else if (atual().getLexema().equals("if")
+                                || (atual().getLexema().equals("write"))
+                                || (atual().getLexema().equals("read"))
+                                || (atual().getLexema().equals("while"))
+                                || (atual().getTipo().equals("Identifier"))) {
+                            LocalCommands();
+                            if (atual().getLexema().equals("}")) {
+                                posicaoAtual = posicaoAtual + 1;
+                            } else {
+                                addErro(atual(), "'}'");
+                                if (seguinte().getLexema().equals("}")) {
+                                    posicaoAtual = posicaoAtual + 1;
+                                    if (atual().getLexema().equals("}")) {
+                                        posicaoAtual = posicaoAtual + 1;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            } else {
+                addErro(atual(), "'('");
+                if (seguinte().getLexema().equals("(")) {
+                    posicaoAtual = posicaoAtual + 1;
+                    if (atual().getLexema().equals("(")) {
+                        posicaoAtual = posicaoAtual + 1;
+                        AssignExpr();
+                        if ((atual() != null) && (atual().getLexema().equals(")"))) {
+                            posicaoAtual = posicaoAtual + 1;
+                            if ((atual() != null) && (atual().getLexema().equals("{"))) {
+                                posicaoAtual = posicaoAtual + 1;
+                                LocalCommands();
+                                if ((atual() != null) && (atual().getLexema().equals("}"))) {
+                                    posicaoAtual = posicaoAtual + 1;
+                                } else {
+                                    addErro(atual(), "'}'");
+                                    if (seguinte().getLexema().equals("}")) {
+                                        posicaoAtual = posicaoAtual + 1;
+                                        if (atual().getLexema().equals("}")) {
+                                            posicaoAtual = posicaoAtual + 1;
+                                        }
+                                    }
+                                }
+                            } else {
+                                addErro(atual(), "'{'");
+                                if (seguinte().getLexema().equals("{")) {
+                                    posicaoAtual = posicaoAtual + 1;
+                                    if (atual().getLexema().equals("{")) {
+                                        posicaoAtual = posicaoAtual + 1;
+                                        LocalCommands();
+                                        if (atual().getLexema().equals("}")) {
+                                            posicaoAtual = posicaoAtual + 1;
+                                        } else {
+                                            addErro(atual(), "'}'");
+                                            if (seguinte().getLexema().equals("}")) {
+                                                posicaoAtual = posicaoAtual + 1;
+                                                if (atual().getLexema().equals("}")) {
+                                                    posicaoAtual = posicaoAtual + 1;
+                                                }
+                                            }
+                                        }
+                                    }
+                                } else if (atual().getLexema().equals("if")
+                                        || (atual().getLexema().equals("write"))
+                                        || (atual().getLexema().equals("read"))
+                                        || (atual().getLexema().equals("while"))
+                                        || (atual().getTipo().equals("Identifier"))) {
+                                    LocalCommands();
+                                    if (atual().getLexema().equals("}")) {
+                                        posicaoAtual = posicaoAtual + 1;
+                                    } else {
+                                        addErro(atual(), "'}'");
+                                        if (seguinte().getLexema().equals("}")) {
+                                            posicaoAtual = posicaoAtual + 1;
+                                            if (atual().getLexema().equals("}")) {
+                                                posicaoAtual = posicaoAtual + 1;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        } else {
+                            addErro(atual(), "')'");
+                            if (seguinte().getLexema().equals(")")) {
+                                posicaoAtual = posicaoAtual + 1;
+                                if ((atual() != null) && (atual().getLexema().equals(")"))) {
+                                    posicaoAtual = posicaoAtual + 1;
+                                    if ((atual() != null) && (atual().getLexema().equals("{"))) {
+                                        posicaoAtual = posicaoAtual + 1;
+                                        LocalCommands();
+                                        if ((atual() != null) && (atual().getLexema().equals("}"))) {
+                                            posicaoAtual = posicaoAtual + 1;
+                                        } else {
+                                            addErro(atual(), "'}'");
+                                            if (seguinte().getLexema().equals("}")) {
+                                                posicaoAtual = posicaoAtual + 1;
+                                                if (atual().getLexema().equals("}")) {
+                                                    posicaoAtual = posicaoAtual + 1;
+                                                }
+                                            }
+                                        }
+                                    } else {
+                                        addErro(atual(), "'{'");
+                                        if (seguinte().getLexema().equals("{")) {
+                                            posicaoAtual = posicaoAtual + 1;
+                                            if (atual().getLexema().equals("{")) {
+                                                posicaoAtual = posicaoAtual + 1;
+                                                LocalCommands();
+                                                if (atual().getLexema().equals("}")) {
+                                                    posicaoAtual = posicaoAtual + 1;
+                                                } else {
+                                                    addErro(atual(), "'}'");
+                                                    if (seguinte().getLexema().equals("}")) {
+                                                        posicaoAtual = posicaoAtual + 1;
+                                                        if (atual().getLexema().equals("}")) {
+                                                            posicaoAtual = posicaoAtual + 1;
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        } else if (atual().getLexema().equals("if")
+                                                || (atual().getLexema().equals("write"))
+                                                || (atual().getLexema().equals("read"))
+                                                || (atual().getLexema().equals("while"))
+                                                || (atual().getTipo().equals("Identifier"))) {
+                                            LocalCommands();
+                                            if (atual().getLexema().equals("}")) {
+                                                posicaoAtual = posicaoAtual + 1;
+                                            } else {
+                                                addErro(atual(), "'}'");
+                                                if (seguinte().getLexema().equals("}")) {
+                                                    posicaoAtual = posicaoAtual + 1;
+                                                    if (atual().getLexema().equals("}")) {
+                                                        posicaoAtual = posicaoAtual + 1;
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            } else if (atual().getLexema().equals("{")) {
+                                posicaoAtual = posicaoAtual + 1;
+                                LocalCommands();
+                                if ((atual() != null) && (atual().getLexema().equals("}"))) {
+                                    posicaoAtual = posicaoAtual + 1;
+                                } else {
+                                    addErro(atual(), "'}'");
+                                    if (seguinte().getLexema().equals("}")) {
+                                        posicaoAtual = posicaoAtual + 1;
+                                        if (atual().getLexema().equals("}")) {
+                                            posicaoAtual = posicaoAtual + 1;
+                                        }
+                                    }
+                                }
+                            } else {
+                                addErro(atual(), "'{'");
+                                if (seguinte().getLexema().equals("{")) {
+                                    posicaoAtual = posicaoAtual + 1;
+                                    if (atual().getLexema().equals("{")) {
+                                        posicaoAtual = posicaoAtual + 1;
+                                        LocalCommands();
+                                        if (atual().getLexema().equals("}")) {
+                                            posicaoAtual = posicaoAtual + 1;
+                                        } else {
+                                            addErro(atual(), "'}'");
+                                            if (seguinte().getLexema().equals("}")) {
+                                                posicaoAtual = posicaoAtual + 1;
+                                                if (atual().getLexema().equals("}")) {
+                                                    posicaoAtual = posicaoAtual + 1;
+                                                }
+                                            }
+                                        }
+                                    }
+                                } else if (atual().getLexema().equals("if")
+                                        || (atual().getLexema().equals("write"))
+                                        || (atual().getLexema().equals("read"))
+                                        || (atual().getLexema().equals("while"))
+                                        || (atual().getTipo().equals("Identifier"))) {
+                                    LocalCommands();
+                                    if (atual().getLexema().equals("}")) {
+                                        posicaoAtual = posicaoAtual + 1;
+                                    } else {
+                                        addErro(atual(), "'}'");
+                                        if (seguinte().getLexema().equals("}")) {
+                                            posicaoAtual = posicaoAtual + 1;
+                                            if (atual().getLexema().equals("}")) {
+                                                posicaoAtual = posicaoAtual + 1;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                } else if (atual().getTipo().equals("Identifier")
+                        || (atual().getTipo().equals("RealNumber")
+                        || atual().getTipo().equals("boolean")
+                        || atual().getLexema().equals("true")
+                        || atual().getLexema().equals("false")
+                        || atual().getTipo().equals("Decimal"))) {
+                    AssignExpr();
+                    if ((atual() != null) && (atual().getLexema().equals(")"))) {
+                        posicaoAtual = posicaoAtual + 1;
+                        if ((atual() != null) && (atual().getLexema().equals("{"))) {
+                            posicaoAtual = posicaoAtual + 1;
+                            LocalCommands();
+                            if ((atual() != null) && (atual().getLexema().equals("}"))) {
+                                posicaoAtual = posicaoAtual + 1;
+                            } else {
+                                addErro(atual(), "'}'");
+                                if (seguinte().getLexema().equals("}")) {
+                                    posicaoAtual = posicaoAtual + 1;
+                                    if (atual().getLexema().equals("}")) {
+                                        posicaoAtual = posicaoAtual + 1;
+                                    }
+                                }
+                            }
+                        } else {
+                            addErro(atual(), "'{'");
+                            if (seguinte().getLexema().equals("{")) {
+                                posicaoAtual = posicaoAtual + 1;
+                                if (atual().getLexema().equals("{")) {
+                                    posicaoAtual = posicaoAtual + 1;
+                                    LocalCommands();
+                                    if (atual().getLexema().equals("}")) {
+                                        posicaoAtual = posicaoAtual + 1;
+                                    } else {
+                                        addErro(atual(), "'}'");
+                                        if (seguinte().getLexema().equals("}")) {
+                                            posicaoAtual = posicaoAtual + 1;
+                                            if (atual().getLexema().equals("}")) {
+                                                posicaoAtual = posicaoAtual + 1;
+                                            }
+                                        }
+                                    }
+                                }
+                            } else if (atual().getLexema().equals("if")
+                                    || (atual().getLexema().equals("write"))
+                                    || (atual().getLexema().equals("read"))
+                                    || (atual().getLexema().equals("while"))
+                                    || (atual().getTipo().equals("Identifier"))) {
+                                LocalCommands();
+                                if (atual().getLexema().equals("}")) {
+                                    posicaoAtual = posicaoAtual + 1;
+                                } else {
+                                    addErro(atual(), "'}'");
+                                    if (seguinte().getLexema().equals("}")) {
+                                        posicaoAtual = posicaoAtual + 1;
+                                        if (atual().getLexema().equals("}")) {
+                                            posicaoAtual = posicaoAtual + 1;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    } else {
+                        addErro(atual(), "')'");
+                        if (seguinte().getLexema().equals(")")) {
+                            posicaoAtual = posicaoAtual + 1;
+                            if ((atual() != null) && (atual().getLexema().equals(")"))) {
+                                posicaoAtual = posicaoAtual + 1;
+                                if ((atual() != null) && (atual().getLexema().equals("{"))) {
+                                    posicaoAtual = posicaoAtual + 1;
+                                    LocalCommands();
+                                    if ((atual() != null) && (atual().getLexema().equals("}"))) {
+                                        posicaoAtual = posicaoAtual + 1;
+                                    } else {
+                                        addErro(atual(), "'}'");
+                                        if (seguinte().getLexema().equals("}")) {
+                                            posicaoAtual = posicaoAtual + 1;
+                                            if (atual().getLexema().equals("}")) {
+                                                posicaoAtual = posicaoAtual + 1;
+                                            }
+                                        }
+                                    }
+                                } else {
+                                    addErro(atual(), "'{'");
+                                    if (seguinte().getLexema().equals("{")) {
+                                        posicaoAtual = posicaoAtual + 1;
+                                        if (atual().getLexema().equals("{")) {
+                                            posicaoAtual = posicaoAtual + 1;
+                                            LocalCommands();
+                                            if (atual().getLexema().equals("}")) {
+                                                posicaoAtual = posicaoAtual + 1;
+                                            } else {
+                                                addErro(atual(), "'}'");
+                                                if (seguinte().getLexema().equals("}")) {
+                                                    posicaoAtual = posicaoAtual + 1;
+                                                    if (atual().getLexema().equals("}")) {
+                                                        posicaoAtual = posicaoAtual + 1;
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    } else if (atual().getLexema().equals("if")
+                                            || (atual().getLexema().equals("write"))
+                                            || (atual().getLexema().equals("read"))
+                                            || (atual().getLexema().equals("while"))
+                                            || (atual().getTipo().equals("Identifier"))) {
+                                        LocalCommands();
+                                        if (atual().getLexema().equals("}")) {
+                                            posicaoAtual = posicaoAtual + 1;
+                                        } else {
+                                            addErro(atual(), "'}'");
+                                            if (seguinte().getLexema().equals("}")) {
+                                                posicaoAtual = posicaoAtual + 1;
+                                                if (atual().getLexema().equals("}")) {
+                                                    posicaoAtual = posicaoAtual + 1;
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        } else if (atual().getLexema().equals("{")) {
+                            posicaoAtual = posicaoAtual + 1;
+                            LocalCommands();
+                            if ((atual() != null) && (atual().getLexema().equals("}"))) {
+                                posicaoAtual = posicaoAtual + 1;
+                            } else {
+                                addErro(atual(), "'}'");
+                                if (seguinte().getLexema().equals("}")) {
+                                    posicaoAtual = posicaoAtual + 1;
+                                    if (atual().getLexema().equals("}")) {
+                                        posicaoAtual = posicaoAtual + 1;
+                                    }
+                                }
+                            }
+                        } else {
+                            addErro(atual(), "'{'");
+                            if (seguinte().getLexema().equals("{")) {
+                                posicaoAtual = posicaoAtual + 1;
+                                if (atual().getLexema().equals("{")) {
+                                    posicaoAtual = posicaoAtual + 1;
+                                    LocalCommands();
+                                    if (atual().getLexema().equals("}")) {
+                                        posicaoAtual = posicaoAtual + 1;
+                                    } else {
+                                        addErro(atual(), "'}'");
+                                        if (seguinte().getLexema().equals("}")) {
+                                            posicaoAtual = posicaoAtual + 1;
+                                            if (atual().getLexema().equals("}")) {
+                                                posicaoAtual = posicaoAtual + 1;
+                                            }
+                                        }
+                                    }
+                                }
+                            } else if (atual().getLexema().equals("if")
+                                    || (atual().getLexema().equals("write"))
+                                    || (atual().getLexema().equals("read"))
+                                    || (atual().getLexema().equals("while"))
+                                    || (atual().getTipo().equals("Identifier"))) {
+                                LocalCommands();
+                                if (atual().getLexema().equals("}")) {
+                                    posicaoAtual = posicaoAtual + 1;
+                                } else {
+                                    addErro(atual(), "'}'");
+                                    if (seguinte().getLexema().equals("}")) {
+                                        posicaoAtual = posicaoAtual + 1;
+                                        if (atual().getLexema().equals("}")) {
+                                            posicaoAtual = posicaoAtual + 1;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 
@@ -5500,7 +8949,23 @@ public class AnalisadorSintatico {
             }
         } else {
             addErro(atual(), "')'");
-            if (atual().getLexema().equals(";")) {
+            if (seguinte().getLexema().equals(")")) {
+                posicaoAtual = posicaoAtual + 1;
+                if (atual().getLexema().equals(")")) {
+                    posicaoAtual = posicaoAtual + 1;
+                    if (atual().getLexema().equals(";")) {
+                        posicaoAtual = posicaoAtual + 1;
+                    } else {
+                        addErro(atual(), "';'");
+                        if (seguinte().getLexema().equals(";")) {
+                            posicaoAtual = posicaoAtual + 1;
+                            if (atual().getLexema().equals(";")) {
+                                posicaoAtual = posicaoAtual + 1;
+                            }
+                        }
+                    }
+                }
+            } else if (atual().getLexema().equals(";")) {
                 posicaoAtual = posicaoAtual + 1;
             }
         }
@@ -5621,9 +9086,42 @@ public class AnalisadorSintatico {
                 posicaoAtual = posicaoAtual + 1;
             } else {
                 addErro(atual(), "';'");
+                if (seguinte().getLexema().equals(";")) {
+                    posicaoAtual = posicaoAtual + 1;
+                    if (atual().getLexema().equals(";")) {
+                        posicaoAtual = posicaoAtual + 1;
+                    }
+                }
             }
         } else {
             addErro(atual(), "')'");
+            if (seguinte().getLexema().equals(")")) {
+                posicaoAtual = posicaoAtual + 1;
+                if (atual().getLexema().equals(")")) {
+                    posicaoAtual = posicaoAtual + 1;
+                    if (atual().getLexema().equals(";")) {
+                        posicaoAtual = posicaoAtual + 1;
+                    } else {
+                        addErro(atual(), "';'");
+                        if (seguinte().getLexema().equals(";")) {
+                            posicaoAtual = posicaoAtual + 1;
+                            if (atual().getLexema().equals(";")) {
+                                posicaoAtual = posicaoAtual + 1;
+                            }
+                        }
+                    }
+                }
+            } else if (atual().getLexema().equals(";")) {
+                posicaoAtual = posicaoAtual + 1;
+            } else {
+                addErro(atual(), "';'");
+                if (seguinte().getLexema().equals(";")) {
+                    posicaoAtual = posicaoAtual + 1;
+                    if (atual().getLexema().equals(";")) {
+                        posicaoAtual = posicaoAtual + 1;
+                    }
+                }
+            }
         }
     }
 }
