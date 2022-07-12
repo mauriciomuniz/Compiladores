@@ -1,0 +1,64 @@
+program teste;
+
+var
+{
+    integer cont;
+}
+
+const
+{
+    integer MINIDADE = 18;
+}
+
+register Pessoa
+{
+    integer idade;
+}
+
+procedure teste1() 
+{
+    var{}
+}
+
+function teste1 (): integer {
+    var
+    {
+        integer cont;
+    }    
+    return cont;
+}
+
+main
+{
+
+    var
+    {
+        Pessoa p;
+        integer qtd,id;
+        boolean resposta;
+    }
+    
+    write("Digite a quantidade de pessoas: ");
+    read (qtd);
+
+    while (cont < qtd )
+    {
+    }
+    while (cont && qtd)
+    {
+    }
+    while (cont < qtd && cont < qtd)
+    {
+    }
+    while (cont < qtd || cont < qtd)
+    {
+    }
+
+    write ("A quantidade de pessoas que puderam doar sangue foi de ", qtd, " de um total de ", cont, " pessoas."); 
+}
+
+    
+
+    
+
+    

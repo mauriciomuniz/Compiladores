@@ -660,7 +660,6 @@ public class AnalisadorSintatico {
         }
     }
 
-// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!Considerar a continuação destes, de um pro outro !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     //<GlobalStatement> ::= <VarStatement> <ConstStatement> <RegisterStatement><ProcedureStatement><FunctionStatement> <Main>
     public void globalStatement() {
         VarStatement();
@@ -689,6 +688,10 @@ public class AnalisadorSintatico {
                     } else {
                         addErro(atual(), "'{'");
                     }
+                } else if (atual().getLexema().equals("}")
+                        || VarType.contains(atual().getLexema())
+                        || atual().getTipo().equals("Identifier")) {
+                    VarList();
                 } else {
                     sincronizacaoFinais();
                 }
@@ -712,13 +715,35 @@ public class AnalisadorSintatico {
                             } else {
                                 addErro(atual(), "'{'");
                             }
+                        } else if (atual().getLexema().equals("}")
+                                || VarType.contains(atual().getLexema())
+                                || atual().getTipo().equals("Identifier")) {
+                            VarList();
                         } else {
                             sincronizacaoFinais();
                         }
                     }
                 }
+            } else if (atual().getLexema().equals("{")) {
+                posicaoAtual = posicaoAtual + 1;
+                VarList();
             } else {
-                sincronizacaoFinais();
+                addErro(atual(), "'{'");
+                if ((seguinte() != null) && seguinte().getLexema().equals("{")) {
+                    posicaoAtual = posicaoAtual + 1;
+                    if (atual().getLexema().equals("{")) {
+                        posicaoAtual = posicaoAtual + 1;
+                        VarList();
+                    } else {
+                        addErro(atual(), "'{'");
+                    }
+                } else if (atual().getLexema().equals("}")
+                        || VarType.contains(atual().getLexema())
+                        || atual().getTipo().equals("Identifier")) {
+                    VarList();
+                } else {
+                    sincronizacaoFinais();
+                }
             }
         }
     }
@@ -763,6 +788,8 @@ public class AnalisadorSintatico {
                         }
                     } else if (atual().getLexema().equals(",") || atual().getLexema().equals(";")) {
                         VarDeclaration1();
+                    } else {
+                        sincronizacaoFinais();
                     }
                 }
             } else {
@@ -784,6 +811,8 @@ public class AnalisadorSintatico {
                                 }
                             } else if (atual().getLexema().equals(",") || atual().getLexema().equals(";")) {
                                 VarDeclaration1();
+                            } else {
+                                sincronizacaoFinais();
                             }
                         }
                     }
@@ -804,7 +833,13 @@ public class AnalisadorSintatico {
                     VarDeclaration1();
                 } else {
                     addErro(atual(), "'Identifier'");
-                    if (atual().getLexema().equals(",")) {
+                    if (seguinte().getTipo().equals("Identifier")) {
+                        posicaoAtual = posicaoAtual + 1;
+                        if (atual().getTipo().equals("Identifier")) {
+                            posicaoAtual = posicaoAtual + 1;
+                            VarDeclaration1();
+                        }
+                    } else if (atual().getLexema().equals(",")) {
                         VarDeclaration1();
                     } else {
                         if (atual().getLexema().equals(";")) {
@@ -841,6 +876,8 @@ public class AnalisadorSintatico {
                     } else {
                         addErro(atual(), "'{'");
                     }
+                } else if (VarType.contains(atual().getLexema())) {
+                    ConstList();
                 } else {
                     sincronizacaoFinais();
                 }
@@ -864,13 +901,31 @@ public class AnalisadorSintatico {
                             } else {
                                 addErro(atual(), "'{'");
                             }
+                        } else if (VarType.contains(atual().getLexema())) {
+                            ConstList();
                         } else {
                             sincronizacaoFinais();
                         }
                     }
                 }
+            } else if (atual().getLexema().equals("{")) {
+                posicaoAtual = posicaoAtual + 1;
+                ConstList();
             } else {
-                sincronizacaoFinais();
+                addErro(atual(), "'{'");
+                if ((seguinte() != null) && seguinte().getLexema().equals("{")) {
+                    posicaoAtual = posicaoAtual + 1;
+                    if (atual().getLexema().equals("{")) {
+                        posicaoAtual = posicaoAtual + 1;
+                        ConstList();
+                    } else {
+                        addErro(atual(), "'{'");
+                    }
+                } else if (VarType.contains(atual().getLexema())) {
+                    ConstList();
+                } else {
+                    sincronizacaoFinais();
+                }
             }
         }
     }
@@ -912,7 +967,7 @@ public class AnalisadorSintatico {
                     addErro(atual(), "'='");
                     if ((atual() != null) && (atual().getTipo().equals("RealNumber")
                             || atual().getTipo().equals("Decimal") || atual().getTipo().equals("StringLiteral")
-                            || atual().getTipo().equals("Char") || atual().getLexema().equals("boolean")
+                            || atual().getTipo().equals("Char") || atual().getTipo().equals("boolean")
                             || atual().getLexema().equals("true") || atual().getLexema().equals("false"))) {
                         ConstValue();
                         ConstDeclaration1();
@@ -930,7 +985,7 @@ public class AnalisadorSintatico {
                         addErro(atual(), "'='");
                         if ((atual() != null) && (atual().getTipo().equals("RealNumber")
                                 || atual().getTipo().equals("Decimal") || atual().getTipo().equals("StringLiteral")
-                                || atual().getTipo().equals("Char") || atual().getLexema().equals("boolean")
+                                || atual().getTipo().equals("Char") || atual().getTipo().equals("boolean")
                                 || atual().getLexema().equals("true") || atual().getLexema().equals("false"))) {
                             ConstValue();
                             ConstDeclaration1();
@@ -945,7 +1000,7 @@ public class AnalisadorSintatico {
                         addErro(atual(), "'='");
                         if ((atual() != null) && (atual().getTipo().equals("RealNumber")
                                 || atual().getTipo().equals("Decimal") || atual().getTipo().equals("StringLiteral")
-                                || atual().getTipo().equals("Char") || atual().getLexema().equals("boolean")
+                                || atual().getTipo().equals("Char") || atual().getTipo().equals("boolean")
                                 || atual().getLexema().equals("true") || atual().getLexema().equals("false"))) {
                             ConstValue();
                             ConstDeclaration1();
@@ -968,7 +1023,7 @@ public class AnalisadorSintatico {
                             addErro(atual(), "'='");
                             if ((atual() != null) && (atual().getTipo().equals("RealNumber")
                                     || atual().getTipo().equals("Decimal") || atual().getTipo().equals("StringLiteral")
-                                    || atual().getTipo().equals("Char") || atual().getLexema().equals("boolean")
+                                    || atual().getTipo().equals("Char") || atual().getTipo().equals("boolean")
                                     || atual().getLexema().equals("true") || atual().getLexema().equals("false"))) {
                                 ConstValue();
                                 ConstDeclaration1();
@@ -986,7 +1041,7 @@ public class AnalisadorSintatico {
                                 addErro(atual(), "'='");
                                 if ((atual() != null) && (atual().getTipo().equals("RealNumber")
                                         || atual().getTipo().equals("Decimal") || atual().getTipo().equals("StringLiteral")
-                                        || atual().getTipo().equals("Char") || atual().getLexema().equals("boolean")
+                                        || atual().getTipo().equals("Char") || atual().getTipo().equals("boolean")
                                         || atual().getLexema().equals("true") || atual().getLexema().equals("false"))) {
                                     ConstValue();
                                     ConstDeclaration1();
@@ -1001,7 +1056,7 @@ public class AnalisadorSintatico {
                                 addErro(atual(), "'='");
                                 if ((atual() != null) && (atual().getTipo().equals("RealNumber")
                                         || atual().getTipo().equals("Decimal") || atual().getTipo().equals("StringLiteral")
-                                        || atual().getTipo().equals("Char") || atual().getLexema().equals("boolean")
+                                        || atual().getTipo().equals("Char") || atual().getTipo().equals("boolean")
                                         || atual().getLexema().equals("true") || atual().getLexema().equals("false"))) {
                                     ConstValue();
                                     ConstDeclaration1();
@@ -1021,7 +1076,7 @@ public class AnalisadorSintatico {
                         addErro(atual(), "'='");
                         if ((atual() != null) && (atual().getTipo().equals("RealNumber")
                                 || atual().getTipo().equals("Decimal") || atual().getTipo().equals("StringLiteral")
-                                || atual().getTipo().equals("Char") || atual().getLexema().equals("boolean")
+                                || atual().getTipo().equals("Char") || atual().getTipo().equals("boolean")
                                 || atual().getLexema().equals("true") || atual().getLexema().equals("false"))) {
                             ConstValue();
                             ConstDeclaration1();
@@ -1039,7 +1094,7 @@ public class AnalisadorSintatico {
                             addErro(atual(), "'='");
                             if ((atual() != null) && (atual().getTipo().equals("RealNumber")
                                     || atual().getTipo().equals("Decimal") || atual().getTipo().equals("StringLiteral")
-                                    || atual().getTipo().equals("Char") || atual().getLexema().equals("boolean")
+                                    || atual().getTipo().equals("Char") || atual().getTipo().equals("boolean")
                                     || atual().getLexema().equals("true") || atual().getLexema().equals("false"))) {
                                 ConstValue();
                                 ConstDeclaration1();
@@ -1054,10 +1109,12 @@ public class AnalisadorSintatico {
                             addErro(atual(), "'='");
                             if ((atual() != null) && (atual().getTipo().equals("RealNumber")
                                     || atual().getTipo().equals("Decimal") || atual().getTipo().equals("StringLiteral")
-                                    || atual().getTipo().equals("Char") || atual().getLexema().equals("boolean")
+                                    || atual().getTipo().equals("Char") || atual().getTipo().equals("boolean")
                                     || atual().getLexema().equals("true") || atual().getLexema().equals("false"))) {
                                 ConstValue();
                                 ConstDeclaration1();
+                            } else {
+                                sincronizacaoFinais();
                             }
                         }
                     }
@@ -1078,9 +1135,76 @@ public class AnalisadorSintatico {
                     ConstDeclaration1();
                 } else {
                     addErro(atual(), "'='");
+                    if ((seguinte() != null) && seguinte().getLexema().equals("=")) {
+                        posicaoAtual = posicaoAtual + 1;
+                        if ((atual() != null) && atual().getLexema().equals("=")) {
+                            posicaoAtual = posicaoAtual + 1;
+                            ConstValue();
+                            ConstDeclaration1();
+                        }
+                    } else if ((atual() != null) && (atual().getTipo().equals("RealNumber")
+                            || atual().getTipo().equals("Decimal") || atual().getTipo().equals("StringLiteral")
+                            || atual().getTipo().equals("Char") || atual().getTipo().equals("boolean")
+                            || atual().getLexema().equals("true") || atual().getLexema().equals("false"))) {
+                        ConstValue();
+                        ConstDeclaration1();
+                    } else {
+                        sincronizacaoFinais();
+                    }
                 }
             } else {
                 addErro(atual(), "'Identifier'");
+                if ((seguinte() != null) && seguinte().getTipo().equals("Identifier")) {
+                    posicaoAtual = posicaoAtual + 1;
+                    if ((atual() != null) && atual().getTipo().equals("Identifier")) {
+                        posicaoAtual = posicaoAtual + 1;
+                        if ((atual() != null) && atual().getLexema().equals("=")) {
+                            posicaoAtual = posicaoAtual + 1;
+                            ConstValue();
+                            ConstDeclaration1();
+                        } else {
+                            addErro(atual(), "'='");
+                            if ((seguinte() != null) && seguinte().getLexema().equals("=")) {
+                                posicaoAtual = posicaoAtual + 1;
+                                if ((atual() != null) && atual().getLexema().equals("=")) {
+                                    posicaoAtual = posicaoAtual + 1;
+                                    ConstValue();
+                                    ConstDeclaration1();
+                                }
+                            } else if ((atual() != null) && (atual().getTipo().equals("RealNumber")
+                                    || atual().getTipo().equals("Decimal") || atual().getTipo().equals("StringLiteral")
+                                    || atual().getTipo().equals("Char") || atual().getTipo().equals("boolean")
+                                    || atual().getLexema().equals("true") || atual().getLexema().equals("false"))) {
+                                ConstValue();
+                                ConstDeclaration1();
+                            } else {
+                                sincronizacaoFinais();
+                            }
+                        }
+                    }
+                } else if ((atual() != null) && atual().getLexema().equals("=")) {
+                    posicaoAtual = posicaoAtual + 1;
+                    ConstValue();
+                    ConstDeclaration1();
+                } else {
+                    addErro(atual(), "'='");
+                    if ((seguinte() != null) && seguinte().getLexema().equals("=")) {
+                        posicaoAtual = posicaoAtual + 1;
+                        if ((atual() != null) && atual().getLexema().equals("=")) {
+                            posicaoAtual = posicaoAtual + 1;
+                            ConstValue();
+                            ConstDeclaration1();
+                        }
+                    } else if ((atual() != null) && (atual().getTipo().equals("RealNumber")
+                            || atual().getTipo().equals("Decimal") || atual().getTipo().equals("StringLiteral")
+                            || atual().getTipo().equals("Char") || atual().getTipo().equals("boolean")
+                            || atual().getLexema().equals("true") || atual().getLexema().equals("false"))) {
+                        ConstValue();
+                        ConstDeclaration1();
+                    } else {
+                        sincronizacaoFinais();
+                    }
+                }
             }
         } else if (atual().getLexema().equals(";")) {
             if (VarType.contains(seguinte().getLexema()) || seguinte().getTipo().equals("Identifier")) {
@@ -1098,7 +1222,7 @@ public class AnalisadorSintatico {
     private void ConstValue() {
         if ((atual() != null) && (atual().getTipo().equals("RealNumber")
                 || atual().getTipo().equals("Decimal") || atual().getTipo().equals("StringLiteral")
-                || atual().getTipo().equals("Char") || atual().getLexema().equals("boolean")
+                || atual().getTipo().equals("Char") || atual().getTipo().equals("boolean")
                 || atual().getLexema().equals("true") || atual().getLexema().equals("false"))) {
             posicaoAtual = posicaoAtual + 1;
         } else {
@@ -1119,15 +1243,11 @@ public class AnalisadorSintatico {
             ValueRegister();
         } else if ((atual() != null) && (atual().getTipo().equals("RealNumber")
                 || atual().getTipo().equals("Decimal") || atual().getTipo().equals("StringLiteral")
-                || atual().getTipo().equals("Char") || atual().getLexema().equals("boolean")
+                || atual().getTipo().equals("Char") || atual().getTipo().equals("boolean")
                 || atual().getLexema().equals("true") || atual().getLexema().equals("false"))) {
             posicaoAtual = posicaoAtual + 1;
         } else {
             addErro(atual(), "Valor incorreto para valores");
-            //if (!atual().getLexema().equals(",")) {
-            //    posicaoAtual = posicaoAtual + 1;
-            //}
-            //sincronizacaoFinais();
         }
     }
 
@@ -1176,7 +1296,7 @@ public class AnalisadorSintatico {
                 }
             } else {
                 addErro(atual(), "'Identifier'");
-                if ((atual() != null) && seguinte().getTipo().equals("Identifier")) {
+                if ((seguinte() != null) && seguinte().getTipo().equals("Identifier")) {
                     posicaoAtual = posicaoAtual + 1;
                     if ((atual() != null) && atual().getTipo().equals("Identifier")) {
                         posicaoAtual = posicaoAtual + 1;
@@ -1196,6 +1316,22 @@ public class AnalisadorSintatico {
                                     RegisterList();
                                 }
                             }
+                        }
+                    }
+                } else if ((atual() != null) && atual().getLexema().equals("{")) {
+                    posicaoAtual = posicaoAtual + 1;
+                    RegisterList();
+                } else {
+                    addErro(atual(), "'{'");
+                    if (seguinte().getLexema().equals("{")) {
+                        posicaoAtual = posicaoAtual + 1;
+                        if (atual().getLexema().equals("{")) {
+                            posicaoAtual = posicaoAtual + 1;
+                            RegisterList();
+                        }
+                    } else {
+                        if (VarType.contains(atual().getLexema())) {
+                            RegisterList();
                         }
                     }
                 }
@@ -1252,8 +1388,52 @@ public class AnalisadorSintatico {
                         }
                     }
                 }
+            } else if ((atual() != null) && atual().getTipo().equals("Identifier")) {
+                posicaoAtual = posicaoAtual + 1;
+                if ((atual() != null) && atual().getLexema().equals("{")) {
+                    posicaoAtual = posicaoAtual + 1;
+                    RegisterList();
+                } else {
+                    addErro(atual(), "'{'");
+                    if (seguinte().getLexema().equals("{")) {
+                        posicaoAtual = posicaoAtual + 1;
+                        if (atual().getLexema().equals("{")) {
+                            posicaoAtual = posicaoAtual + 1;
+                            RegisterList();
+                        }
+                    } else {
+                        if (VarType.contains(atual().getLexema())) {
+                            RegisterList();
+                        }
+                    }
+                }
             } else {
-                sincronizacaoFinais();
+                addErro(atual(), "'Identifier'");
+                if ((seguinte() != null) && seguinte().getTipo().equals("Identifier")) {
+                    posicaoAtual = posicaoAtual + 1;
+                    if ((atual() != null) && atual().getTipo().equals("Identifier")) {
+                        posicaoAtual = posicaoAtual + 1;
+                        if ((atual() != null) && atual().getLexema().equals("{")) {
+                            posicaoAtual = posicaoAtual + 1;
+                            RegisterList();
+                        } else {
+                            addErro(atual(), "'{'");
+                            if (seguinte().getLexema().equals("{")) {
+                                posicaoAtual = posicaoAtual + 1;
+                                if (atual().getLexema().equals("{")) {
+                                    posicaoAtual = posicaoAtual + 1;
+                                    RegisterList();
+                                }
+                            } else {
+                                if (VarType.contains(atual().getLexema())) {
+                                    RegisterList();
+                                }
+                            }
+                        }
+                    }
+                } else {
+                    sincronizacaoFinais();
+                }
             }
         }
     }
@@ -1284,7 +1464,6 @@ public class AnalisadorSintatico {
         }
     }
 
-    //Trocar o Vartype ??????????????????????????????????????????????????????????????????????????????????????????????????????????????????    
     //<RegisterDeclaration> ::= <ConstType> Identifier <RegisterDeclaration1>
     private void RegisterDeclaration() {
         if ((atual() != null) && VarType.contains(atual().getLexema())) {
@@ -1361,6 +1540,8 @@ public class AnalisadorSintatico {
                     }
                 } else if (atual().getLexema().equals(",") || atual().getLexema().equals(";")) {
                     RegisterDeclaration1();
+                } else {
+                    sincronizacaoFinais();
                 }
             }
         } else if ((atual() != null) && atual().getLexema().equals(";")) {
@@ -1783,12 +1964,17 @@ public class AnalisadorSintatico {
         } else if (atual().getLexema().equals(")")) {
             posicaoAtual = posicaoAtual + 1;
         } else {
-            addErro(atual(), "')'");
+            addErro(atual(), "') ou ,'");
             if (seguinte().getLexema().equals(")")) {
                 posicaoAtual = posicaoAtual + 1;
                 if (atual().getLexema().equals(")")) {
                     posicaoAtual = posicaoAtual + 1;
                 }
+            } else if ((seguinte() != null) && seguinte().getLexema().equals(",")) {
+                posicaoAtual = posicaoAtual + 1;
+                ParameterProcedure();
+            } else {
+                sincronizacaoFinais();
             }
         }
     }
@@ -1968,7 +2154,7 @@ public class AnalisadorSintatico {
                         if (VarType.contains(atual().getLexema())) {
                             posicaoAtual = posicaoAtual + 1;
                         }
-                    } else { // Checar o próximo depois!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                    } else {
                         sincronizacaoFinais();
                     }
                 }
@@ -1987,7 +2173,7 @@ public class AnalisadorSintatico {
                                 if (VarType.contains(atual().getLexema())) {
                                     posicaoAtual = posicaoAtual + 1;
                                 }
-                            } else { // Checar o próximo depois!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                            } else {
                                 sincronizacaoFinais();
                             }
                         }
@@ -2015,7 +2201,7 @@ public class AnalisadorSintatico {
                                 if (VarType.contains(atual().getLexema())) {
                                     posicaoAtual = posicaoAtual + 1;
                                 }
-                            } else { // Checar o próximo depois!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                            } else {
                                 sincronizacaoFinais();
                             }
                         }
@@ -2034,7 +2220,7 @@ public class AnalisadorSintatico {
                                         if (VarType.contains(atual().getLexema())) {
                                             posicaoAtual = posicaoAtual + 1;
                                         }
-                                    } else { // Checar o próximo depois!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                                    } else {
                                         sincronizacaoFinais();
                                     }
                                 }
@@ -2057,7 +2243,7 @@ public class AnalisadorSintatico {
                         if (VarType.contains(atual().getLexema())) {
                             posicaoAtual = posicaoAtual + 1;
                         }
-                    } else { // Checar o próximo depois!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                    } else {
                         sincronizacaoFinais();
                     }
                 }
@@ -2076,7 +2262,7 @@ public class AnalisadorSintatico {
                                 if (VarType.contains(atual().getLexema())) {
                                     posicaoAtual = posicaoAtual + 1;
                                 }
-                            } else { // Checar o próximo depois!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                            } else {
                                 sincronizacaoFinais();
                             }
                         }
@@ -2149,7 +2335,7 @@ public class AnalisadorSintatico {
                                 }
                             } else if (atual().getTipo().equals("Identifier") || atual().getTipo().equals("RealNumber")
                                     || atual().getTipo().equals("Decimal") || atual().getTipo().equals("StringLiteral")
-                                    || atual().getTipo().equals("Char") || atual().getLexema().equals("boolean")
+                                    || atual().getTipo().equals("Char") || atual().getTipo().equals("boolean")
                                     || atual().getLexema().equals("true") || atual().getLexema().equals("false")) {
                                 Value();
                                 if (atual().getLexema().equals(";")) {
@@ -2227,7 +2413,7 @@ public class AnalisadorSintatico {
                                         }
                                     } else if (atual().getTipo().equals("Identifier") || atual().getTipo().equals("RealNumber")
                                             || atual().getTipo().equals("Decimal") || atual().getTipo().equals("StringLiteral")
-                                            || atual().getTipo().equals("Char") || atual().getLexema().equals("boolean")
+                                            || atual().getTipo().equals("Char") || atual().getTipo().equals("boolean")
                                             || atual().getLexema().equals("true") || atual().getLexema().equals("false")) {
                                         Value();
                                         if (atual().getLexema().equals(";")) {
@@ -2301,7 +2487,7 @@ public class AnalisadorSintatico {
                                     }
                                 } else if (atual().getTipo().equals("Identifier") || atual().getTipo().equals("RealNumber")
                                         || atual().getTipo().equals("Decimal") || atual().getTipo().equals("StringLiteral")
-                                        || atual().getTipo().equals("Char") || atual().getLexema().equals("boolean")
+                                        || atual().getTipo().equals("Char") || atual().getTipo().equals("boolean")
                                         || atual().getLexema().equals("true") || atual().getLexema().equals("false")) {
                                     Value();
                                     if (atual().getLexema().equals(";")) {
@@ -2386,7 +2572,7 @@ public class AnalisadorSintatico {
                                         }
                                     } else if (atual().getTipo().equals("Identifier") || atual().getTipo().equals("RealNumber")
                                             || atual().getTipo().equals("Decimal") || atual().getTipo().equals("StringLiteral")
-                                            || atual().getTipo().equals("Char") || atual().getLexema().equals("boolean")
+                                            || atual().getTipo().equals("Char") || atual().getTipo().equals("boolean")
                                             || atual().getLexema().equals("true") || atual().getLexema().equals("false")) {
                                         Value();
                                         if (atual().getLexema().equals(";")) {
@@ -2464,7 +2650,7 @@ public class AnalisadorSintatico {
                                                 }
                                             } else if (atual().getTipo().equals("Identifier") || atual().getTipo().equals("RealNumber")
                                                     || atual().getTipo().equals("Decimal") || atual().getTipo().equals("StringLiteral")
-                                                    || atual().getTipo().equals("Char") || atual().getLexema().equals("boolean")
+                                                    || atual().getTipo().equals("Char") || atual().getTipo().equals("boolean")
                                                     || atual().getLexema().equals("true") || atual().getLexema().equals("false")) {
                                                 Value();
                                                 if (atual().getLexema().equals(";")) {
@@ -2538,7 +2724,7 @@ public class AnalisadorSintatico {
                                             }
                                         } else if (atual().getTipo().equals("Identifier") || atual().getTipo().equals("RealNumber")
                                                 || atual().getTipo().equals("Decimal") || atual().getTipo().equals("StringLiteral")
-                                                || atual().getTipo().equals("Char") || atual().getLexema().equals("boolean")
+                                                || atual().getTipo().equals("Char") || atual().getTipo().equals("boolean")
                                                 || atual().getLexema().equals("true") || atual().getLexema().equals("false")) {
                                             Value();
                                             if (atual().getLexema().equals(";")) {
@@ -2619,7 +2805,7 @@ public class AnalisadorSintatico {
                                     }
                                 } else if (atual().getTipo().equals("Identifier") || atual().getTipo().equals("RealNumber")
                                         || atual().getTipo().equals("Decimal") || atual().getTipo().equals("StringLiteral")
-                                        || atual().getTipo().equals("Char") || atual().getLexema().equals("boolean")
+                                        || atual().getTipo().equals("Char") || atual().getTipo().equals("boolean")
                                         || atual().getLexema().equals("true") || atual().getLexema().equals("false")) {
                                     Value();
                                     if (atual().getLexema().equals(";")) {
@@ -2697,7 +2883,7 @@ public class AnalisadorSintatico {
                                             }
                                         } else if (atual().getTipo().equals("Identifier") || atual().getTipo().equals("RealNumber")
                                                 || atual().getTipo().equals("Decimal") || atual().getTipo().equals("StringLiteral")
-                                                || atual().getTipo().equals("Char") || atual().getLexema().equals("boolean")
+                                                || atual().getTipo().equals("Char") || atual().getTipo().equals("boolean")
                                                 || atual().getLexema().equals("true") || atual().getLexema().equals("false")) {
                                             Value();
                                             if (atual().getLexema().equals(";")) {
@@ -2771,7 +2957,7 @@ public class AnalisadorSintatico {
                                         }
                                     } else if (atual().getTipo().equals("Identifier") || atual().getTipo().equals("RealNumber")
                                             || atual().getTipo().equals("Decimal") || atual().getTipo().equals("StringLiteral")
-                                            || atual().getTipo().equals("Char") || atual().getLexema().equals("boolean")
+                                            || atual().getTipo().equals("Char") || atual().getTipo().equals("boolean")
                                             || atual().getLexema().equals("true") || atual().getLexema().equals("false")) {
                                         Value();
                                         if (atual().getLexema().equals(";")) {
@@ -2862,7 +3048,7 @@ public class AnalisadorSintatico {
                                         }
                                     } else if (atual().getTipo().equals("Identifier") || atual().getTipo().equals("RealNumber")
                                             || atual().getTipo().equals("Decimal") || atual().getTipo().equals("StringLiteral")
-                                            || atual().getTipo().equals("Char") || atual().getLexema().equals("boolean")
+                                            || atual().getTipo().equals("Char") || atual().getTipo().equals("boolean")
                                             || atual().getLexema().equals("true") || atual().getLexema().equals("false")) {
                                         Value();
                                         if (atual().getLexema().equals(";")) {
@@ -2940,7 +3126,7 @@ public class AnalisadorSintatico {
                                                 }
                                             } else if (atual().getTipo().equals("Identifier") || atual().getTipo().equals("RealNumber")
                                                     || atual().getTipo().equals("Decimal") || atual().getTipo().equals("StringLiteral")
-                                                    || atual().getTipo().equals("Char") || atual().getLexema().equals("boolean")
+                                                    || atual().getTipo().equals("Char") || atual().getTipo().equals("boolean")
                                                     || atual().getLexema().equals("true") || atual().getLexema().equals("false")) {
                                                 Value();
                                                 if (atual().getLexema().equals(";")) {
@@ -3014,7 +3200,7 @@ public class AnalisadorSintatico {
                                             }
                                         } else if (atual().getTipo().equals("Identifier") || atual().getTipo().equals("RealNumber")
                                                 || atual().getTipo().equals("Decimal") || atual().getTipo().equals("StringLiteral")
-                                                || atual().getTipo().equals("Char") || atual().getLexema().equals("boolean")
+                                                || atual().getTipo().equals("Char") || atual().getTipo().equals("boolean")
                                                 || atual().getLexema().equals("true") || atual().getLexema().equals("false")) {
                                             Value();
                                             if (atual().getLexema().equals(";")) {
@@ -3099,7 +3285,7 @@ public class AnalisadorSintatico {
                                                 }
                                             } else if (atual().getTipo().equals("Identifier") || atual().getTipo().equals("RealNumber")
                                                     || atual().getTipo().equals("Decimal") || atual().getTipo().equals("StringLiteral")
-                                                    || atual().getTipo().equals("Char") || atual().getLexema().equals("boolean")
+                                                    || atual().getTipo().equals("Char") || atual().getTipo().equals("boolean")
                                                     || atual().getLexema().equals("true") || atual().getLexema().equals("false")) {
                                                 Value();
                                                 if (atual().getLexema().equals(";")) {
@@ -3177,7 +3363,7 @@ public class AnalisadorSintatico {
                                                         }
                                                     } else if (atual().getTipo().equals("Identifier") || atual().getTipo().equals("RealNumber")
                                                             || atual().getTipo().equals("Decimal") || atual().getTipo().equals("StringLiteral")
-                                                            || atual().getTipo().equals("Char") || atual().getLexema().equals("boolean")
+                                                            || atual().getTipo().equals("Char") || atual().getTipo().equals("boolean")
                                                             || atual().getLexema().equals("true") || atual().getLexema().equals("false")) {
                                                         Value();
                                                         if (atual().getLexema().equals(";")) {
@@ -3251,7 +3437,7 @@ public class AnalisadorSintatico {
                                                     }
                                                 } else if (atual().getTipo().equals("Identifier") || atual().getTipo().equals("RealNumber")
                                                         || atual().getTipo().equals("Decimal") || atual().getTipo().equals("StringLiteral")
-                                                        || atual().getTipo().equals("Char") || atual().getLexema().equals("boolean")
+                                                        || atual().getTipo().equals("Char") || atual().getTipo().equals("boolean")
                                                         || atual().getLexema().equals("true") || atual().getLexema().equals("false")) {
                                                     Value();
                                                     if (atual().getLexema().equals(";")) {
@@ -3332,7 +3518,7 @@ public class AnalisadorSintatico {
                                             }
                                         } else if (atual().getTipo().equals("Identifier") || atual().getTipo().equals("RealNumber")
                                                 || atual().getTipo().equals("Decimal") || atual().getTipo().equals("StringLiteral")
-                                                || atual().getTipo().equals("Char") || atual().getLexema().equals("boolean")
+                                                || atual().getTipo().equals("Char") || atual().getTipo().equals("boolean")
                                                 || atual().getLexema().equals("true") || atual().getLexema().equals("false")) {
                                             Value();
                                             if (atual().getLexema().equals(";")) {
@@ -3410,7 +3596,7 @@ public class AnalisadorSintatico {
                                                     }
                                                 } else if (atual().getTipo().equals("Identifier") || atual().getTipo().equals("RealNumber")
                                                         || atual().getTipo().equals("Decimal") || atual().getTipo().equals("StringLiteral")
-                                                        || atual().getTipo().equals("Char") || atual().getLexema().equals("boolean")
+                                                        || atual().getTipo().equals("Char") || atual().getTipo().equals("boolean")
                                                         || atual().getLexema().equals("true") || atual().getLexema().equals("false")) {
                                                     Value();
                                                     if (atual().getLexema().equals(";")) {
@@ -3484,7 +3670,7 @@ public class AnalisadorSintatico {
                                                 }
                                             } else if (atual().getTipo().equals("Identifier") || atual().getTipo().equals("RealNumber")
                                                     || atual().getTipo().equals("Decimal") || atual().getTipo().equals("StringLiteral")
-                                                    || atual().getTipo().equals("Char") || atual().getLexema().equals("boolean")
+                                                    || atual().getTipo().equals("Char") || atual().getTipo().equals("boolean")
                                                     || atual().getLexema().equals("true") || atual().getLexema().equals("false")) {
                                                 Value();
                                                 if (atual().getLexema().equals(";")) {
@@ -3571,7 +3757,7 @@ public class AnalisadorSintatico {
                                 }
                             } else if (atual().getTipo().equals("Identifier") || atual().getTipo().equals("RealNumber")
                                     || atual().getTipo().equals("Decimal") || atual().getTipo().equals("StringLiteral")
-                                    || atual().getTipo().equals("Char") || atual().getLexema().equals("boolean")
+                                    || atual().getTipo().equals("Char") || atual().getTipo().equals("boolean")
                                     || atual().getLexema().equals("true") || atual().getLexema().equals("false")) {
                                 Value();
                                 if (atual().getLexema().equals(";")) {
@@ -3649,7 +3835,7 @@ public class AnalisadorSintatico {
                                         }
                                     } else if (atual().getTipo().equals("Identifier") || atual().getTipo().equals("RealNumber")
                                             || atual().getTipo().equals("Decimal") || atual().getTipo().equals("StringLiteral")
-                                            || atual().getTipo().equals("Char") || atual().getLexema().equals("boolean")
+                                            || atual().getTipo().equals("Char") || atual().getTipo().equals("boolean")
                                             || atual().getLexema().equals("true") || atual().getLexema().equals("false")) {
                                         Value();
                                         if (atual().getLexema().equals(";")) {
@@ -3723,7 +3909,7 @@ public class AnalisadorSintatico {
                                     }
                                 } else if (atual().getTipo().equals("Identifier") || atual().getTipo().equals("RealNumber")
                                         || atual().getTipo().equals("Decimal") || atual().getTipo().equals("StringLiteral")
-                                        || atual().getTipo().equals("Char") || atual().getLexema().equals("boolean")
+                                        || atual().getTipo().equals("Char") || atual().getTipo().equals("boolean")
                                         || atual().getLexema().equals("true") || atual().getLexema().equals("false")) {
                                     Value();
                                     if (atual().getLexema().equals(";")) {
@@ -3808,7 +3994,7 @@ public class AnalisadorSintatico {
                                         }
                                     } else if (atual().getTipo().equals("Identifier") || atual().getTipo().equals("RealNumber")
                                             || atual().getTipo().equals("Decimal") || atual().getTipo().equals("StringLiteral")
-                                            || atual().getTipo().equals("Char") || atual().getLexema().equals("boolean")
+                                            || atual().getTipo().equals("Char") || atual().getTipo().equals("boolean")
                                             || atual().getLexema().equals("true") || atual().getLexema().equals("false")) {
                                         Value();
                                         if (atual().getLexema().equals(";")) {
@@ -3886,7 +4072,7 @@ public class AnalisadorSintatico {
                                                 }
                                             } else if (atual().getTipo().equals("Identifier") || atual().getTipo().equals("RealNumber")
                                                     || atual().getTipo().equals("Decimal") || atual().getTipo().equals("StringLiteral")
-                                                    || atual().getTipo().equals("Char") || atual().getLexema().equals("boolean")
+                                                    || atual().getTipo().equals("Char") || atual().getTipo().equals("boolean")
                                                     || atual().getLexema().equals("true") || atual().getLexema().equals("false")) {
                                                 Value();
                                                 if (atual().getLexema().equals(";")) {
@@ -3960,7 +4146,7 @@ public class AnalisadorSintatico {
                                             }
                                         } else if (atual().getTipo().equals("Identifier") || atual().getTipo().equals("RealNumber")
                                                 || atual().getTipo().equals("Decimal") || atual().getTipo().equals("StringLiteral")
-                                                || atual().getTipo().equals("Char") || atual().getLexema().equals("boolean")
+                                                || atual().getTipo().equals("Char") || atual().getTipo().equals("boolean")
                                                 || atual().getLexema().equals("true") || atual().getLexema().equals("false")) {
                                             Value();
                                             if (atual().getLexema().equals(";")) {
@@ -4041,7 +4227,7 @@ public class AnalisadorSintatico {
                                     }
                                 } else if (atual().getTipo().equals("Identifier") || atual().getTipo().equals("RealNumber")
                                         || atual().getTipo().equals("Decimal") || atual().getTipo().equals("StringLiteral")
-                                        || atual().getTipo().equals("Char") || atual().getLexema().equals("boolean")
+                                        || atual().getTipo().equals("Char") || atual().getTipo().equals("boolean")
                                         || atual().getLexema().equals("true") || atual().getLexema().equals("false")) {
                                     Value();
                                     if (atual().getLexema().equals(";")) {
@@ -4119,7 +4305,7 @@ public class AnalisadorSintatico {
                                             }
                                         } else if (atual().getTipo().equals("Identifier") || atual().getTipo().equals("RealNumber")
                                                 || atual().getTipo().equals("Decimal") || atual().getTipo().equals("StringLiteral")
-                                                || atual().getTipo().equals("Char") || atual().getLexema().equals("boolean")
+                                                || atual().getTipo().equals("Char") || atual().getTipo().equals("boolean")
                                                 || atual().getLexema().equals("true") || atual().getLexema().equals("false")) {
                                             Value();
                                             if (atual().getLexema().equals(";")) {
@@ -4193,7 +4379,7 @@ public class AnalisadorSintatico {
                                         }
                                     } else if (atual().getTipo().equals("Identifier") || atual().getTipo().equals("RealNumber")
                                             || atual().getTipo().equals("Decimal") || atual().getTipo().equals("StringLiteral")
-                                            || atual().getTipo().equals("Char") || atual().getLexema().equals("boolean")
+                                            || atual().getTipo().equals("Char") || atual().getTipo().equals("boolean")
                                             || atual().getLexema().equals("true") || atual().getLexema().equals("false")) {
                                         Value();
                                         if (atual().getLexema().equals(";")) {
@@ -4367,6 +4553,8 @@ public class AnalisadorSintatico {
                         || atual().getLexema().equals("false")
                         || atual().getTipo().equals("Decimal"))) {
                     AddendIdent();
+                } else {
+                    sincronizacaoFinais();
                 }
             }
         }
@@ -4459,16 +4647,17 @@ public class AnalisadorSintatico {
                         }
                     }
                 }
+            } else {
+                sincronizacaoFinais();
             }
         }
     }
 
-    //Corrigir o Boolean !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     //<AddendOperatorUnary> ::= Identifier | Boolean
     private void AddendOperatorUnary() {
         if (atual().getTipo().equals("Identifier")) {
             posicaoAtual = posicaoAtual + 1;
-        } else if (atual().getLexema().equals("boolean")
+        } else if (atual().getTipo().equals("boolean")
                 || (atual().getLexema().equals("true"))
                 || (atual().getLexema().equals("false"))) {
             posicaoAtual = posicaoAtual + 1;
@@ -4499,7 +4688,7 @@ public class AnalisadorSintatico {
                 LogicalAndExpression();
                 LogicalOrExpression1();
             } else {
-                //addErro(atual(), "'||'");
+                //Vazio
             }
         }
     }
@@ -4514,13 +4703,11 @@ public class AnalisadorSintatico {
     private void LogicalAndExpression1() {
         if (atual() != null) {
             if (atual().getLexema().equals("&&")) {
-//                System.out.println(atual().getLexema().equals("&&") + "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-//                System.out.println((atual().getTipo().equals("OpLogico")));
                 posicaoAtual = posicaoAtual + 1;
                 Condition();
                 LogicalAndExpression1();
             } else {
-                //addErro(atual(), "'&&'");
+                //Vazio
             }
         }
     }
@@ -4627,7 +4814,7 @@ public class AnalisadorSintatico {
                 }
             } else if (atual().getTipo().equals("Identifier") || (atual().getTipo().equals("RealNumber")
                     || atual().getTipo().equals("Decimal") || atual().getTipo().equals("StringLiteral")
-                    || atual().getTipo().equals("Char") || atual().getLexema().equals("boolean")
+                    || atual().getTipo().equals("Char") || atual().getTipo().equals("boolean")
                     || atual().getLexema().equals("true") || atual().getLexema().equals("false"))) {
                 Argument();
                 if (atual().getLexema().equals(")")) {
@@ -4673,6 +4860,8 @@ public class AnalisadorSintatico {
                         }
                     }
                 }
+            } else {
+                sincronizacaoFinais();
             }
         }
     }
@@ -4681,11 +4870,12 @@ public class AnalisadorSintatico {
     private void Argument() {
         if (atual().getTipo().equals("Identifier") || (atual().getTipo().equals("RealNumber")
                 || atual().getTipo().equals("Decimal") || atual().getTipo().equals("StringLiteral")
-                || atual().getTipo().equals("Char") || atual().getLexema().equals("boolean")
+                || atual().getTipo().equals("Char") || atual().getTipo().equals("boolean")
                 || atual().getLexema().equals("true") || atual().getLexema().equals("false"))) {
             Value();
             ArgumentList();
         } else {
+            //Vazio
         }
     }
 
@@ -4695,7 +4885,7 @@ public class AnalisadorSintatico {
             posicaoAtual = posicaoAtual + 1;
             Argument();
         } else {
-            //addErro(atual(), "','");//Pode ser vazio
+            //Vazio
         }
     }
 
@@ -4801,7 +4991,7 @@ public class AnalisadorSintatico {
                 }
             } else if (atual().getTipo().equals("Identifier") || (atual().getTipo().equals("RealNumber")
                     || atual().getTipo().equals("Decimal") || atual().getTipo().equals("StringLiteral")
-                    || atual().getTipo().equals("Char") || atual().getLexema().equals("boolean")
+                    || atual().getTipo().equals("Char") || atual().getTipo().equals("boolean")
                     || atual().getLexema().equals("true") || atual().getLexema().equals("false"))) {
                 Argument();
                 if (atual().getLexema().equals(")")) {
@@ -4847,6 +5037,8 @@ public class AnalisadorSintatico {
                         }
                     }
                 }
+            } else {
+                sincronizacaoFinais();
             }
         }
     }
@@ -5058,6 +5250,8 @@ public class AnalisadorSintatico {
             posicaoAtual = posicaoAtual + 1;
             Call();
             LocalCommands();
+        } else {
+            //Vazio
         }
     }
 
@@ -5170,6 +5364,8 @@ public class AnalisadorSintatico {
                     }
                 } else if (atual().getLexema().equals(";")) {
                     posicaoAtual = posicaoAtual + 1;
+                } else {
+                    sincronizacaoFinais();
                 }
             }
         } else {
@@ -5247,6 +5443,8 @@ public class AnalisadorSintatico {
                     }
                 } else if (atual().getLexema().equals(";")) {
                     posicaoAtual = posicaoAtual + 1;
+                } else {
+                    sincronizacaoFinais();
                 }
             }
         }
@@ -5265,6 +5463,8 @@ public class AnalisadorSintatico {
                     if (atual().getLexema().equals(";")) {
                         posicaoAtual = posicaoAtual + 1;
                     }
+                } else {
+                    sincronizacaoFinais();
                 }
             }
         } else if (atual().getTipo().equals("Char")) {
@@ -5278,6 +5478,8 @@ public class AnalisadorSintatico {
                     if (atual().getLexema().equals(";")) {
                         posicaoAtual = posicaoAtual + 1;
                     }
+                } else {
+                    sincronizacaoFinais();
                 }
             }
         } else {
@@ -7215,6 +7417,8 @@ public class AnalisadorSintatico {
                         if (atual().getLexema().equals("}")) {
                             posicaoAtual = posicaoAtual + 1;
                         }
+                    } else {
+                        sincronizacaoFinais();
                     }
                 }
             } else {
@@ -7233,6 +7437,8 @@ public class AnalisadorSintatico {
                                 if (atual().getLexema().equals("}")) {
                                     posicaoAtual = posicaoAtual + 1;
                                 }
+                            } else {
+                                sincronizacaoFinais();
                             }
                         }
                     }
@@ -7251,12 +7457,14 @@ public class AnalisadorSintatico {
                             if (atual().getLexema().equals("}")) {
                                 posicaoAtual = posicaoAtual + 1;
                             }
+                        } else {
+                            sincronizacaoFinais();
                         }
                     }
                 }
             }
         } else {
-            //addErro(atual(), "'else'");
+            //Vazio
         }
     }
 
@@ -7282,6 +7490,8 @@ public class AnalisadorSintatico {
                                 if (atual().getLexema().equals("}")) {
                                     posicaoAtual = posicaoAtual + 1;
                                 }
+                            } else {
+                                sincronizacaoFinais();
                             }
                         }
                     } else {
@@ -7300,6 +7510,8 @@ public class AnalisadorSintatico {
                                         if (atual().getLexema().equals("}")) {
                                             posicaoAtual = posicaoAtual + 1;
                                         }
+                                    } else {
+                                        sincronizacaoFinais();
                                     }
                                 }
                             }
@@ -7318,8 +7530,12 @@ public class AnalisadorSintatico {
                                     if (atual().getLexema().equals("}")) {
                                         posicaoAtual = posicaoAtual + 1;
                                     }
+                                } else {
+                                    sincronizacaoFinais();
                                 }
                             }
+                        } else {
+                            sincronizacaoFinais();
                         }
                     }
                 } else {
@@ -7340,6 +7556,8 @@ public class AnalisadorSintatico {
                                         if (atual().getLexema().equals("}")) {
                                             posicaoAtual = posicaoAtual + 1;
                                         }
+                                    } else {
+                                        sincronizacaoFinais();
                                     }
                                 }
                             } else {
@@ -7358,6 +7576,8 @@ public class AnalisadorSintatico {
                                                 if (atual().getLexema().equals("}")) {
                                                     posicaoAtual = posicaoAtual + 1;
                                                 }
+                                            } else {
+                                                sincronizacaoFinais();
                                             }
                                         }
                                     }
@@ -7376,8 +7596,12 @@ public class AnalisadorSintatico {
                                             if (atual().getLexema().equals("}")) {
                                                 posicaoAtual = posicaoAtual + 1;
                                             }
+                                        } else {
+                                            sincronizacaoFinais();
                                         }
                                     }
+                                } else {
+                                    sincronizacaoFinais();
                                 }
                             }
                         }
@@ -7393,6 +7617,8 @@ public class AnalisadorSintatico {
                                 if (atual().getLexema().equals("}")) {
                                     posicaoAtual = posicaoAtual + 1;
                                 }
+                            } else {
+                                sincronizacaoFinais();
                             }
                         }
                     } else {
@@ -7411,6 +7637,8 @@ public class AnalisadorSintatico {
                                         if (atual().getLexema().equals("}")) {
                                             posicaoAtual = posicaoAtual + 1;
                                         }
+                                    } else {
+                                        sincronizacaoFinais();
                                     }
                                 }
                             }
@@ -7429,6 +7657,8 @@ public class AnalisadorSintatico {
                                     if (atual().getLexema().equals("}")) {
                                         posicaoAtual = posicaoAtual + 1;
                                     }
+                                } else {
+                                    sincronizacaoFinais();
                                 }
                             }
                         }
@@ -7455,6 +7685,8 @@ public class AnalisadorSintatico {
                                         if (atual().getLexema().equals("}")) {
                                             posicaoAtual = posicaoAtual + 1;
                                         }
+                                    } else {
+                                        sincronizacaoFinais();
                                     }
                                 }
                             } else {
@@ -7473,6 +7705,8 @@ public class AnalisadorSintatico {
                                                 if (atual().getLexema().equals("}")) {
                                                     posicaoAtual = posicaoAtual + 1;
                                                 }
+                                            } else {
+                                                sincronizacaoFinais();
                                             }
                                         }
                                     }
@@ -7491,6 +7725,8 @@ public class AnalisadorSintatico {
                                             if (atual().getLexema().equals("}")) {
                                                 posicaoAtual = posicaoAtual + 1;
                                             }
+                                        } else {
+                                            sincronizacaoFinais();
                                         }
                                     }
                                 }
@@ -7513,6 +7749,8 @@ public class AnalisadorSintatico {
                                                 if (atual().getLexema().equals("}")) {
                                                     posicaoAtual = posicaoAtual + 1;
                                                 }
+                                            } else {
+                                                sincronizacaoFinais();
                                             }
                                         }
                                     } else {
@@ -7531,6 +7769,8 @@ public class AnalisadorSintatico {
                                                         if (atual().getLexema().equals("}")) {
                                                             posicaoAtual = posicaoAtual + 1;
                                                         }
+                                                    } else {
+                                                        sincronizacaoFinais();
                                                     }
                                                 }
                                             }
@@ -7549,8 +7789,12 @@ public class AnalisadorSintatico {
                                                     if (atual().getLexema().equals("}")) {
                                                         posicaoAtual = posicaoAtual + 1;
                                                     }
+                                                } else {
+                                                    sincronizacaoFinais();
                                                 }
                                             }
+                                        } else {
+                                            sincronizacaoFinais();
                                         }
                                     }
                                 }
@@ -7566,6 +7810,8 @@ public class AnalisadorSintatico {
                                         if (atual().getLexema().equals("}")) {
                                             posicaoAtual = posicaoAtual + 1;
                                         }
+                                    } else {
+                                        sincronizacaoFinais();
                                     }
                                 }
                             } else {
@@ -7584,6 +7830,8 @@ public class AnalisadorSintatico {
                                                 if (atual().getLexema().equals("}")) {
                                                     posicaoAtual = posicaoAtual + 1;
                                                 }
+                                            } else {
+                                                sincronizacaoFinais();
                                             }
                                         }
                                     }
@@ -7602,8 +7850,12 @@ public class AnalisadorSintatico {
                                             if (atual().getLexema().equals("}")) {
                                                 posicaoAtual = posicaoAtual + 1;
                                             }
+                                        } else {
+                                            sincronizacaoFinais();
                                         }
                                     }
+                                } else {
+                                    sincronizacaoFinais();
                                 }
                             }
                         }
@@ -7629,6 +7881,8 @@ public class AnalisadorSintatico {
                                     if (atual().getLexema().equals("}")) {
                                         posicaoAtual = posicaoAtual + 1;
                                     }
+                                } else {
+                                    sincronizacaoFinais();
                                 }
                             }
                         } else {
@@ -7647,6 +7901,8 @@ public class AnalisadorSintatico {
                                             if (atual().getLexema().equals("}")) {
                                                 posicaoAtual = posicaoAtual + 1;
                                             }
+                                        } else {
+                                            sincronizacaoFinais();
                                         }
                                     }
                                 }
@@ -7665,6 +7921,8 @@ public class AnalisadorSintatico {
                                         if (atual().getLexema().equals("}")) {
                                             posicaoAtual = posicaoAtual + 1;
                                         }
+                                    } else {
+                                        sincronizacaoFinais();
                                     }
                                 }
                             }
@@ -7687,6 +7945,8 @@ public class AnalisadorSintatico {
                                             if (atual().getLexema().equals("}")) {
                                                 posicaoAtual = posicaoAtual + 1;
                                             }
+                                        } else {
+                                            sincronizacaoFinais();
                                         }
                                     }
                                 } else {
@@ -7705,6 +7965,8 @@ public class AnalisadorSintatico {
                                                     if (atual().getLexema().equals("}")) {
                                                         posicaoAtual = posicaoAtual + 1;
                                                     }
+                                                } else {
+                                                    sincronizacaoFinais();
                                                 }
                                             }
                                         }
@@ -7723,8 +7985,12 @@ public class AnalisadorSintatico {
                                                 if (atual().getLexema().equals("}")) {
                                                     posicaoAtual = posicaoAtual + 1;
                                                 }
+                                            } else {
+                                                sincronizacaoFinais();
                                             }
                                         }
+                                    } else {
+                                        sincronizacaoFinais();
                                     }
                                 }
                             }
@@ -7740,6 +8006,8 @@ public class AnalisadorSintatico {
                                     if (atual().getLexema().equals("}")) {
                                         posicaoAtual = posicaoAtual + 1;
                                     }
+                                } else {
+                                    sincronizacaoFinais();
                                 }
                             }
                         } else {
@@ -7758,6 +8026,8 @@ public class AnalisadorSintatico {
                                             if (atual().getLexema().equals("}")) {
                                                 posicaoAtual = posicaoAtual + 1;
                                             }
+                                        } else {
+                                            sincronizacaoFinais();
                                         }
                                     }
                                 }
@@ -7776,8 +8046,12 @@ public class AnalisadorSintatico {
                                         if (atual().getLexema().equals("}")) {
                                             posicaoAtual = posicaoAtual + 1;
                                         }
+                                    } else {
+                                        sincronizacaoFinais();
                                     }
                                 }
+                            } else {
+                                sincronizacaoFinais();
                             }
                         }
                     }
@@ -7806,6 +8080,8 @@ public class AnalisadorSintatico {
                                         if (atual().getLexema().equals("}")) {
                                             posicaoAtual = posicaoAtual + 1;
                                         }
+                                    } else {
+                                        sincronizacaoFinais();
                                     }
                                 }
                             } else {
@@ -7824,6 +8100,8 @@ public class AnalisadorSintatico {
                                                 if (atual().getLexema().equals("}")) {
                                                     posicaoAtual = posicaoAtual + 1;
                                                 }
+                                            } else {
+                                                sincronizacaoFinais();
                                             }
                                         }
                                     }
@@ -7842,8 +8120,12 @@ public class AnalisadorSintatico {
                                             if (atual().getLexema().equals("}")) {
                                                 posicaoAtual = posicaoAtual + 1;
                                             }
+                                        } else {
+                                            sincronizacaoFinais();
                                         }
                                     }
+                                } else {
+                                    sincronizacaoFinais();
                                 }
                             }
                         } else {
@@ -7864,6 +8146,8 @@ public class AnalisadorSintatico {
                                                 if (atual().getLexema().equals("}")) {
                                                     posicaoAtual = posicaoAtual + 1;
                                                 }
+                                            } else {
+                                                sincronizacaoFinais();
                                             }
                                         }
                                     } else {
@@ -7882,6 +8166,8 @@ public class AnalisadorSintatico {
                                                         if (atual().getLexema().equals("}")) {
                                                             posicaoAtual = posicaoAtual + 1;
                                                         }
+                                                    } else {
+                                                        sincronizacaoFinais();
                                                     }
                                                 }
                                             }
@@ -7900,8 +8186,12 @@ public class AnalisadorSintatico {
                                                     if (atual().getLexema().equals("}")) {
                                                         posicaoAtual = posicaoAtual + 1;
                                                     }
+                                                } else {
+                                                    sincronizacaoFinais();
                                                 }
                                             }
+                                        } else {
+                                            sincronizacaoFinais();
                                         }
                                     }
                                 }
@@ -7917,6 +8207,8 @@ public class AnalisadorSintatico {
                                         if (atual().getLexema().equals("}")) {
                                             posicaoAtual = posicaoAtual + 1;
                                         }
+                                    } else {
+                                        sincronizacaoFinais();
                                     }
                                 }
                             } else {
@@ -7935,6 +8227,8 @@ public class AnalisadorSintatico {
                                                 if (atual().getLexema().equals("}")) {
                                                     posicaoAtual = posicaoAtual + 1;
                                                 }
+                                            } else {
+                                                sincronizacaoFinais();
                                             }
                                         }
                                     }
@@ -7953,8 +8247,12 @@ public class AnalisadorSintatico {
                                             if (atual().getLexema().equals("}")) {
                                                 posicaoAtual = posicaoAtual + 1;
                                             }
+                                        } else {
+                                            sincronizacaoFinais();
                                         }
                                     }
+                                } else {
+                                    sincronizacaoFinais();
                                 }
                             }
                         }
@@ -7979,6 +8277,8 @@ public class AnalisadorSintatico {
                                                 if (atual().getLexema().equals("}")) {
                                                     posicaoAtual = posicaoAtual + 1;
                                                 }
+                                            } else {
+                                                sincronizacaoFinais();
                                             }
                                         }
                                     } else {
@@ -7997,6 +8297,8 @@ public class AnalisadorSintatico {
                                                         if (atual().getLexema().equals("}")) {
                                                             posicaoAtual = posicaoAtual + 1;
                                                         }
+                                                    } else {
+                                                        sincronizacaoFinais();
                                                     }
                                                 }
                                             }
@@ -8015,8 +8317,12 @@ public class AnalisadorSintatico {
                                                     if (atual().getLexema().equals("}")) {
                                                         posicaoAtual = posicaoAtual + 1;
                                                     }
+                                                } else {
+                                                    sincronizacaoFinais();
                                                 }
                                             }
+                                        } else {
+                                            sincronizacaoFinais();
                                         }
                                     }
                                 } else {
@@ -8037,6 +8343,8 @@ public class AnalisadorSintatico {
                                                         if (atual().getLexema().equals("}")) {
                                                             posicaoAtual = posicaoAtual + 1;
                                                         }
+                                                    } else {
+                                                        sincronizacaoFinais();
                                                     }
                                                 }
                                             } else {
@@ -8055,6 +8363,8 @@ public class AnalisadorSintatico {
                                                                 if (atual().getLexema().equals("}")) {
                                                                     posicaoAtual = posicaoAtual + 1;
                                                                 }
+                                                            } else {
+                                                                sincronizacaoFinais();
                                                             }
                                                         }
                                                     }
@@ -8073,8 +8383,12 @@ public class AnalisadorSintatico {
                                                             if (atual().getLexema().equals("}")) {
                                                                 posicaoAtual = posicaoAtual + 1;
                                                             }
+                                                        } else {
+                                                            sincronizacaoFinais();
                                                         }
                                                     }
+                                                } else {
+                                                    sincronizacaoFinais();
                                                 }
                                             }
                                         }
@@ -8090,6 +8404,8 @@ public class AnalisadorSintatico {
                                                 if (atual().getLexema().equals("}")) {
                                                     posicaoAtual = posicaoAtual + 1;
                                                 }
+                                            } else {
+                                                sincronizacaoFinais();
                                             }
                                         }
                                     } else {
@@ -8108,6 +8424,8 @@ public class AnalisadorSintatico {
                                                         if (atual().getLexema().equals("}")) {
                                                             posicaoAtual = posicaoAtual + 1;
                                                         }
+                                                    } else {
+                                                        sincronizacaoFinais();
                                                     }
                                                 }
                                             }
@@ -8126,8 +8444,12 @@ public class AnalisadorSintatico {
                                                     if (atual().getLexema().equals("}")) {
                                                         posicaoAtual = posicaoAtual + 1;
                                                     }
+                                                } else {
+                                                    sincronizacaoFinais();
                                                 }
                                             }
+                                        } else {
+                                            sincronizacaoFinais();
                                         }
                                     }
                                 }
@@ -8153,6 +8475,8 @@ public class AnalisadorSintatico {
                                             if (atual().getLexema().equals("}")) {
                                                 posicaoAtual = posicaoAtual + 1;
                                             }
+                                        } else {
+                                            sincronizacaoFinais();
                                         }
                                     }
                                 } else {
@@ -8171,6 +8495,8 @@ public class AnalisadorSintatico {
                                                     if (atual().getLexema().equals("}")) {
                                                         posicaoAtual = posicaoAtual + 1;
                                                     }
+                                                } else {
+                                                    sincronizacaoFinais();
                                                 }
                                             }
                                         }
@@ -8189,8 +8515,12 @@ public class AnalisadorSintatico {
                                                 if (atual().getLexema().equals("}")) {
                                                     posicaoAtual = posicaoAtual + 1;
                                                 }
+                                            } else {
+                                                sincronizacaoFinais();
                                             }
                                         }
+                                    } else {
+                                        sincronizacaoFinais();
                                     }
                                 }
                             } else {
@@ -8211,6 +8541,8 @@ public class AnalisadorSintatico {
                                                     if (atual().getLexema().equals("}")) {
                                                         posicaoAtual = posicaoAtual + 1;
                                                     }
+                                                } else {
+                                                    sincronizacaoFinais();
                                                 }
                                             }
                                         } else {
@@ -8229,6 +8561,8 @@ public class AnalisadorSintatico {
                                                             if (atual().getLexema().equals("}")) {
                                                                 posicaoAtual = posicaoAtual + 1;
                                                             }
+                                                        } else {
+                                                            sincronizacaoFinais();
                                                         }
                                                     }
                                                 }
@@ -8247,8 +8581,12 @@ public class AnalisadorSintatico {
                                                         if (atual().getLexema().equals("}")) {
                                                             posicaoAtual = posicaoAtual + 1;
                                                         }
+                                                    } else {
+                                                        sincronizacaoFinais();
                                                     }
                                                 }
+                                            } else {
+                                                sincronizacaoFinais();
                                             }
                                         }
                                     }
@@ -8264,6 +8602,8 @@ public class AnalisadorSintatico {
                                             if (atual().getLexema().equals("}")) {
                                                 posicaoAtual = posicaoAtual + 1;
                                             }
+                                        } else {
+                                            sincronizacaoFinais();
                                         }
                                     }
                                 } else {
@@ -8282,6 +8622,8 @@ public class AnalisadorSintatico {
                                                     if (atual().getLexema().equals("}")) {
                                                         posicaoAtual = posicaoAtual + 1;
                                                     }
+                                                } else {
+                                                    sincronizacaoFinais();
                                                 }
                                             }
                                         }
@@ -8300,8 +8642,12 @@ public class AnalisadorSintatico {
                                                 if (atual().getLexema().equals("}")) {
                                                     posicaoAtual = posicaoAtual + 1;
                                                 }
+                                            } else {
+                                                sincronizacaoFinais();
                                             }
                                         }
+                                    } else {
+                                        sincronizacaoFinais();
                                     }
                                 }
                             }
@@ -8325,6 +8671,8 @@ public class AnalisadorSintatico {
                                 if (atual().getLexema().equals("}")) {
                                     posicaoAtual = posicaoAtual + 1;
                                 }
+                            } else {
+                                sincronizacaoFinais();
                             }
                         }
                     } else {
@@ -8343,6 +8691,8 @@ public class AnalisadorSintatico {
                                         if (atual().getLexema().equals("}")) {
                                             posicaoAtual = posicaoAtual + 1;
                                         }
+                                    } else {
+                                        sincronizacaoFinais();
                                     }
                                 }
                             }
@@ -8361,8 +8711,12 @@ public class AnalisadorSintatico {
                                     if (atual().getLexema().equals("}")) {
                                         posicaoAtual = posicaoAtual + 1;
                                     }
+                                } else {
+                                    sincronizacaoFinais();
                                 }
                             }
+                        } else {
+                            sincronizacaoFinais();
                         }
                     }
                 } else {
@@ -8383,6 +8737,8 @@ public class AnalisadorSintatico {
                                         if (atual().getLexema().equals("}")) {
                                             posicaoAtual = posicaoAtual + 1;
                                         }
+                                    } else {
+                                        sincronizacaoFinais();
                                     }
                                 }
                             } else {
@@ -8401,6 +8757,8 @@ public class AnalisadorSintatico {
                                                 if (atual().getLexema().equals("}")) {
                                                     posicaoAtual = posicaoAtual + 1;
                                                 }
+                                            } else {
+                                                sincronizacaoFinais();
                                             }
                                         }
                                     }
@@ -8419,8 +8777,12 @@ public class AnalisadorSintatico {
                                             if (atual().getLexema().equals("}")) {
                                                 posicaoAtual = posicaoAtual + 1;
                                             }
+                                        } else {
+                                            sincronizacaoFinais();
                                         }
                                     }
+                                } else {
+                                    sincronizacaoFinais();
                                 }
                             }
                         }
@@ -8436,6 +8798,8 @@ public class AnalisadorSintatico {
                                 if (atual().getLexema().equals("}")) {
                                     posicaoAtual = posicaoAtual + 1;
                                 }
+                            } else {
+                                sincronizacaoFinais();
                             }
                         }
                     } else {
@@ -8454,6 +8818,8 @@ public class AnalisadorSintatico {
                                         if (atual().getLexema().equals("}")) {
                                             posicaoAtual = posicaoAtual + 1;
                                         }
+                                    } else {
+                                        sincronizacaoFinais();
                                     }
                                 }
                             }
@@ -8472,8 +8838,12 @@ public class AnalisadorSintatico {
                                     if (atual().getLexema().equals("}")) {
                                         posicaoAtual = posicaoAtual + 1;
                                     }
+                                } else {
+                                    sincronizacaoFinais();
                                 }
                             }
+                        } else {
+                            sincronizacaoFinais();
                         }
                     }
                 }
@@ -8498,6 +8868,8 @@ public class AnalisadorSintatico {
                                         if (atual().getLexema().equals("}")) {
                                             posicaoAtual = posicaoAtual + 1;
                                         }
+                                    } else {
+                                        sincronizacaoFinais();
                                     }
                                 }
                             } else {
@@ -8516,6 +8888,8 @@ public class AnalisadorSintatico {
                                                 if (atual().getLexema().equals("}")) {
                                                     posicaoAtual = posicaoAtual + 1;
                                                 }
+                                            } else {
+                                                sincronizacaoFinais();
                                             }
                                         }
                                     }
@@ -8534,6 +8908,8 @@ public class AnalisadorSintatico {
                                             if (atual().getLexema().equals("}")) {
                                                 posicaoAtual = posicaoAtual + 1;
                                             }
+                                        } else {
+                                            sincronizacaoFinais();
                                         }
                                     }
                                 }
@@ -8556,6 +8932,8 @@ public class AnalisadorSintatico {
                                                 if (atual().getLexema().equals("}")) {
                                                     posicaoAtual = posicaoAtual + 1;
                                                 }
+                                            } else {
+                                                sincronizacaoFinais();
                                             }
                                         }
                                     } else {
@@ -8574,6 +8952,8 @@ public class AnalisadorSintatico {
                                                         if (atual().getLexema().equals("}")) {
                                                             posicaoAtual = posicaoAtual + 1;
                                                         }
+                                                    } else {
+                                                        sincronizacaoFinais();
                                                     }
                                                 }
                                             }
@@ -8592,8 +8972,12 @@ public class AnalisadorSintatico {
                                                     if (atual().getLexema().equals("}")) {
                                                         posicaoAtual = posicaoAtual + 1;
                                                     }
+                                                } else {
+                                                    sincronizacaoFinais();
                                                 }
                                             }
+                                        } else {
+                                            sincronizacaoFinais();
                                         }
                                     }
                                 }
@@ -8609,6 +8993,8 @@ public class AnalisadorSintatico {
                                         if (atual().getLexema().equals("}")) {
                                             posicaoAtual = posicaoAtual + 1;
                                         }
+                                    } else {
+                                        sincronizacaoFinais();
                                     }
                                 }
                             } else {
@@ -8627,6 +9013,8 @@ public class AnalisadorSintatico {
                                                 if (atual().getLexema().equals("}")) {
                                                     posicaoAtual = posicaoAtual + 1;
                                                 }
+                                            } else {
+                                                sincronizacaoFinais();
                                             }
                                         }
                                     }
@@ -8645,8 +9033,12 @@ public class AnalisadorSintatico {
                                             if (atual().getLexema().equals("}")) {
                                                 posicaoAtual = posicaoAtual + 1;
                                             }
+                                        } else {
+                                            sincronizacaoFinais();
                                         }
                                     }
+                                } else {
+                                    sincronizacaoFinais();
                                 }
                             }
                         }
@@ -8672,6 +9064,8 @@ public class AnalisadorSintatico {
                                     if (atual().getLexema().equals("}")) {
                                         posicaoAtual = posicaoAtual + 1;
                                     }
+                                } else {
+                                    sincronizacaoFinais();
                                 }
                             }
                         } else {
@@ -8690,6 +9084,8 @@ public class AnalisadorSintatico {
                                             if (atual().getLexema().equals("}")) {
                                                 posicaoAtual = posicaoAtual + 1;
                                             }
+                                        } else {
+                                            sincronizacaoFinais();
                                         }
                                     }
                                 }
@@ -8708,8 +9104,12 @@ public class AnalisadorSintatico {
                                         if (atual().getLexema().equals("}")) {
                                             posicaoAtual = posicaoAtual + 1;
                                         }
+                                    } else {
+                                        sincronizacaoFinais();
                                     }
                                 }
+                            } else {
+                                sincronizacaoFinais();
                             }
                         }
                     } else {
@@ -8730,6 +9130,8 @@ public class AnalisadorSintatico {
                                             if (atual().getLexema().equals("}")) {
                                                 posicaoAtual = posicaoAtual + 1;
                                             }
+                                        } else {
+                                            sincronizacaoFinais();
                                         }
                                     }
                                 } else {
@@ -8748,6 +9150,8 @@ public class AnalisadorSintatico {
                                                     if (atual().getLexema().equals("}")) {
                                                         posicaoAtual = posicaoAtual + 1;
                                                     }
+                                                } else {
+                                                    sincronizacaoFinais();
                                                 }
                                             }
                                         }
@@ -8766,8 +9170,12 @@ public class AnalisadorSintatico {
                                                 if (atual().getLexema().equals("}")) {
                                                     posicaoAtual = posicaoAtual + 1;
                                                 }
+                                            } else {
+                                                sincronizacaoFinais();
                                             }
                                         }
+                                    } else {
+                                        sincronizacaoFinais();
                                     }
                                 }
                             }
@@ -8783,6 +9191,8 @@ public class AnalisadorSintatico {
                                     if (atual().getLexema().equals("}")) {
                                         posicaoAtual = posicaoAtual + 1;
                                     }
+                                } else {
+                                    sincronizacaoFinais();
                                 }
                             }
                         } else {
@@ -8801,6 +9211,8 @@ public class AnalisadorSintatico {
                                             if (atual().getLexema().equals("}")) {
                                                 posicaoAtual = posicaoAtual + 1;
                                             }
+                                        } else {
+                                            sincronizacaoFinais();
                                         }
                                     }
                                 }
@@ -8819,8 +9231,12 @@ public class AnalisadorSintatico {
                                         if (atual().getLexema().equals("}")) {
                                             posicaoAtual = posicaoAtual + 1;
                                         }
+                                    } else {
+                                        sincronizacaoFinais();
                                     }
                                 }
+                            } else {
+                                sincronizacaoFinais();
                             }
                         }
                     }
@@ -8848,6 +9264,8 @@ public class AnalisadorSintatico {
                 } else if (atual().getTipo().equals("Identifier") || atual().getTipo().equals("Decimal")
                         || atual().getTipo().equals("RealNumber") || atual().getTipo().equals("StringLiteral")) {
                     ArgumentsWrite();
+                } else {
+                    sincronizacaoFinais();
                 }
             }
         } else {
@@ -8870,6 +9288,8 @@ public class AnalisadorSintatico {
                         } else if (atual().getTipo().equals("Identifier") || atual().getTipo().equals("Decimal")
                                 || atual().getTipo().equals("RealNumber") || atual().getTipo().equals("StringLiteral")) {
                             ArgumentsWrite();
+                        } else {
+                            sincronizacaoFinais();
                         }
                     }
                 }
@@ -8887,6 +9307,8 @@ public class AnalisadorSintatico {
                 } else if (atual().getTipo().equals("Identifier") || atual().getTipo().equals("Decimal")
                         || atual().getTipo().equals("RealNumber") || atual().getTipo().equals("StringLiteral")) {
                     ArgumentsWrite();
+                } else {
+                    sincronizacaoFinais();
                 }
             }
         }
@@ -8924,7 +9346,7 @@ public class AnalisadorSintatico {
                 addErro(atual(), "'Identifier'");
             }
         } else {
-            //addErro(atual(), "'.'");Pode ser vazia
+            //Vazio
         }
     }
 
@@ -8945,6 +9367,8 @@ public class AnalisadorSintatico {
                     if (atual().getLexema().equals(";")) {
                         posicaoAtual = posicaoAtual + 1;
                     }
+                } else {
+                    sincronizacaoFinais();
                 }
             }
         } else {
@@ -8962,6 +9386,8 @@ public class AnalisadorSintatico {
                             if (atual().getLexema().equals(";")) {
                                 posicaoAtual = posicaoAtual + 1;
                             }
+                        } else {
+                            sincronizacaoFinais();
                         }
                     }
                 }
@@ -9010,6 +9436,8 @@ public class AnalisadorSintatico {
                             }
                         } else if (atual().getTipo().equals("Identifier")) {
                             ArgumentsRead();
+                        } else {
+                            sincronizacaoFinais();
                         }
                     }
                 }
@@ -9026,6 +9454,8 @@ public class AnalisadorSintatico {
                     }
                 } else if (atual().getTipo().equals("Identifier")) {
                     ArgumentsRead();
+                } else {
+                    sincronizacaoFinais();
                 }
             }
         }
@@ -9068,10 +9498,12 @@ public class AnalisadorSintatico {
                     if (atual().getTipo().equals("Identifier")) {
                         posicaoAtual = posicaoAtual + 1;
                     }
+                } else {
+                    sincronizacaoFinais();
                 }
             }
         } else {
-            //addErro(atual(), "'.'");//Pode ser nulo
+            //Vazio
         }
     }
 
@@ -9091,6 +9523,8 @@ public class AnalisadorSintatico {
                     if (atual().getLexema().equals(";")) {
                         posicaoAtual = posicaoAtual + 1;
                     }
+                } else {
+                    sincronizacaoFinais();
                 }
             }
         } else {
@@ -9108,6 +9542,8 @@ public class AnalisadorSintatico {
                             if (atual().getLexema().equals(";")) {
                                 posicaoAtual = posicaoAtual + 1;
                             }
+                        } else {
+                            sincronizacaoFinais();
                         }
                     }
                 }
@@ -9120,6 +9556,8 @@ public class AnalisadorSintatico {
                     if (atual().getLexema().equals(";")) {
                         posicaoAtual = posicaoAtual + 1;
                     }
+                } else {
+                    sincronizacaoFinais();
                 }
             }
         }
