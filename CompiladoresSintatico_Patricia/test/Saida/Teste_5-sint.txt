@@ -1,2 +1,0 @@
-Linha: 26 Recebido: ';' Esperado: '('
-Linha: 27 Recebido: '=' Esperado: ')'

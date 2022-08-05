@@ -1,2 +1,0 @@
-Linha: 03 Recebido: ',' Esperado: '='
-Linha: 15 Recebido: 'float' Esperado: IDE
