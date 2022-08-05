@@ -95,9 +95,6 @@
 39 Delimitador }
 40 PalavraReservada else
 41 Delimitador {
-42 PalavraReservada return
-42 PalavraReservada false
-42 Delimitador ;
 43 Delimitador }
 44 PalavraReservada return
 44 PalavraReservada false
@@ -119,124 +116,130 @@
 53 Identifier resposta
 53 Delimitador ;
 54 Delimitador }
-56 PalavraReservada write
-56 Delimitador (
-56 StringLiteral "Digite a quantidade de pessoas: "
-56 Delimitador )
+56 Identifier resposta
+56 OpRelacional =
+56 Identifier qtd
+56 OpRelacional <
+56 Decimal 4
 56 Delimitador ;
-57 PalavraReservada read
+57 PalavraReservada write
 57 Delimitador (
-57 Identifier qtd
+57 StringLiteral "Digite a quantidade de pessoas: "
 57 Delimitador )
 57 Delimitador ;
-59 PalavraReservada while
-59 Delimitador (
-59 Identifier cont
-59 OpRelacional <
-59 Identifier qtd
-59 Delimitador )
-60 Delimitador {
-61 PalavraReservada write
-61 Delimitador (
-61 StringLiteral "Digite o nome da pessoa:"
-61 Delimitador )
-61 Delimitador ;
-62 PalavraReservada read
+58 PalavraReservada read
+58 Delimitador (
+58 Identifier qtd
+58 Delimitador )
+58 Delimitador ;
+60 PalavraReservada while
+60 Delimitador (
+60 Identifier cont
+60 OpRelacional <
+60 Identifier qtd
+60 Delimitador )
+61 Delimitador {
+62 PalavraReservada write
 62 Delimitador (
-62 Identifier p
-62 Delimitador .
-62 Identifier nome
+62 StringLiteral "Digite o nome da pessoa:"
 62 Delimitador )
 62 Delimitador ;
-63 PalavraReservada write
+63 PalavraReservada read
 63 Delimitador (
-63 StringLiteral "Digite a idade da pessoa:"
+63 Identifier p
+63 Delimitador .
+63 Identifier nome
 63 Delimitador )
 63 Delimitador ;
-64 PalavraReservada read
+64 PalavraReservada write
 64 Delimitador (
-64 Identifier p
-64 Delimitador .
-64 Identifier idade
+64 StringLiteral "Digite a idade da pessoa:"
 64 Delimitador )
 64 Delimitador ;
-65 PalavraReservada write
+65 PalavraReservada read
 65 Delimitador (
-65 StringLiteral "Digite o peso da pessoa:"
+65 Identifier p
+65 Delimitador .
+65 Identifier idade
 65 Delimitador )
 65 Delimitador ;
-66 PalavraReservada read
+66 PalavraReservada write
 66 Delimitador (
-66 Identifier p
-66 Delimitador .
-66 Identifier peso
+66 StringLiteral "Digite o peso da pessoa:"
 66 Delimitador )
 66 Delimitador ;
-67 Identifier id
-67 OpRelacional =
+67 PalavraReservada read
+67 Delimitador (
 67 Identifier p
 67 Delimitador .
-67 Identifier idade
+67 Identifier peso
+67 Delimitador )
 67 Delimitador ;
-68 Identifier resposta
-68 OpRelacional =
-68 Identifier PodeDoar
-68 Delimitador (
 68 Identifier id
-68 Delimitador ,
+68 OpRelacional =
 68 Identifier p
 68 Delimitador .
-68 Identifier peso
-68 Delimitador )
+68 Identifier idade
 68 Delimitador ;
-69 PalavraReservada if
-69 Delimitador (
 69 Identifier resposta
-69 OpRelacional ==
-69 PalavraReservada true
+69 OpRelacional =
+69 Identifier PodeDoar
+69 Delimitador (
+69 Identifier id
+69 Delimitador ,
+69 Identifier p
+69 Delimitador .
+69 Identifier peso
 69 Delimitador )
-70 Delimitador {
-71 PalavraReservada write
-71 Delimitador (
-71 StringLiteral "Pode doar sangue!"
-71 Delimitador )
-71 Delimitador ;
-72 Identifier qtd
-72 OpRelacional =
-72 Identifier qtd
-72 OpAritmetico +
-72 Decimal 1
+69 Delimitador ;
+70 PalavraReservada if
+70 Delimitador (
+70 Identifier resposta
+70 OpRelacional ==
+70 PalavraReservada true
+70 Delimitador )
+71 Delimitador {
+72 PalavraReservada write
+72 Delimitador (
+72 StringLiteral "Pode doar sangue!"
+72 Delimitador )
 72 Delimitador ;
-73 Delimitador }
-74 PalavraReservada else
-75 Delimitador {
-76 PalavraReservada write
-76 Delimitador (
-76 StringLiteral "Nao pode doar sangue!"
-76 Delimitador )
-76 Delimitador ;
-77 Delimitador }
-78 Identifier cont
-78 OpAritmetico ++
-78 Delimitador ;
-79 Delimitador }
-81 PalavraReservada write
-81 Delimitador (
-81 StringLiteral "A quantidade de pessoas que puderam doar sangue foi de "
-81 Delimitador ,
-81 Identifier qtd
-81 Delimitador ,
-81 StringLiteral " de um total de "
-81 Delimitador ,
-81 Identifier cont
-81 Delimitador ,
-81 StringLiteral " pessoas."
-81 Delimitador )
-81 Delimitador ;
-82 Identifier Finalizar
+73 Identifier qtd
+73 OpRelacional =
+73 Identifier qtd
+73 OpAritmetico +
+73 Decimal 1
+73 Delimitador ;
+74 Delimitador }
+75 PalavraReservada else
+76 Delimitador {
+77 PalavraReservada write
+77 Delimitador (
+77 StringLiteral "Nao pode doar sangue!"
+77 Delimitador )
+77 Delimitador ;
+78 Delimitador }
+79 Identifier cont
+79 OpAritmetico ++
+79 Delimitador ;
+80 Delimitador }
+82 PalavraReservada write
 82 Delimitador (
+82 StringLiteral "A quantidade de pessoas que puderam doar sangue foi de "
+82 Delimitador ,
+82 Identifier qtd
+82 Delimitador ,
+82 StringLiteral " de um total de "
+82 Delimitador ,
+82 Identifier cont
+82 Delimitador ,
+82 StringLiteral " pessoas."
 82 Delimitador )
 82 Delimitador ;
-83 Delimitador }
+83 Identifier Finalizar
+83 Delimitador (
+83 Delimitador )
+83 Delimitador ;
+84 Delimitador }
 
  Nao apresentou erros lexicos neste arquivo

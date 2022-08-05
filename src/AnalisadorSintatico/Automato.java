@@ -1,4 +1,4 @@
-package AnalisadorLexico;
+package AnalisadorSintatico;
 
 import java.text.DecimalFormat;
 import java.text.NumberFormat;

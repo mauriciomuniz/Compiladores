@@ -21,3 +21,4 @@
 %50 60 , . const program teste ;
 %50 60 , . const program 60 teste ;
 %50 60 , . const teste 80 afs;
+program teste1;

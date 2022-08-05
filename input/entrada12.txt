@@ -1,0 +1,162 @@
+program teste;
+
+var
+{
+    integer cont, cont1, cont2;
+    integer cont3, , ;
+}
+const
+{
+    integer MINIDADE = 18;
+    integer MAXIDADE   69;
+    integer          = 69;
+            MAXIDADE = 69;
+    real MINPESO = 50.0;
+    real MAXPESO = 3000.0    
+}
+
+register Pessoa
+{
+    integer idade;
+    real peso;
+    string nome;
+
+
+register Pessoa
+{
+    integer idade;
+    real peso;
+    string nome
+}
+
+procedure teste1(integer algo, boolean ab)
+{
+    var
+    {
+        integer cont;
+    }	
+    read(abc.ade);
+}
+
+procedure teste1() {
+    var{}	
+    read(abc.ade);
+}
+procedure teste2) 
+    var{}	
+    read(abc.ade);
+}
+function teste1 ): integer {
+    var
+    {
+        integer cont;
+    }
+	
+    read(abc.ade);
+    return ;
+}
+function teste1(integer idade): boolean {
+    var {}
+
+    if (idade && MAXIDADE) {
+        idade++;
+    }
+    return false;
+}
+function teste1(integer algo, boolean ab): string {
+    var
+    {
+        integer cont;
+    }	
+    read(abc.ade);
+    j_ = 2;
+    k_aa = 1 + 2;
+    a = b + 4;
+    e = 3 + c;
+    e = c + c;
+    e = c++;
+    e = c--;
+    e = 3 - c;
+    e = 3 * 6;
+    e = 3 / 3;
+    q = 2 > 1;
+    q = 2 >= 1;
+    q = 2 < 1;
+    q = 2 <= 1;
+    q = 2 != 1;
+    q = !true;
+    q = !a;
+    q = true && false;
+    q = a && true;
+    q = true || false;
+    a = false || bc;
+    a = "testeee";
+    a = 'a';
+    a.c = 2;
+    a = pessoa.idade;
+    a = Soma( c );
+    a = Soma( c , d);
+    result = calculate(3, 2);
+    process(2);
+
+    return ab;
+}
+
+main
+{
+
+    var
+    {
+        Pessoa p;
+        integer qtd,id;
+        boolean resposta;
+    }
+
+	process();
+	result = calculate(a.b);
+    
+    write("Digite a quantidade de pessoas: ");
+    read(qtd);
+	if ( cont && true || a < b) {
+            read(p.nome);
+	}
+	if ( a > b || a < b) {
+            read(p.nome);
+	}	
+
+    while (cont < qtd)
+    {
+        write("Digite o nome da pessoa:");
+        read(p.nome);
+        write("Digite a idade da pessoa:");
+        read(p.idade);
+        write("Digite o peso da pessoa:");
+        read(p.peso);
+        id = 20;       
+        resposta = PodeDoar(id, 20);
+
+        if (resposta == true)
+        {
+            write("Pode doar sangue!");
+            qtd = qtd + 1;
+            if (a && false) {
+                    c = 3 + 4;
+            }
+        }
+
+        else
+        {
+            write("Nao Pode doar sangue!");
+        }
+
+        cont = cont+1;
+    }
+	while (a && true) {
+            qtd = qtd + 1;
+	}
+	while (3 && 6) {
+            qtd = qtd + 1;
+	}
+
+    write ("A quantidade de pessoas que puderam doar sangue foi de ", qtd, " de um total de ", cont, " pessoas."); 
+}

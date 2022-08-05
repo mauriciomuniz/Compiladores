@@ -1,0 +1,12 @@
+Linha: 06 Recebido: ',' Esperado: 'Identifier'
+Linha: 06 Recebido: ';' Esperado: 'Identifier'
+Linha: 11 Recebido: '69' Esperado: '='
+Linha: 12 Recebido: '=' Esperado: 'Identifier'
+Linha: 13 Recebido: 'MAXIDADE' Esperado: 'tipo'
+Linha: 16 Recebido: '}' Esperado: ';'
+Linha: 25 Recebido: 'register' Esperado: '}'
+Linha: 30 Recebido: '}' Esperado: ';'
+Linha: 45 Recebido: ')' Esperado: '('
+Linha: 46 Recebido: 'var' Esperado: '{'
+Linha: 49 Recebido: ')' Esperado: '('
+Linha: 56 Recebido: ';' Esperado: Valor incorreto para valores

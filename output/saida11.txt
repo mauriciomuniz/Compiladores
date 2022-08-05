@@ -1,2 +1,5 @@
+24 PalavraReservada program
+24 Identifier teste1
+24 Delimitador ;
 
  Nao apresentou erros lexicos neste arquivo
